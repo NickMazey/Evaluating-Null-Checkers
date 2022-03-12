@@ -1,2 +1,2 @@
 echo "" > log/checkerframework.log
-mvn clean package --log-file log/checkerframework.log -P checkerframework-jdk8
+mvn clean package --log-file log/checkerframework.log -P java8compile,checkerframework
