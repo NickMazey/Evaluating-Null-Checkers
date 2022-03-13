@@ -1,3 +1,9 @@
+/.gradle/
+/build/
+/gradle/
+settings.gradle
+gradlew
+gradlew.bat
 /infer-out/
 /bin/
 .project
