@@ -36,7 +36,16 @@
 	</dependencies>
 
 	<profiles>
-
+<profile>
+    <id>Variables</id>
+	<activation>
+        <activeByDefault>true</activeByDefault>
+    </activation>
+    <properties>
+        <activeClass>nm.evaluatingnullcheckers.benchmarks.BenchmarkOne</activeClass>
+		<activePackage>nm.evaluatingnullcheckers.benchmarks</activePackage>
+    </properties>
+</profile>
 		<profile>
 			<id>java8compile</id>
 			<activation>
@@ -47,6 +56,16 @@
 				</property>
 			</activation>
 			<build>
+			<resources>
+    <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+            <include>settings.properties</include>
+        </includes>
+    </resource>
+</resources>
+
 				<plugins>
 					<plugin>
 						<!-- Build an executable JAR -->
@@ -58,7 +77,7 @@
 								<manifest>
 									<addClasspath>true</addClasspath>
 									<classpathPrefix>lib/</classpathPrefix>
-									<mainClass>nm.evaluatingnullcheckers.sample.HelloWorld</mainClass>
+									<mainClass>activeClass</mainClass>
 								</manifest>
 							</archive>
 						</configuration>
@@ -98,6 +117,16 @@
 				</property>
 			</activation>
 			<build>
+			<resources>
+    <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+            <include>settings.properties</include>
+        </includes>
+    </resource>
+</resources>
+
 				<plugins>
 					<plugin>
 						<!-- Build an executable JAR -->
@@ -109,7 +138,7 @@
 								<manifest>
 									<addClasspath>true</addClasspath>
 									<classpathPrefix>lib/</classpathPrefix>
-									<mainClass>nm.evaluatingnullcheckers.sample.HelloWorld</mainClass>
+									<mainClass>activeClass</mainClass>
 								</manifest>
 							</archive>
 						</configuration>
@@ -149,6 +178,7 @@
 				<jdk>[1.8,)</jdk>
 			</activation>
 			<build>
+			
 				<plugins>
 					<plugin>
 						<artifactId>maven-compiler-plugin</artifactId>
@@ -281,6 +311,16 @@
 				</dependency>
 			</dependencies>
 			<build>
+				<resources>
+    <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+            <include>settings.properties</include>
+        </includes>
+    </resource>
+</resources>
+
 				<plugins>
 					<plugin>
 						<!-- Build an executable JAR -->
@@ -292,7 +332,7 @@
 								<manifest>
 									<addClasspath>true</addClasspath>
 									<classpathPrefix>lib/</classpathPrefix>
-									<mainClass>nm.evaluatingnullcheckers.sample.HelloWorld</mainClass>
+									<mainClass>activeClass</mainClass>
 								</manifest>
 							</archive>
 						</configuration>
@@ -319,7 +359,7 @@
 							<encoding>UTF-8</encoding>
 							<compilerArgs>
 								<arg>-XDcompilePolicy=simple</arg>
-								<arg>-Xplugin:ErrorProne -Xep:NullAway:ERROR -XepOpt:NullAway:AnnotatedPackages=nm.evaluatingnullcheckers.sample</arg>
+								<arg>-Xplugin:ErrorProne -Xep:NullAway:ERROR -XepOpt:NullAway:AnnotatedPackages=activePackage</arg>
 							</compilerArgs>
 							<annotationProcessorPaths>
 								<path>

@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 import nm.evaluatingnullcheckers.annotations.TestAnnotations.*;
 
 /**
- * Simple benchmark that will throw an NPE if the "throwNPE" method is called from BenchmarkOne
+ * Simple benchmark that will throw an NPE if the "throwNPE" method is called
  * 
  * @author Nick Mazey
  *
