@@ -20,8 +20,9 @@ public class BenchmarkOne {
   /**
    * Method designed to cause a null pointer exception
    */
-  public static void throwNPE() {
+  public static int throwNPE() {
     @Nullable String str = null;
-    str.length();
+    return str.length();
    }
+  
 }
