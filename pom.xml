@@ -58,33 +58,33 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M6</version>
 			</plugin>
-								<plugin>
-						<!-- Build an executable JAR -->
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-jar-plugin</artifactId>
-						<version>3.1.0</version>
-						<configuration>
-							<archive>
-								<manifest>
-									<addClasspath>true</addClasspath>
-									<classpathPrefix>lib/</classpathPrefix>
-									<mainClass>activeClass</mainClass>
-								</manifest>
-							</archive>
-						</configuration>
-					</plugin>
-										<plugin>
-						<!-- This plugin will set properties values using dependency information -->
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-dependency-plugin</artifactId>
-						<executions>
-							<execution>
-								<goals>
-									<goal>properties</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
+			<plugin>
+				<!-- Build an executable JAR -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>activeClass</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- This plugin will set properties values using dependency information -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>properties</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -99,8 +99,8 @@
 				<activePackage>nm.evaluatingnullcheckers.benchmarks</activePackage>
 			</properties>
 		</profile>
-		
-		
+
+
 		<profile>
 			<id>java8compile</id>
 			<activation>
