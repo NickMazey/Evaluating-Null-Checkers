@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>nm.evaluatingnullcheckers</groupId>
+	<groupId>nm.evaluatingnullcheckers.benchmarks</groupId>
 	<artifactId>evaluating_null_checkers</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
@@ -42,6 +42,11 @@
 			<version>5.8.2</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.checkerframework</groupId>
+			<artifactId>checker</artifactId>
+			<version>3.21.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -69,7 +74,7 @@
 
 	<profiles>
 
-		
+
 		<profile>
 			<id>java8compile</id>
 			<activation>
@@ -147,13 +152,6 @@
 					</plugin>
 				</plugins>
 			</build>
-			<dependencies>
-				<dependency>
-					<groupId>org.checkerframework</groupId>
-					<artifactId>checker</artifactId>
-					<version>3.21.3</version>
-				</dependency>
-			</dependencies>
 		</profile>
 
 		<profile>
