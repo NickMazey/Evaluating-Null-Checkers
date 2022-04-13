@@ -14,6 +14,7 @@
 		<errorProneJavac>${com.google.errorprone:javac:jar}</errorProneJavac>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<benchmark>nm/evaluatingnullcheckers/benchmarks/BenchmarkOne.java</benchmark>
 	</properties>
 
 
@@ -155,7 +156,7 @@
 								<!-- -Awarns turns type-checking errors into warnings. -->
 							</compilerArgs>
 							<includes>
-								<include>nm/evaluatingnullcheckers/benchmarks/BenchmarkOne.java</include>
+								<include>${benchmark}</include>
 							</includes>
 						</configuration>
 					</plugin>
@@ -271,7 +272,7 @@
 								</path>
 							</annotationProcessorPaths>
 							<includes>
-								<include>nm/evaluatingnullcheckers/benchmarks/BenchmarkOne.java</include>
+								<include>${benchmark}</include>
 							</includes>
 						</configuration>
 					</plugin>
@@ -293,7 +294,7 @@
 							<fork>true</fork>
 							<executable>/usr/local/Cellar/infer/1.1.0_1/lib/infer/infer/bin/infer</executable>
 							<includes>
-								<include>nm/evaluatingnullcheckers/benchmarks/BenchmarkOne.java</include>
+								<include>${benchmark}</include>
 							</includes>
 						</configuration>
 					</plugin>
