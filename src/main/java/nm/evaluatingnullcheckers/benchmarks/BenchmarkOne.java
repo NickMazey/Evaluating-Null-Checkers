@@ -1,6 +1,5 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
@@ -17,12 +16,13 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 @ObjectNPE
 @ExpectedTrue
 public class BenchmarkOne {
-  /**
-   * Method designed to cause a null pointer exception
-   */
-  public static int throwNPE() {
-    @Nullable String str = null;
-    return str.length();
-   }
-  
+	/**
+	 * Method to throw an NPE
+	 * @return length of a null string
+	 */
+	public static int throwNPE() {
+		@Nullable
+		String str = null;
+		return str.length();
+	}
 }
