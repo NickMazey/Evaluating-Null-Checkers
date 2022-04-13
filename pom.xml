@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nm.evaluatingnullcheckers</groupId>
-	<artifactId>sample</artifactId>
+	<artifactId>evaluating_null_checkers</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 	<url>http://maven.apache.org</url>
-	
-	
+
+
 	<properties>
 		<maven.compiler.source>8</maven.compiler.source>
 		<maven.compiler.target>8</maven.compiler.target>
@@ -33,41 +33,32 @@
 			<artifactId>javac</artifactId>
 			<version>9+181-r4173-1</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.8.2</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
-	<profiles>
-<profile>
-    <id>Variables</id>
-	<activation>
-        <activeByDefault>true</activeByDefault>
-    </activation>
-    <properties>
-        <activeClass>nm.evaluatingnullcheckers.benchmarks.BenchmarkOne</activeClass>
-		<activePackage>nm.evaluatingnullcheckers.benchmarks</activePackage>
-    </properties>
-</profile>
-		<profile>
-			<id>java8compile</id>
-			<activation>
-				<jdk>1.8</jdk>
-				<property>
-					<name>javaver</name>
-					<value>8</value>
-				</property>
-			</activation>
-			<build>
-			<resources>
-    <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-        <includes>
-            <include>settings.properties</include>
-        </includes>
-    </resource>
-</resources>
-
-				<plugins>
-					<plugin>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>settings.properties</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M6</version>
+			</plugin>
+								<plugin>
 						<!-- Build an executable JAR -->
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-jar-plugin</artifactId>
@@ -82,7 +73,7 @@
 							</archive>
 						</configuration>
 					</plugin>
-					<plugin>
+										<plugin>
 						<!-- This plugin will set properties values using dependency information -->
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
@@ -94,6 +85,33 @@
 							</execution>
 						</executions>
 					</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>Variables</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<activeClass>nm.evaluatingnullcheckers.benchmarks.BenchmarkOne</activeClass>
+				<activePackage>nm.evaluatingnullcheckers.benchmarks</activePackage>
+			</properties>
+		</profile>
+		
+		
+		<profile>
+			<id>java8compile</id>
+			<activation>
+				<jdk>1.8</jdk>
+				<property>
+					<name>javaver</name>
+					<value>8</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
@@ -106,7 +124,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<profile>
 			<id>java11compile</id>
 			<activation>
@@ -117,44 +135,7 @@
 				</property>
 			</activation>
 			<build>
-			<resources>
-    <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-        <includes>
-            <include>settings.properties</include>
-        </includes>
-    </resource>
-</resources>
-
 				<plugins>
-					<plugin>
-						<!-- Build an executable JAR -->
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-jar-plugin</artifactId>
-						<version>3.1.0</version>
-						<configuration>
-							<archive>
-								<manifest>
-									<addClasspath>true</addClasspath>
-									<classpathPrefix>lib/</classpathPrefix>
-									<mainClass>activeClass</mainClass>
-								</manifest>
-							</archive>
-						</configuration>
-					</plugin>
-					<plugin>
-						<!-- This plugin will set properties values using dependency information -->
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-dependency-plugin</artifactId>
-						<executions>
-							<execution>
-								<goals>
-									<goal>properties</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
@@ -167,7 +148,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<profile>
 			<id>checkerframework</id>
 			<activation>
@@ -178,7 +159,7 @@
 				<jdk>[1.8,)</jdk>
 			</activation>
 			<build>
-			
+
 				<plugins>
 					<plugin>
 						<artifactId>maven-compiler-plugin</artifactId>
@@ -311,44 +292,7 @@
 				</dependency>
 			</dependencies>
 			<build>
-				<resources>
-    <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-        <includes>
-            <include>settings.properties</include>
-        </includes>
-    </resource>
-</resources>
-
 				<plugins>
-					<plugin>
-						<!-- Build an executable JAR -->
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-jar-plugin</artifactId>
-						<version>3.1.0</version>
-						<configuration>
-							<archive>
-								<manifest>
-									<addClasspath>true</addClasspath>
-									<classpathPrefix>lib/</classpathPrefix>
-									<mainClass>activeClass</mainClass>
-								</manifest>
-							</archive>
-						</configuration>
-					</plugin>
-					<plugin>
-						<!-- This plugin will set properties values using dependency information -->
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-dependency-plugin</artifactId>
-						<executions>
-							<execution>
-								<goals>
-									<goal>properties</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
