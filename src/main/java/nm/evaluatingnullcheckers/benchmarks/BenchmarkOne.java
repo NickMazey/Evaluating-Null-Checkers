@@ -3,7 +3,7 @@ package nm.evaluatingnullcheckers.benchmarks;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import nm.evaluatingnullcheckers.annotations.TestAnnotations.*;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 
 /**
  * Simple benchmark that will throw an NPE if the "throwNPE" method is called
