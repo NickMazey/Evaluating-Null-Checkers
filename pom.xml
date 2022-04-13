@@ -47,10 +47,16 @@
 			<artifactId>checker</artifactId>
 			<version>3.21.3</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.errorprone/error_prone_core -->
+		<dependency>
+			<groupId>com.google.errorprone</groupId>
+			<artifactId>error_prone_core</artifactId>
+			<version>2.9.0</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
-
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -71,10 +77,8 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	
 	<profiles>
-
-
 		<profile>
 			<id>java8compile</id>
 			<activation>
@@ -122,7 +126,6 @@
 				<jdk>[1.8,)</jdk>
 			</activation>
 			<build>
-
 				<plugins>
 					<plugin>
 						<artifactId>maven-compiler-plugin</artifactId>
@@ -148,6 +151,8 @@
 								<arg>-Awarns</arg>
 								<!-- -Awarns turns type-checking errors into warnings. -->
 							</compilerArgs>
+							<!-- Not running checker on sample -->
+							<excludes>**/sample/*.java</excludes>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -168,13 +173,7 @@
 			<properties>
 				<javac.version>9+181-r4173-1</javac.version>
 			</properties>
-			<dependencies>
-				<dependency>
-					<groupId>com.google.errorprone</groupId>
-					<artifactId>javac</artifactId>
-					<version>9+181-r4173-1</version>
-				</dependency>
-			</dependencies>
+
 			<build>
 				<plugins>
 					<plugin>
@@ -241,15 +240,6 @@
 					<value>true</value>
 				</property>
 			</activation>
-			<dependencies>
-				<!-- https://mvnrepository.com/artifact/com.google.errorprone/error_prone_core -->
-				<dependency>
-					<groupId>com.google.errorprone</groupId>
-					<artifactId>error_prone_core</artifactId>
-					<version>2.9.0</version>
-					<scope>provided</scope>
-				</dependency>
-			</dependencies>
 			<build>
 				<plugins>
 					<plugin>
@@ -266,19 +256,10 @@
 							</compilerArgs>
 							<annotationProcessorPaths>
 								<path>
-									<groupId>com.google.errorprone</groupId>
-									<artifactId>error_prone_core</artifactId>
-									<version>2.9.0</version>
-								</path>
-								<path>
 									<groupId>com.uber.nullaway</groupId>
 									<artifactId>nullaway</artifactId>
 									<version>0.9.6</version>
 								</path>
-								<!-- Other annotation processors go here.
-            If 'annotationProcessorPaths' is set, processors will no longer be
-            discovered on the regular -classpath; see also 'Using Error Prone
-            together with other annotation processors' below. -->
 							</annotationProcessorPaths>
 						</configuration>
 					</plugin>
