@@ -34,7 +34,7 @@ public class BenchmarkAnnotations {
   
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
-  public @interface InstanceSource{
+  public @interface FieldSource{
   }
   
   @Retention(RetentionPolicy.RUNTIME)
