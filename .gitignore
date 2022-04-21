@@ -12,4 +12,5 @@ gradlew.bat
 /target/
 /log/*
 !/log/blank.txt
+pom.xml.infer
 .DS_Store
