@@ -10,5 +10,6 @@ gradlew.bat
 .classpath
 /.settings/
 /target/
-/log/*.log
+/log/*
+!/log/blank.txt
 .DS_Store
