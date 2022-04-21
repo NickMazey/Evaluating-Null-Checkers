@@ -1,4 +1,1 @@
-./defaultmavenbuild.bat
-./checkerframeworkscript.bat
-./inferscript.bat
-./nullawayscript.bat
+./run.bat -c allcheckers.txt -b allbenchmarks.txt
