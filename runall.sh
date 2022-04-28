@@ -1,0 +1,1 @@
+./run.sh -c allcheckers.txt -b allbenchmarks.txt
