@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * JUnit test to validate that BenchmarkOne can throw an NPE
- * @author nickmazey
+ * @author Nick Mazey
  *
  */
 public class BenchmarkOneTest {

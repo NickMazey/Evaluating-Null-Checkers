@@ -9,7 +9,6 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedura
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
 
 /**
- * Simple benchmark that will throw an NPE if the "throwNPE" method is called
  * 
  * @author Nick Mazey
  *

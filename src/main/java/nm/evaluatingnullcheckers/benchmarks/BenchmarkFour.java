@@ -5,9 +5,8 @@ import javax.annotation.Nullable;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ExpectedTrue;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.FieldSource;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
 
 /**
  * 
@@ -16,17 +15,16 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
  */
 @Annotated
 @Intraprocedural
-@LocalSource
+@FieldSource
 @ArrayNPE
 @ExpectedTrue
-public class BenchmarkTwo {
-	/**
-	 * Method to throw an NPE
-	 * @return length of a null array
-	 */
-	public static int throwNPE() {
-		@Nullable
-		int[] numbers = null;
+public class BenchmarkFour {
+	@Nullable
+	int[] numbers = null;
+	
+	public BenchmarkFour() {}
+	
+	public int throwNPE() {
 		return numbers[0];
 	}
 }
