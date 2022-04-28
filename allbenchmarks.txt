@@ -1,2 +1,3 @@
 nm/evaluatingnullcheckers/benchmarks/BenchmarkOne.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkTwo.java
+nm/evaluatingnullcheckers/benchmarks/BenchmarkThree.java
