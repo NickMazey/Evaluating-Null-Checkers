@@ -1,1 +1,0 @@
-./run.bat -c allcheckers.txt -b allbenchmarks.txt
