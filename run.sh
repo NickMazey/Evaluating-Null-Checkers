@@ -38,6 +38,17 @@ while getopts ":c:b:" option; do
     esac
 done
 
+IterateThroughCheckers(){
+    for CHECKER in $CHECKERS
+    do
+    for BENCHMARK in $BENCHMARKS
+    do
+            RunChecker
+    done
+    done
+}
+
+
 
 
 if [ $OPTIND -eq 1 ]
@@ -48,12 +59,12 @@ else
     if [ -z $BENCHMARKLISTFILE ]; then echo "No benchmark list specified, exiting"; exit 0; fi
     CHECKERS=$(cat $CHECKERLISTFILE)
     BENCHMARKS=$(cat $BENCHMARKLISTFILE)
-    for CHECKER in $CHECKERS
-    do
-    for BENCHMARK in $BENCHMARKS
-    do
-            RunChecker
-    done
-    done
-
+    OSVERSION=`uname -r`
+    echo "Running on:"
+    echo "$OSTYPE ($OSVERSION)"
+    echo "Testing the checkers:"
+    echo $CHECKERS
+    echo "With the benchmarks in file:"
+    echo $BENCHMARKLISTFILE
+    time IterateThroughCheckers 
 fi
