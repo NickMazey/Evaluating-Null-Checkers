@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 Help()
 {
     echo "usage: run [-c checkerlistfile] [-b benchmarklistfile]"
@@ -44,17 +44,15 @@ IterateThroughCheckers(){
     mvn clean -q
     for BENCHMARK in $BENCHMARKS
     do
-    ' 
-    Compiles benchmarks in parallel
-    From testing, it has no speed improvement and makes the reported maven compile times the same for every class
-    Will probably look into this more in the future, because it seems like a good way to speed up the benchmarking process
-    if [[ $CHECKER != "infer" ]]
-    then
-    RunChecker &
-    else
-    RunChecker
-    fi
-    '
+    #Compiles benchmarks in parallel
+    #From testing, it has no speed improvement and makes the reported maven compile times the same for every class
+    #Will probably look into this more in the future, because it seems like a good way to speed up the benchmarking process
+    #if [[ $CHECKER != "infer" ]]
+    #then
+    #RunChecker &
+    #else
+    #RunChecker
+    #fi
     RunChecker
     done
     wait
