@@ -172,7 +172,7 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
 						<configuration>
-						<debug>true</debug>
+							<debug>true</debug>
 							<fork>true</fork>
 							<compilerArgs combine.children="append">
 								<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
@@ -244,28 +244,28 @@
 			</build>
 		</profile>
 
-	<profile>
-      <id>infer-capture</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.0</version>
-            <configuration>
-              <compilerId>javac</compilerId>
-              <forceJavacCompilerUse>true</forceJavacCompilerUse>
-              <fork>true</fork>
-			<includes>
-			<include>${benchmark}</include>
-			</includes>
-              <executable>/usr/local/bin/infer</executable>
-              
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
+		<profile>
+			<id>infer-capture</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>3.8.0</version>
+						<configuration>
+							<compilerId>javac</compilerId>
+							<forceJavacCompilerUse>true</forceJavacCompilerUse>
+							<fork>true</fork>
+							<includes>
+								<include>${benchmark}</include>
+							</includes>
+							<executable>/usr/local/bin/infer</executable>
+
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
 	</profiles>
 
