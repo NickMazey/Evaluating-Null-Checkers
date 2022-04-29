@@ -14,3 +14,4 @@ gradlew.bat
 !/log/blank.txt
 pom.xml.infer
 .DS_Store
+latestbenchmark.txt
