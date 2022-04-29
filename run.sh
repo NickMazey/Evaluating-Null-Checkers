@@ -52,15 +52,14 @@ IterateThroughCheckers(){
     then
     RunChecker &
     else
-    '
     RunChecker
     fi
+    '
+    RunChecker
     done
     wait
     done
 }
-
-
 
 
 if [ $OPTIND -eq 1 ]
