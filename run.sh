@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 Help()
 {
     echo "usage: run [-c checkerlistfile] [-b benchmarklistfile]"
