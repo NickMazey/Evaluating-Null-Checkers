@@ -1,5 +1,7 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
+import java.lang.reflect.ParameterizedType;
+
 import javax.annotation.Nullable;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
@@ -13,11 +15,11 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParamete
 @MethodParameterSource
 @GenericsNPE
 @ExpectedTrue
-//TODO: Write benchmark to use the generic object to throw an NPE
 public class BenchmarkSeven {
-	
-	public static <T> void throwNPE(@Nullable T object) {
-		throw new NullPointerException();
+
+	//TODO: Improve to be more reliant on generics
+	public static <T> void throwNPE(@Nullable T object){
+		object.getClass();
 	}
 
 }
