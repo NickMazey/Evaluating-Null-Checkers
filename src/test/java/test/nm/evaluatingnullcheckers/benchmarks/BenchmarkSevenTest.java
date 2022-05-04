@@ -17,7 +17,7 @@ public class BenchmarkSevenTest {
 	@Test
 	public void ThrowsNPE() {
 		assertThrows(NullPointerException.class,()->{
-			BenchmarkSeven bench = new BenchmarkSeven<Object>(null);
+			BenchmarkSeven.throwNPE(null);
 		});
 	}
 }
