@@ -48,6 +48,14 @@ public class BenchmarkSpace {
 		this.outputStream = outStream;
 	}
 	
+	/**
+	 * Changes the output stream of this BenchmarkSpace object
+	 * @param outStream - The new stream to output to
+	 */
+	public void setOutputStream(PrintStream outStream) {
+		outputStream = outStream;
+	}
+	
 	private void loadAnnotationTypes() {
 		annotationTypes = new ArrayList<Class<?>>();
 		annotationTypes.add(BenchmarkAnnotations.Annotation.class);
@@ -309,6 +317,10 @@ public class BenchmarkSpace {
 		return combinations;
 	}
 	
+	/**
+	 * Main method for testing
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		BenchmarkSpace bench = new BenchmarkSpace();
 		bench.printBenchmarkInfo();
