@@ -2,8 +2,6 @@ package test.nm.evaluatingnullcheckers.benchmarks;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.apache.commons.lang3.ObjectUtils.Null;
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 
 import nm.evaluatingnullcheckers.benchmarks.BenchmarkSeven;
