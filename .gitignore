@@ -15,3 +15,4 @@ gradlew.bat
 pom.xml.infer
 .DS_Store
 latestbenchmark.txt
+*.csv
