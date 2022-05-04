@@ -132,16 +132,25 @@ public class BenchmarkSpace {
 	 * @param verbose - Whether or not the output should be verbose, if set to true prints all missing benchmarks to outputStream
 	 */
 	public void printBenchmarkInfo(boolean verbose) {
-		//Count how many combinations there are
-		int combinations = 1;
-		for(Class<?> clazz : annotationTypes) {
-			int number = annotationSubTypes.get(clazz).size();
-			combinations *= number;
-			outputStream.println("For annotation type " + clazz.getSimpleName() + " there are " + number + " subtypes" );
-		}
+
 		HashSet<Class<?>> benchmarks = getAllBenchmarkClasses();
         HashSet<String> annotationCombinations = getPresentAnnotationCombinations(benchmarks);
+		HashSet<String> allPossibleCombinations = getAllPossibleAnnotationCombinations();
+        
+        int combinations = allPossibleCombinations.size();
+        outputStream.println("Coverage per dimension:");
+		for(Class<?> clazz : annotationTypes) {
+			int number = annotationSubTypes.get(clazz).size();
+			outputStream.println("For test dimension " + clazz.getSimpleName());
+			for(Class<?> subType : annotationSubTypes.get(clazz)) {
+				int n_benchmarks = countBenchmarksWithAnnotation(annotationCombinations,clazz,subType);
+				outputStream.println("\t " + subType.getSimpleName() + " - " + n_benchmarks + " / " + (combinations / number));
+			}
+		
+		}
+        
         outputStream.println("Of " + combinations + " possible unique annotation combinations, " + annotationCombinations.size() + " could be found");            
+        
         if(verbose) {
         	outputStream.println("Found :");
         	outputStream.println("=====================");
@@ -151,6 +160,19 @@ public class BenchmarkSpace {
         	outputStream.println("=====================");
         	outputStream.println(combinationSetToPrettyString(findMissingCombinations(annotationCombinations)));
         }
+	}
+	
+	private int countBenchmarksWithAnnotation(HashSet<String> benchmarkCombinations, Class<?> annotationType, Class<?> annotation) {
+		int n = 0;
+		int categoryIndex = annotationTypes.indexOf(annotationType);
+		int annotationIndex = annotationSubTypes.get(annotationType).indexOf(annotation);
+		for(String combination : benchmarkCombinations) {
+			if(Integer.valueOf(combination.charAt(categoryIndex)) == annotationIndex) {
+				n++;
+			}
+		}
+		
+		return n;
 	}
 	
 	private HashSet<String> findMissingCombinations(HashSet<String> foundCombinations){
