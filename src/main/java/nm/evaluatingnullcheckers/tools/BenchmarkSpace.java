@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -17,6 +16,15 @@ import nm.evaluatingnullcheckers.benchmarks.*;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
 
+
+/**
+ * BenchmarkSpace provides methods for finding information which benchmarks have been created and
+ * which benchmarks are missing.
+ * Designed to be integrated into another system, be it a command line tool or a GUI-based application.
+ * 
+ * @author Nick Mazey
+ *
+ */
 public class BenchmarkSpace {
 	
 	private ArrayList<Class<?>> annotationTypes;
@@ -24,10 +32,17 @@ public class BenchmarkSpace {
 	
 	private PrintStream outputStream;
 	
+	/**
+	 * Creates a new benchmark space, using System.out for output
+	 */
 	public BenchmarkSpace() {
 		this(System.out);
 	}
 	
+	/**
+	 * Creates a new benchmark space, using outputStream for output
+	 * @param outStream - The PrintStream to use for output
+	 */
 	public BenchmarkSpace(PrintStream outStream) {
 		loadAnnotationTypes();
 		this.outputStream = outStream;
@@ -61,15 +76,29 @@ public class BenchmarkSpace {
 			}
 		}
 	}
-	
+
+	/**
+	 * Finds how many benchmarks are missing, and outputs them to missing.csv in CSV format
+	 * @throws Exception
+	 */
 	public void outputMissingBenchmarksToCSV() throws Exception{
 		outputMissingBenchmarksToCSV("missing.csv");
 	}
 	
+	/**
+	 * Finds how many benchmarks are missing, and outputs them to the passed file in CSV format
+	 * @param fileName - The name of the file for writing to
+	 * @throws Exception
+	 */
 	public void outputMissingBenchmarksToCSV(String fileName) throws Exception{
 		outputMissingBenchmarksToCSV(new File(fileName));
 	}
 	
+	/**
+	 * Finds how many benchmarks are missing, and outputs them to the passed file in CSV format
+	 * @param file - The file for writing to
+	 * @throws Exception
+	 */
 	public void outputMissingBenchmarksToCSV(File file) throws Exception {
 		HashSet<Class<?>> benchmarks = getAllBenchmarkClasses();
         HashSet<String> annotationCombinations = getPresentAnnotationCombinations(benchmarks);
@@ -83,7 +112,18 @@ public class BenchmarkSpace {
 		
 	}
 	
+	/**
+	 * Prints information about the benchmark suite in non-verbose mode
+	 */
 	public void printBenchmarkInfo() {
+		printBenchmarkInfo(false);
+	}
+	
+	/**
+	 * Prints information about the benchmark suite
+	 * @param verbose - Whether or not the output should be verbose, if set to true prints all missing benchmarks to outputStream
+	 */
+	public void printBenchmarkInfo(boolean verbose) {
 		//Count how many combinations there are
 		int combinations = 1;
 		for(Class<?> clazz : annotationTypes) {
@@ -94,6 +134,15 @@ public class BenchmarkSpace {
 		HashSet<Class<?>> benchmarks = getAllBenchmarkClasses();
         HashSet<String> annotationCombinations = getPresentAnnotationCombinations(benchmarks);
         outputStream.println("Of " + combinations + " possible unique annotation combinations, " + annotationCombinations.size() + " could be found");            
+        if(verbose) {
+        	outputStream.println("Found :");
+        	outputStream.println("=====================");
+        	outputStream.println(combinationSetToPrettyString(annotationCombinations));
+        	outputStream.println("\n");
+        	outputStream.println("Missing :");
+        	outputStream.println("=====================");
+        	outputStream.println(combinationSetToPrettyString(findMissingCombinations(annotationCombinations)));
+        }
 	}
 	
 	private HashSet<String> findMissingCombinations(HashSet<String> foundCombinations){
@@ -181,6 +230,10 @@ public class BenchmarkSpace {
 		return new ArrayList<String>(Arrays.asList(annotations));
 	}
 	
+	/**
+	 * Finds all benchmark classes
+	 * @return - A hashset containing all benchmark classes
+	 */
 	public static HashSet<Class<?>> getAllBenchmarkClasses(){
 		HashSet<Class<?>> benchmarks = new HashSet<Class<?>>();
 		String packageName = "nm.evaluatingnullcheckers.benchmarks";
@@ -256,7 +309,6 @@ public class BenchmarkSpace {
 		return combinations;
 	}
 	
-	
 	public static void main(String[] args) {
 		BenchmarkSpace bench = new BenchmarkSpace();
 		bench.printBenchmarkInfo();
@@ -266,5 +318,4 @@ public class BenchmarkSpace {
 				e.printStackTrace();
 			}
 	}
-
 }
