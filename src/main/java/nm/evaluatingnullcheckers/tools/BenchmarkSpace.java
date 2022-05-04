@@ -141,10 +141,10 @@ public class BenchmarkSpace {
         outputStream.println("Coverage per dimension:");
 		for(Class<?> clazz : annotationTypes) {
 			int number = annotationSubTypes.get(clazz).size();
-			outputStream.println("For test dimension " + clazz.getSimpleName());
+			outputStream.println("\t" + clazz.getSimpleName() +":");
 			for(Class<?> subType : annotationSubTypes.get(clazz)) {
 				int n_benchmarks = countBenchmarksWithAnnotation(annotationCombinations,clazz,subType);
-				outputStream.println("\t " + subType.getSimpleName() + " - " + n_benchmarks + " / " + (combinations / number));
+				outputStream.println("\t\t " + subType.getSimpleName() + " - " + n_benchmarks + " / " + (combinations / number));
 			}
 		
 		}
