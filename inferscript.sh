@@ -7,4 +7,4 @@ rm -r infer-out
 infer_location=`which infer`
 infer run --quiet --debug --eradicate --pulse  -- mvn compile -Dbenchmark=$1 -Djavaver=11 -Dinferlocation=$infer_location -Dcheckerframework=false --log-file log/infer/$bench_name.log
 #Suppresses output
-sent=`cp -v infer-out/report.txt log/infer/"$bench_name"_report.txt`
+sent=`cp -v infer-out/report.txt log/infer/"$bench_name".inferreport`
