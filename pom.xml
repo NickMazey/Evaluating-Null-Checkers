@@ -14,13 +14,21 @@
 		<errorProneJavac>${com.google.errorprone:javac:jar}</errorProneJavac>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<benchmark>nm/evaluatingnullcheckers/benchmarks/BenchmarkTwo.java</benchmark>
+		<benchmark>nm/evaluatingnullcheckers/benchmarks/BenchmarkOne.java</benchmark>
 		<!-- Default infer location, should be changed using -Dinferlocation=location-->
 		<inferlocation>/usr/local/bin/infer</inferlocation>
 	</properties>
 
 
 	<dependencies>
+		<!--TODO: Change pom structure to create subproject for benchmarks and tools -->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.12.7</version>
+		</dependency>
+
 		<!-- Annotations from the Checker Framework: nullness, interning, locking, 
 			... -->
 		<dependency>
