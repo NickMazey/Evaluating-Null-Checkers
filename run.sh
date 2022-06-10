@@ -1,7 +1,7 @@
 #!/bin/bash
 Help()
 {
-    echo "usage: run [-c checkerlistfile] [-b benchmarklistfile]"
+    echo "usage: run [-c checkerlistfile] [-b benchmarklistfile] [-l logoutputfolder]"
 }
 
 #Runs checkers
