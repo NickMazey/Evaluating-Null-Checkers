@@ -117,6 +117,28 @@ public class CheckerOutputParser {
 				name = name.substring(0, i);
 			}
 			CheckerOutput status = CheckerOutput.SAFE;
+			String logName = file.getAbsolutePath();
+			i = logName.lastIndexOf(".");
+			if(i != -1) {
+				logName = logName.substring(0,i);
+			}
+			//Checking the Maven log to ensure compilation succeeded
+			File logFile = new File(logName);
+			if(logFile.exists()) {
+				try {
+					Scanner reader = new Scanner(logFile);
+					while(reader.hasNextLine()) {
+						String line = reader.nextLine();
+						if (line.contains("[ERROR]")) {
+							reader.close();
+							return new CheckerReport(CheckerOutput.ERROR, name, line);
+						}
+					}
+				} catch (IOException e){
+					//Do nothing
+				}
+			}
+			
 			StringBuilder messages = new StringBuilder();
 			try {
 				Scanner reader = new Scanner(file);
@@ -208,26 +230,16 @@ public class CheckerOutputParser {
 	}
 	
 	/**
-	 * Method for verifying json serialisation works correctly
-	 * Reads json output and prints information to the console
+	 * Method for deserialising json reports
 	 * @param file - The file to deserialise
+	 * @return - The report de-serialised
 	 */
-	public static void inputReportsFromFile(File file) {
+	public static HashMap<KnownChecker,ArrayList<CheckerReport>> deserialiseReports(File file) {
 		ObjectMapper mapper = new ObjectMapper();
 		TypeReference<HashMap<KnownChecker,ArrayList<CheckerReport>>> outputRef = new TypeReference<HashMap<KnownChecker,ArrayList<CheckerReport>>>(){};
 		try {
 			HashMap<KnownChecker,ArrayList<CheckerReport>> output = mapper.readValue(file, outputRef);
-			for(KnownChecker known : output.keySet()) {
-				System.out.println(known);
-				System.out.println("#############");
-				for(CheckerReport report : output.get(known)) {
-					System.out.println("-----");
-					System.out.println(report.getSubjectName());
-					System.out.println(report.getOutput());
-					System.out.println(report.getMessage());
-					System.out.println("-----");
-				}
-			}
+			return output;
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -235,6 +247,7 @@ public class CheckerOutputParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return new HashMap<KnownChecker,ArrayList<CheckerReport>>();
 	}
 
 	/**
@@ -249,8 +262,6 @@ public class CheckerOutputParser {
 			File logFolder = new File(args[0]);
 			File export = new File(args[1]);
 			outputReportsToFile(parseReports(logFolder), export);
-			//Only used for testing
-			//inputReportsFromFile(export);
 		}
 	}
 }
