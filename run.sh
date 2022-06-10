@@ -10,22 +10,22 @@ RunChecker()
     shopt -s nocasematch
     if [[ $CHECKER == "checkerframework" ]]
     then
-    mkdir -p log/checkerframework
-    ./checkerframeworkscript.sh $BENCHMARK
+    mkdir -p $LOGLOCATION/checkerframework
+    ./checkerframeworkscript.sh $BENCHMARK $LOGLOCATION
     fi
     if [[ $CHECKER == "infer" ]]
     then
-    mkdir -p log/infer
-    ./inferscript.sh $BENCHMARK
+    mkdir -p $LOGLOCATION/infer
+    ./inferscript.sh $BENCHMARK $LOGLOCATION
     fi
     if [[ $CHECKER == "nullaway" ]]
     then
-    mkdir -p log/nullaway
-    ./nullawayscript.sh $BENCHMARK
+    mkdir -p $LOGLOCATION/nullaway
+    ./nullawayscript.sh $BENCHMARK $LOGLOCATION
     fi
 }
 
-while getopts ":c:b:" option; do
+while getopts ":c:b:l:" option; do
     case $option in
         c)
             CHECKERLISTFILE="$OPTARG"
@@ -33,6 +33,9 @@ while getopts ":c:b:" option; do
         b)
             BENCHMARKLISTFILE="$OPTARG"
             ;;
+        l)
+       	    LOGLOCATION="$OPTARG"
+       	    ;;
         \?)
             Help
     esac
@@ -66,6 +69,7 @@ then
 else
     if [ -z $CHECKERLISTFILE ]; then echo "No checker list specified, exiting"; exit 0; fi
     if [ -z $BENCHMARKLISTFILE ]; then echo "No benchmark list specified, exiting"; exit 0; fi
+    if [ -z $LOGLOCATION ]; then echo "NO log location specified, exiting"; exit 0; fi
     CHECKERS=$(cat $CHECKERLISTFILE)
     BENCHMARKS=$(cat $BENCHMARKLISTFILE)
     OSVERSION=`uname -r`
