@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -203,6 +206,36 @@ public class CheckerOutputParser {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Method for verifying json serialisation works correctly
+	 * Reads json output and prints information to the console
+	 * @param file - The file to deserialise
+	 */
+	public static void inputReportsFromFile(File file) {
+		ObjectMapper mapper = new ObjectMapper();
+		TypeReference<HashMap<KnownChecker,ArrayList<CheckerReport>>> outputRef = new TypeReference<HashMap<KnownChecker,ArrayList<CheckerReport>>>(){};
+		try {
+			HashMap<KnownChecker,ArrayList<CheckerReport>> output = mapper.readValue(file, outputRef);
+			for(KnownChecker known : output.keySet()) {
+				System.out.println(known);
+				System.out.println("#############");
+				for(CheckerReport report : output.get(known)) {
+					System.out.println("-----");
+					System.out.println(report.getSubjectName());
+					System.out.println(report.getOutput());
+					System.out.println(report.getMessage());
+					System.out.println("-----");
+				}
+			}
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Method for executing the output parser
@@ -216,6 +249,8 @@ public class CheckerOutputParser {
 			File logFolder = new File(args[0]);
 			File export = new File(args[1]);
 			outputReportsToFile(parseReports(logFolder), export);
+			//Only used for testing
+			//inputReportsFromFile(export);
 		}
 	}
 }

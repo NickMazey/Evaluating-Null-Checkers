@@ -26,6 +26,12 @@ public class CheckerReport {
 		this.subjectName = subjectName;
 		this.message = message;
 	}
+	
+	/**
+	 * Default cstor for deserialisation
+	 */
+	public CheckerReport() {
+	}
 
 	/**
 	 * Getter for output
@@ -34,6 +40,14 @@ public class CheckerReport {
 	 */
 	public CheckerOutput getOutput() {
 		return output;
+	}
+	
+	/**
+	 * Setter for output
+	 * @param output - The output to set
+	 */
+	public void setOutput(CheckerOutput output) {
+		this.output = output;
 	}
 
 	/**
@@ -44,6 +58,14 @@ public class CheckerReport {
 	public String getSubjectName() {
 		return subjectName;
 	}
+	
+	/**
+	 * Setter for subject name
+	 * @param subjectName - The name to set
+	 */
+	public void setSubjectName(String subjectName) {
+		this.subjectName = subjectName;
+	}
 
 	/**
 	 * Getter for message
@@ -52,5 +74,13 @@ public class CheckerReport {
 	 */
 	public String getMessage() {
 		return message;
+	}
+	
+	/**
+	 * Setter for message
+	 * @param message - Message to set
+	 */
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }
