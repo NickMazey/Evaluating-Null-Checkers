@@ -118,6 +118,31 @@
 			</build>
 		</profile>
 
+		<!-- TODO: remove this and use modules-->
+		<profile>
+			<id>compiletools</id>
+			<activation>
+				<property>
+					<name>compiletools</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>3.8.1</version>
+						<configuration>
+							<debug>true</debug>
+							<source>11</source>
+							<target>11</target>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
 		<!-- CHECKERFRAMEWORKSTART -->
 
 		<profile>
