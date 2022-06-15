@@ -1,23 +1,16 @@
 package nm.evaluatingnullcheckers.tools;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
-import nm.evaluatingnullcheckers.tools.CheckerOutputParser.CheckerOutput;
-import nm.evaluatingnullcheckers.tools.CheckerOutputParser.KnownChecker;
+import nm.evaluatingnullcheckers.tools.InvokerUtils.CheckerOutput;
+import nm.evaluatingnullcheckers.tools.InvokerUtils.Flag;
+import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
 
 /**
  * Evaluator for the null checkers Reads output from the parser and creates
@@ -27,10 +20,6 @@ import nm.evaluatingnullcheckers.tools.CheckerOutputParser.KnownChecker;
  *
  */
 public class CheckerEvaluator {
-
-	public enum Flag {
-		TRUEPOSITIVE, FALSEPOSITIVE, TRUENEGATIVE, FALSENEGATIVE, ERROR;
-	}
 
 	/**
 	 * Method that finds all unique subjects in the outputs, designed to enable
@@ -225,49 +214,6 @@ public class CheckerEvaluator {
 	}
 
 	/**
-	 * Writes results to a file in JSON format
-	 * 
-	 * @param results - Results map to write
-	 * @param file    - File for writing
-	 */
-	public static void outputResultsToFile(HashMap<KnownChecker, CheckerResult> results, File file) {
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			String output = mapper.writeValueAsString(results);
-			FileWriter writer = new FileWriter(file);
-			writer.write(output);
-			writer.close();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Method for de-serialising results from checker evaluator
-	 * 
-	 * @param file - JSON file to read from
-	 * @return - The results de-serialised
-	 */
-	public static HashMap<KnownChecker, CheckerResult> deserialiseResults(File file) {
-		ObjectMapper mapper = new ObjectMapper();
-		TypeReference<HashMap<KnownChecker, CheckerResult>> outputRef = new TypeReference<HashMap<KnownChecker, CheckerResult>>() {
-		};
-		try {
-			HashMap<KnownChecker, CheckerResult> output = mapper.readValue(file, outputRef);
-			return output;
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return new HashMap<KnownChecker, CheckerResult>();
-	}
-
-	/**
 	 * Method for executing the checker evaluator
 	 * 
 	 * @param args    - Arguments for the evaluator
@@ -278,8 +224,7 @@ public class CheckerEvaluator {
 		if (args.length >= 2) {
 			File report = new File(args[0]);
 			File output = new File(args[1]);
-			outputResultsToFile(evaluateCheckers(CheckerOutputParser.deserialiseReports(report)), output);
-			deserialiseResults(output);
+			InvokerUtils.outputResultsToFile(evaluateCheckers(InvokerUtils.deserialiseReports(report)), output);
 		}
 	}
 

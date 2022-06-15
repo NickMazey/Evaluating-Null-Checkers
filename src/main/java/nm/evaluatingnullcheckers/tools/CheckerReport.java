@@ -1,6 +1,6 @@
 package nm.evaluatingnullcheckers.tools;
 
-import nm.evaluatingnullcheckers.tools.CheckerOutputParser.CheckerOutput;
+import nm.evaluatingnullcheckers.tools.InvokerUtils.CheckerOutput;
 
 /**
  * Class for storing checker output

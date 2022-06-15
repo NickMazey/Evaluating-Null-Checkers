@@ -1,10 +1,9 @@
 package nm.evaluatingnullcheckers.tools;
 
-import nm.evaluatingnullcheckers.tools.CheckerOutputParser.KnownChecker;
-
 import java.util.HashMap;
 
-import nm.evaluatingnullcheckers.tools.CheckerEvaluator.Flag;
+import nm.evaluatingnullcheckers.tools.InvokerUtils.Flag;
+
 
 /**
  * Class to store the result from a checker
