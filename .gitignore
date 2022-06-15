@@ -16,4 +16,3 @@ pom.xml.infer
 .DS_Store
 latestbenchmark.txt
 *.csv
-*.json
