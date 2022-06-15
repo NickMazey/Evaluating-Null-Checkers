@@ -12,7 +12,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 /**
  * Class containing several utility methods / classes for the invoker
  * 
@@ -20,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 public class InvokerUtils {
-	
+
 	public enum CheckerOutput {
 		VULNERABLE, SAFE, ERROR;
 	}
@@ -28,11 +27,11 @@ public class InvokerUtils {
 	public enum KnownChecker {
 		CHECKERFRAMEWORK, INFER, NULLAWAY;
 	}
-	
+
 	public enum Flag {
 		TRUEPOSITIVE, FALSEPOSITIVE, TRUENEGATIVE, FALSENEGATIVE, ERROR;
 	}
-	
+
 	/**
 	 * Converts processed outputs into a JSON file
 	 * 
@@ -52,17 +51,19 @@ public class InvokerUtils {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Method for deserialising reports from the checker output parser
+	 * 
 	 * @param file - The file to deserialise
 	 * @return - The report de-serialised
 	 */
-	public static HashMap<KnownChecker,ArrayList<CheckerReport>> deserialiseReports(File file) {
+	public static HashMap<KnownChecker, ArrayList<CheckerReport>> deserialiseReports(File file) {
 		ObjectMapper mapper = new ObjectMapper();
-		TypeReference<HashMap<KnownChecker,ArrayList<CheckerReport>>> outputRef = new TypeReference<HashMap<KnownChecker,ArrayList<CheckerReport>>>(){};
+		TypeReference<HashMap<KnownChecker, ArrayList<CheckerReport>>> outputRef = new TypeReference<HashMap<KnownChecker, ArrayList<CheckerReport>>>() {
+		};
 		try {
-			HashMap<KnownChecker,ArrayList<CheckerReport>> output = mapper.readValue(file, outputRef);
+			HashMap<KnownChecker, ArrayList<CheckerReport>> output = mapper.readValue(file, outputRef);
 			return output;
 		} catch (JsonParseException e) {
 			e.printStackTrace();
@@ -71,9 +72,9 @@ public class InvokerUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return new HashMap<KnownChecker,ArrayList<CheckerReport>>();
+		return new HashMap<KnownChecker, ArrayList<CheckerReport>>();
 	}
-	
+
 	/**
 	 * Writes results to a file in JSON format
 	 * 
@@ -93,7 +94,7 @@ public class InvokerUtils {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Method for de-serialising results from checker evaluator
 	 * 
