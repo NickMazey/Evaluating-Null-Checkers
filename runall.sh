@@ -5,6 +5,10 @@ silent="$(mvn dependency:build-classpath -Dmdep.outputFile=classpath.txt)"
 classpath="$(cat classpath.txt)"
 loglocation="$(realpath log)"
 silent="$(mvn clean compile -Dcompiletools=true)"
-java -cp target/classes:$classpath nm.evaluatingnullcheckers.tools.CheckerOutputParser "$loglocation/log$timestamp" "$loglocation/results$timestamp.json"
+java -cp target/classes:$classpath nm.evaluatingnullcheckers.tools.CheckerOutputParser "$loglocation/log$timestamp" "$loglocation/log$timestamp/reports$timestamp.json"
+java -cp target/classes:$classpath nm.evaluatingnullcheckers.tools.CheckerEvaluator "$loglocation/log$timestamp/reports$timestamp.json" "$loglocation/log$timestamp/results$timestamp.json"
+echo "reports available at $loglocation/log$timestamp/reports$timestamp.json"
+echo "results available at $loglocation/log$timestamp/results$timestamp.json"
+
 rm classpath.txt
-echo "output available at $loglocation/results$timestamp.json"
+
