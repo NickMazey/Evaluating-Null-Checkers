@@ -1,6 +1,7 @@
 package nm.evaluatingnullcheckers.tools;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 
@@ -31,6 +32,7 @@ public class ResultsOutputCSV implements ResultsOutput<String> {
  		for (KnownChecker checker : results.keySet()) {
  			checkersInOrder.add(checker);
 		}
+ 		Collections.sort(checkersInOrder);
  		
  		//First line
  		for(KnownChecker checker : checkersInOrder) {
