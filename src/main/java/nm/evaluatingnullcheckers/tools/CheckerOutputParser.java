@@ -199,13 +199,24 @@ public class CheckerOutputParser {
 	}
 
 	/**
-	 * Method for executing the output parser
+	 * Method for executing the output parser directly
 	 * 
 	 * @param args    - Arguments for the output parser
 	 * @param args[0] - Folder to search for logs
 	 * @param args[1] - File to export to
 	 */
 	public static void main(String[] args) {
+		parse(args);
+	}
+	
+	/**
+	 * Method for executing the output parser from another class
+	 * 
+	 * @param args    - Arguments for the output parser
+	 * @param args[0] - Folder to search for logs
+	 * @param args[1] - File to export to
+	 */
+	public static void parse(String[] args) {
 		if (args.length >= 2) {
 			File logFolder = new File(args[0]);
 			File export = new File(args[1]);

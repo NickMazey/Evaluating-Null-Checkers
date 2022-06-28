@@ -214,13 +214,24 @@ public class CheckerEvaluator {
 	}
 
 	/**
-	 * Method for executing the checker evaluator
+	 * Method for executing the checker evaluator directly
 	 * 
 	 * @param args    - Arguments for the evaluator
 	 * @param args[0] - Report file in JSON format
 	 * @param args[1] - File to export to
 	 */
 	public static void main(String args[]) {
+		evaluate(args);
+	}
+	
+	/**
+	 * Method for executing the checker evaluator from another class
+	 * 
+	 * @param args    - Arguments for the evaluator
+	 * @param args[0] - Report file in JSON format
+	 * @param args[1] - File to export to
+	 */
+	public static void evaluate(String args[]) {
 		if (args.length >= 2) {
 			File report = new File(args[0]);
 			File output = new File(args[1]);
