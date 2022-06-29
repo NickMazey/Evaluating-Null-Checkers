@@ -33,7 +33,13 @@ jobs:
         ./build-infer.sh java
         sudo make install
     - name: Build with Maven
-      run: ./runall.sh
+      run: |
+       mvn clean compile -Dcompiletools=true
+       mvn dependency:build-classpath -Dmdep.outputFile=classpath.txt
+       classpath="$(cat classpath.txt)"
+       java -cp target/classes:$classpath nm.evaluatingnullcheckers.tools.BenchmarkInvokerCLI allbenchmarks.txt allcheckers.txt xlsx
+       rm classpath.txt
+       
     - name: Archive Results
       if: always()
       uses: actions/upload-artifact@v2
