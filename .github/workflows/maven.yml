@@ -22,5 +22,12 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
+    - name: Install Infer
+     #Taken from https://github.com/facebook/infer/blob/main/INSTALL.md
+      run: |
+        git clone https://github.com/facebook/infer.git
+        cd infer
+        ./build-infer.sh java
+        export PATH=`pwd`/infer/bin:$PATH
     - name: Build with Maven
       run: ./runall.sh
