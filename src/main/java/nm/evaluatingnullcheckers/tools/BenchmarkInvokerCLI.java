@@ -1,18 +1,23 @@
 package nm.evaluatingnullcheckers.tools;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.DefaultInvoker;
 import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.Invoker;
 import org.apache.maven.shared.invoker.MavenInvocationException;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
 
 /**
  * CLI invoker for the checker benchmarking process
@@ -28,6 +33,7 @@ public class BenchmarkInvokerCLI {
 	 * 
 	 * @param args[0] - File containing a list of subject programs to test
 	 * @param args[1] - File containing a list of checkers to execute
+	 * @param args[2] - Format to use (such as xlsx, csv,... defaults to csv)
 	 */
 	public static void main(String[] args) {
 
@@ -40,8 +46,8 @@ public class BenchmarkInvokerCLI {
 						"-l " + logFolder).inheritIO().start();
 				p.waitFor();
 				System.out.println("Raw checker output available at: " + logFolder + "/checkeroutput");
-				
-				//Re-compiling tools because checkers use mvn clean
+
+				// Re-compiling tools because checkers use mvn clean
 				InvocationRequest request = new DefaultInvocationRequest();
 				request.setPomFile(new File(System.getProperty("user.dir") + "/pom.xml"));
 				request.setGoals(Arrays.asList("clean", "compile"));
@@ -58,12 +64,26 @@ public class BenchmarkInvokerCLI {
 						logFolder + "/results" + timestamp + ".json" };
 				CheckerEvaluator.main(evaluatorArgs);
 				System.out.println("Evaluator output available at: " + logFolder + "/results" + timestamp + ".json");
-				File resultsOutputCSV = new File(logFolder + "/resultsoutput" + timestamp + ".csv");
-				FileWriter writer = new FileWriter(resultsOutputCSV);
-				writer.write(new ResultsOutputCSV().outputResults(
-						InvokerUtils.deserialiseResults(new File(logFolder + "/results" + timestamp + ".json"))));
-				writer.close();
-				System.out.println("Results CSV available at: " + logFolder + "/resultsoutput" + timestamp + ".csv");
+				HashMap<KnownChecker, CheckerResult> results = InvokerUtils
+						.deserialiseResults(new File(logFolder + "/results" + timestamp + ".json"));
+				if (args.length >= 3 && args[2].equalsIgnoreCase("xlsx")) {
+					File resultsOutputXLSX = new File(logFolder + "/resultsoutput" + timestamp + ".xlsx");
+					FileOutputStream outputStream = new FileOutputStream(resultsOutputXLSX);
+					XSSFWorkbook workbook = new ResultsOutputXLSX().outputResults(results);
+					workbook.write(outputStream);
+					workbook.close();
+					outputStream.close();
+					System.out.println(
+							"Results XLSX available at: " + logFolder + "/resultsoutput" + timestamp + ".xlsx");
+
+				} else {
+					File resultsOutputCSV = new File(logFolder + "/resultsoutput" + timestamp + ".csv");
+					FileWriter writer = new FileWriter(resultsOutputCSV);
+					writer.write(new ResultsOutputCSV().outputResults(results));
+					writer.close();
+					System.out
+							.println("Results CSV available at: " + logFolder + "/resultsoutput" + timestamp + ".csv");
+				}
 			} catch (IOException e) {
 				System.out.println("Failed to load file");
 				System.out.println("Error message: " + e.getMessage());
@@ -75,7 +95,8 @@ public class BenchmarkInvokerCLI {
 				System.out.println("Error message: " + e.getMessage());
 			}
 		} else {
-			System.out.println("Usage: BenchmarkInvokerCLI {Subject List File} {Checker List File}");
+			System.out.println(
+					"Usage: BenchmarkInvokerCLI {Subject List File} {Checker List File} {Result File Format [default - csv]}");
 		}
 	}
 
