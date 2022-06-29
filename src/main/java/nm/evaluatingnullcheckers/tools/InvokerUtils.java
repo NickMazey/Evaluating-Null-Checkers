@@ -3,14 +3,18 @@ package nm.evaluatingnullcheckers.tools;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
 
 /**
  * Class containing several utility methods / classes for the invoker
@@ -116,6 +120,48 @@ public class InvokerUtils {
 			e.printStackTrace();
 		}
 		return new HashMap<KnownChecker, CheckerResult>();
+	}
+	
+	/**
+	 * Method for creating a list of subject names used in results from the checker evaluator
+	 * 
+	 * @param results - Results produced by a checker evaluator
+	 * @return - ArrayList of all unique subject names in the results map
+	 */
+	public static ArrayList<String> getSubjectsFromResults(HashMap<KnownChecker, CheckerResult> results){
+		ArrayList<String> subjects = new ArrayList<String>();
+		for (CheckerResult checkerResult : results.values()) {
+			for(String subject : checkerResult.getSubjectResults().keySet()) {
+				if(!subjects.contains(subject)) {
+					subjects.add(subject);
+				}
+			}
+		}
+		return subjects;
+	}
+	
+	/**
+	 * Gets all metadata for specified benchmarks
+	 * 
+	 * @param names - The simple class names to search for
+	 * @return - Map from class name to annotations
+	 */
+	public static HashMap<String, ArrayList<Annotation>> getMetadata(ArrayList<String> names) {
+		HashMap<String, ArrayList<Annotation>> metadata = new HashMap<String, ArrayList<Annotation>>();
+		if (names != null) {
+			HashSet<Class<?>> benchmarkClasses = BenchmarkSpace.getAllBenchmarkClasses();
+			for (Class<?> clazz : benchmarkClasses) {
+				String simpleName = clazz.getSimpleName();
+				if (names.contains(simpleName)) {
+					ArrayList<Annotation> annotations = new ArrayList<Annotation>();
+					for (Annotation annotation : clazz.getAnnotations()) {
+						annotations.add(annotation);
+					}
+					metadata.put(simpleName, annotations);
+				}
+			}
+		}
+		return metadata;
 	}
 
 }

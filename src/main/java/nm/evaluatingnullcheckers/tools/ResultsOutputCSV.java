@@ -20,14 +20,7 @@ public class ResultsOutputCSV implements ResultsOutput<String> {
 		//Specifying top left cell as empty
 		StringBuilder csvStr = new StringBuilder("\"\"");
 		
-		ArrayList<String> subjects = new ArrayList<String>();
-		for (CheckerResult checkerResult : results.values()) {
-			for(String subject : checkerResult.getSubjectResults().keySet()) {
-				if(!subjects.contains(subject)) {
-					subjects.add(subject);
-				}
-			}
-		}
+		ArrayList<String> subjects = InvokerUtils.getSubjectsFromResults(results);
 		ArrayList<KnownChecker> checkersInOrder = new ArrayList<KnownChecker>();
  		for (KnownChecker checker : results.keySet()) {
  			checkersInOrder.add(checker);

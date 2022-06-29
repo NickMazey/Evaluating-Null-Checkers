@@ -43,30 +43,6 @@ public class CheckerEvaluator {
 	}
 
 	/**
-	 * Gets all metadata for specified benchmarks
-	 * 
-	 * @param names - The simple class names to search for
-	 * @return - Map from class name to annotations
-	 */
-	public static HashMap<String, ArrayList<Annotation>> getMetadata(ArrayList<String> names) {
-		HashMap<String, ArrayList<Annotation>> metadata = new HashMap<String, ArrayList<Annotation>>();
-		if (names != null) {
-			HashSet<Class<?>> benchmarkClasses = BenchmarkSpace.getAllBenchmarkClasses();
-			for (Class<?> clazz : benchmarkClasses) {
-				String simpleName = clazz.getSimpleName();
-				if (names.contains(simpleName)) {
-					ArrayList<Annotation> annotations = new ArrayList<Annotation>();
-					for (Annotation annotation : clazz.getAnnotations()) {
-						annotations.add(annotation);
-					}
-					metadata.put(simpleName, annotations);
-				}
-			}
-		}
-		return metadata;
-	}
-
-	/**
 	 * Using the metadata cache, constructs an expected output cache for known
 	 * subjects
 	 * 
@@ -190,7 +166,7 @@ public class CheckerEvaluator {
 	public static HashMap<KnownChecker, CheckerResult> evaluateCheckers(
 			HashMap<KnownChecker, ArrayList<CheckerReport>> output) {
 		ArrayList<String> names = getSubjects(output);
-		HashMap<String, ArrayList<Annotation>> metadata = getMetadata(names);
+		HashMap<String, ArrayList<Annotation>> metadata = InvokerUtils.getMetadata(names);
 		HashMap<String, CheckerOutput> expectedOutputs = getExpectedOutput(metadata);
 		HashMap<KnownChecker, CheckerResult> results = new HashMap<KnownChecker, CheckerResult>();
 		if (output != null) {
