@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import nm.evaluatingnullcheckers.tools.InvokerUtils.Flag;
 
-
 /**
  * Class to store the result from a checker
  * 
@@ -18,24 +17,27 @@ public class CheckerResult {
 	private long executionTime;
 	private HashMap<String, Flag> subjectResults;
 	private HashMap<String, String> subjectMessages;
+	private HashMap<String, Long> subjectExecutionTimes;
 
 	/**
 	 * Class to store data regarding an evaluated checker
 	 * 
-	 * @param precision       - The checker's precision
-	 * @param recall          - The checker's recall
-	 * @param executionTime   - How long the checker took (in milliseconds) to
-	 *                        execute the subjects
-	 * @param subjectResults  - Map from subject names to results
-	 * @param subjectMessages - Map from subject names to messages
+	 * @param precision             - The checker's precision
+	 * @param recall                - The checker's recall
+	 * @param executionTime         - How long the checker took (in milliseconds) to
+	 *                              execute the subjects
+	 * @param subjectResults        - Map from subject names to results
+	 * @param subjectMessages       - Map from subject names to messages
+	 * @param subjectExecutionTimes - Map from subject names to execution times
 	 */
 	public CheckerResult(double precision, double recall, long executionTime, HashMap<String, Flag> subjectResults,
-			HashMap<String, String> subjectMessages) {
+			HashMap<String, String> subjectMessages, HashMap<String, Long> subjectExecutionTimes) {
 		this.precision = precision;
 		this.recall = recall;
 		this.subjectResults = subjectResults;
 		this.executionTime = executionTime;
 		this.subjectMessages = subjectMessages;
+		this.subjectExecutionTimes = subjectExecutionTimes;
 	}
 
 	/**
@@ -133,5 +135,23 @@ public class CheckerResult {
 	 */
 	public void setSubjectMessages(HashMap<String, String> subjectMessages) {
 		this.subjectMessages = subjectMessages;
+	}
+	
+	/**
+	 * Getter for subject execution times
+	 * 
+	 * @return - Map from subject names to execution times
+	 */
+	public HashMap<String, Long> getSubjectExecutionTimes(){
+		return subjectExecutionTimes;
+	}
+	
+	/**
+	 * Setter for subject execution times
+	 * 
+	 * @param subjectExecutionTimes - Map from subject names to execution times
+	 */
+	public void setSubjectExecutionTimes(HashMap<String, Long> subjectExecutionTimes) {
+		this.subjectExecutionTimes = subjectExecutionTimes;
 	}
 }

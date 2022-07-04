@@ -25,6 +25,12 @@
         "additionalProperties": {
           "type": "string"
         }
+      },
+      "subjectExecutionTimes": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
       }
     }
   }

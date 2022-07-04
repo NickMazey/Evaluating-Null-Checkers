@@ -12,6 +12,9 @@
       },
       "subjectName": {
         "type": "string"
+      },
+      "executionTime": {
+        "type": "number"
       }
     }
   }

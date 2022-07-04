@@ -174,17 +174,19 @@ public class CheckerEvaluator {
 				long totalTime = 0;
 				HashMap<String, Flag> subjectResults = new HashMap<String, Flag>();
 				HashMap<String, String> subjectMessages = new HashMap<String, String>();
+				HashMap<String, Long> subjectExecutionTimes = new HashMap<String, Long>();
 				for (CheckerReport report : output.get(checker)) {
 					String subjectName = report.getSubjectName();
 					CheckerOutput expectedOutput = expectedOutputs.get(subjectName);
 					CheckerOutput reportOutput = report.getOutput();
 					subjectResults.put(subjectName, getFlag(expectedOutput, reportOutput));
 					subjectMessages.put(subjectName, report.getMessage());
+					subjectExecutionTimes.put(subjectName, report.getExecutionTime());
 					totalTime += report.getExecutionTime();
 				}
 				double precision = calculatePrecision(subjectResults.values());
 				double recall = calculateRecall(subjectResults.values());
-				results.put(checker, new CheckerResult(precision, recall, totalTime, subjectResults, subjectMessages));
+				results.put(checker, new CheckerResult(precision, recall, totalTime, subjectResults, subjectMessages,subjectExecutionTimes));
 			}
 
 		}

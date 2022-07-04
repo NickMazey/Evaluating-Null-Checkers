@@ -46,7 +46,7 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 				// Fixes row height only in MS Excel, does not work for libreoffice
 				checkerSheet.getRow(i).setHeight((short) -1);
 			}
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < 4; i++) {
 				checkerSheet.autoSizeColumn(i);
 			}
 		}
@@ -92,6 +92,8 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 		subjectFlag.setCellValue("Checker Result");
 		Cell checkerMessage = titles.createCell(2);
 		checkerMessage.setCellValue("Checker Message");
+		Cell executionTime = titles.createCell(3);
+		executionTime.setCellValue("Execution Time (ms)");
 		CheckerResult result = results.get(checker);
 		int i = 0;
 		for (String subjectName : result.getSubjectResults().keySet()) {
@@ -102,6 +104,8 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 			flag.setCellValue(result.getSubjectResults().get(subjectName).toString());
 			Cell message = subject.createCell(2);
 			message.setCellValue(result.getSubjectMessages().get(subjectName));
+			Cell exectime = subject.createCell(3);
+			exectime.setCellValue(result.getSubjectExecutionTimes().get(subjectName));
 			i++;
 		}
 		return details;

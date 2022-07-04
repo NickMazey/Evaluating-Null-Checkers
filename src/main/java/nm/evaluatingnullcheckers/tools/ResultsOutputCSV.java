@@ -73,6 +73,16 @@ public class ResultsOutputCSV implements ResultsOutput<String> {
  			}
  			csvStr.append("\n");
  		}
+ 		csvStr.append("\"Subject Execution Times: \" \n");
+ 		//Subject Execution Times
+ 		for(String subject : subjects) {
+ 			csvStr.append("\""+subject+"\"");
+ 			for(KnownChecker checker : checkersInOrder) {
+ 				CheckerResult result = results.get(checker);
+ 				csvStr.append(",\"" + result.getSubjectExecutionTimes().get(subject) + "\"");
+ 			}
+ 			csvStr.append("\n");
+ 		}
 		return csvStr.toString();
 	}
 }
