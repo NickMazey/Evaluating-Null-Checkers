@@ -19,7 +19,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParamete
 @ArrayNPE
 @ExpectedTrue
 public class BenchmarkSix {
-	public static Object FirstIndex(@Nullable Object[] arr) {
+	public static @Nullable Object FirstIndex(@Nullable Object[] arr) {
 		return arr[0];
 	}
 }
