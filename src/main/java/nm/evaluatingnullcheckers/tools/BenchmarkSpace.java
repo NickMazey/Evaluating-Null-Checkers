@@ -351,7 +351,7 @@ public class BenchmarkSpace {
 		String dir = "src/main/java/" + BenchmarkOne.class.getPackageName().replace('.', '/') + "/";
 		File benchmarkFolder = new File(dir);
 		for(File f : benchmarkFolder.listFiles()) {
-			benches.add(dir + f.getName());
+			benches.add(BenchmarkOne.class.getPackageName().replace('.', '/') + "/" + f.getName());
 		}
 		return benches;
 	}
@@ -381,6 +381,7 @@ public class BenchmarkSpace {
 	public static void main(String[] args) {
 		if(args.length > 0) {
 			createAllBenchmarksFile();
+			System.out.println("Created allbenchmarks.txt file");
 		}
 		BenchmarkSpace bench = new BenchmarkSpace();
 		bench.printBenchmarkInfo();
