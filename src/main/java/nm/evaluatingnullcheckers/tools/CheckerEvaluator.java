@@ -171,6 +171,7 @@ public class CheckerEvaluator {
 		HashMap<KnownChecker, CheckerResult> results = new HashMap<KnownChecker, CheckerResult>();
 		if (output != null) {
 			for (KnownChecker checker : output.keySet()) {
+				long totalTime = 0;
 				HashMap<String, Flag> subjectResults = new HashMap<String, Flag>();
 				HashMap<String, String> subjectMessages = new HashMap<String, String>();
 				for (CheckerReport report : output.get(checker)) {
@@ -179,10 +180,11 @@ public class CheckerEvaluator {
 					CheckerOutput reportOutput = report.getOutput();
 					subjectResults.put(subjectName, getFlag(expectedOutput, reportOutput));
 					subjectMessages.put(subjectName, report.getMessage());
+					totalTime += report.getExecutionTime();
 				}
 				double precision = calculatePrecision(subjectResults.values());
 				double recall = calculateRecall(subjectResults.values());
-				results.put(checker, new CheckerResult(precision, recall, 0, subjectResults, subjectMessages));
+				results.put(checker, new CheckerResult(precision, recall, totalTime, subjectResults, subjectMessages));
 			}
 
 		}

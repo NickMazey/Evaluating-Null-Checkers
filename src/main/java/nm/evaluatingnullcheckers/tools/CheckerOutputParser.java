@@ -32,26 +32,27 @@ public class CheckerOutputParser {
 			if (i != -1) {
 				name = name.substring(0, i);
 			}
+			long time = getTime(file);
 			try {
 				Scanner reader = new Scanner(file);
 				while (reader.hasNextLine()) {
 					String line = reader.nextLine();
 					if (line.contains("[ERROR]")) {
 						reader.close();
-						return new CheckerReport(CheckerOutput.ERROR, name, line);
+						return new CheckerReport(CheckerOutput.ERROR, name, line, time);
 					}
 					if (line.contains("[WARNING]") && line.contains(".java")) {
 						reader.close();
-						return new CheckerReport(CheckerOutput.VULNERABLE, name, line);
+						return new CheckerReport(CheckerOutput.VULNERABLE, name, line, time);
 					}
 				}
 				reader.close();
-				return new CheckerReport(CheckerOutput.SAFE, name, "");
+				return new CheckerReport(CheckerOutput.SAFE, name, "", time);
 			} catch (FileNotFoundException e) {
-				return new CheckerReport(CheckerOutput.ERROR, name, "File Not Found");
+				return new CheckerReport(CheckerOutput.ERROR, name, "File Not Found", time);
 			}
 		}
-		return new CheckerReport(CheckerOutput.ERROR, "N/A", "Null File");
+		return new CheckerReport(CheckerOutput.ERROR, "N/A", "Null File", 0);
 	}
 
 	/**
@@ -67,6 +68,7 @@ public class CheckerOutputParser {
 			if (i != -1) {
 				name = name.substring(0, i);
 			}
+			long time = getTime(file);
 			try {
 				Scanner reader = new Scanner(file);
 
@@ -74,21 +76,21 @@ public class CheckerOutputParser {
 					String line = reader.nextLine();
 					if (line.contains("[ERROR]")) {
 						reader.close();
-						return new CheckerReport(CheckerOutput.ERROR, name, line);
+						return new CheckerReport(CheckerOutput.ERROR, name, line, time);
 					}
 					if (line.contains("[WARNING]") && line.contains("[NullAway]")) {
 						reader.close();
-						return new CheckerReport(CheckerOutput.VULNERABLE, name, line);
+						return new CheckerReport(CheckerOutput.VULNERABLE, name, line, time);
 					}
 				}
 				reader.close();
-				return new CheckerReport(CheckerOutput.SAFE, name, "");
+				return new CheckerReport(CheckerOutput.SAFE, name, "", time);
 
 			} catch (FileNotFoundException e) {
-				return new CheckerReport(CheckerOutput.ERROR, name, "File Not Found");
+				return new CheckerReport(CheckerOutput.ERROR, name, "File Not Found", time);
 			}
 		}
-		return new CheckerReport(CheckerOutput.ERROR, "N/A", "Null File");
+		return new CheckerReport(CheckerOutput.ERROR, "N/A", "Null File", 0);
 	}
 
 	/**
@@ -104,6 +106,7 @@ public class CheckerOutputParser {
 			if (i != -1) {
 				name = name.substring(0, i);
 			}
+			long time = getTime(file);
 			CheckerOutput status = CheckerOutput.SAFE;
 			String logName = file.getAbsolutePath();
 			i = logName.lastIndexOf(".");
@@ -111,7 +114,7 @@ public class CheckerOutputParser {
 				logName = logName.substring(0, i);
 			}
 			// Checking the Maven log to ensure compilation succeeded
-			File logFile = new File(logName);
+			File logFile = new File(logName + ".log");
 			if (logFile.exists()) {
 				try {
 					Scanner reader = new Scanner(logFile);
@@ -119,10 +122,10 @@ public class CheckerOutputParser {
 						String line = reader.nextLine();
 						if (line.contains("[ERROR]")) {
 							reader.close();
-							return new CheckerReport(CheckerOutput.ERROR, name, line);
+							return new CheckerReport(CheckerOutput.ERROR, name, line, time);
 						}
-						reader.close();
 					}
+					reader.close();
 				} catch (IOException e) {
 					// Do nothing
 				}
@@ -145,13 +148,36 @@ public class CheckerOutputParser {
 					}
 				}
 				reader.close();
-				return new CheckerReport(status, name, messages.toString());
+				return new CheckerReport(status, name, messages.toString(), time);
 
 			} catch (FileNotFoundException e) {
-				return new CheckerReport(CheckerOutput.ERROR, name, "File Not Found");
+				return new CheckerReport(CheckerOutput.ERROR, name, "File Not Found", time);
 			}
 		}
-		return new CheckerReport(CheckerOutput.ERROR, "N/A", "Null File");
+		return new CheckerReport(CheckerOutput.ERROR, "N/A", "Null File", 0);
+	}
+
+	private static long getTime(File file) {
+		long time = 0;
+		String timeName = file.getAbsolutePath();
+		int i = timeName.lastIndexOf(".");
+		if (i != -1) {
+			timeName = timeName.substring(0, i);
+		}
+
+		File timeFile = new File(timeName + ".time");
+		if (timeFile.exists()) {
+			try {
+				Scanner reader = new Scanner(timeFile);
+				if (reader.hasNextLine()) {
+					time = Long.valueOf(reader.nextLine());
+				}
+				reader.close();
+			} catch (IOException e) {
+				// Do nothing
+			}
+		}
+		return time;
 	}
 
 	/**
@@ -170,22 +196,28 @@ public class CheckerOutputParser {
 
 					case CHECKERFRAMEWORK:
 						for (File log : checkerFolder.listFiles()) {
-							reports.add(parseCheckerFramework(log));
+							if (!log.getName().contains(".time")) {
+								reports.add(parseCheckerFramework(log));
+							}
 						}
 						outputs.put(checkerName, reports);
 						break;
 
 					case NULLAWAY:
 						for (File log : checkerFolder.listFiles()) {
-							reports.add(parseNullAway(log));
+							if (!log.getName().contains(".time")) {
+								reports.add(parseNullAway(log));
+							}
 						}
 						outputs.put(checkerName, reports);
 						break;
 
 					case INFER:
 						for (File log : checkerFolder.listFiles()) {
-							if (log.getName().contains(".inferreport")) {
-								reports.add(parseInfer(log));
+							if (!log.getName().contains(".time")) {
+								if (log.getName().contains(".inferreport")) {
+									reports.add(parseInfer(log));
+								}
 							}
 						}
 						outputs.put(checkerName, reports);
@@ -208,7 +240,7 @@ public class CheckerOutputParser {
 	public static void main(String[] args) {
 		parse(args);
 	}
-	
+
 	/**
 	 * Method for executing the output parser from another class
 	 * 
