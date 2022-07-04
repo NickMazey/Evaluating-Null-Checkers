@@ -7,7 +7,6 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ExpectedTrue;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
 
 /**
  * 
