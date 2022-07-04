@@ -3,10 +3,10 @@ package nm.evaluatingnullcheckers.benchmarks;
 import javax.annotation.Nullable;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ExpectedTrue;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.GenericsNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
 
 /**
  * 
@@ -15,12 +15,16 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
  */
 @Annotated
 @Intraprocedural
-@LocalSource
-@GenericsNPE
+@ReturnSource
+@ArrayNPE
 @ExpectedTrue
-public class BenchmarkEight {
-	public static <T> void throwNPE(){
-		@Nullable T object = null;
-		object.toString();
+public class BenchmarkEleven {
+	
+	private static @Nullable Object[] getArray() {
+		return null;
+	}
+	
+	public static void throwNPE() {
+		Object obj = getArray()[0];
 	}
 }

@@ -3,12 +3,14 @@ package nm.evaluatingnullcheckers.tools;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -340,10 +342,46 @@ public class BenchmarkSpace {
 	}
 	
 	/**
+	 * Method for finding all benchmark.java files
+	 * 
+	 * @return - ArrayList of benchmarks
+	 */
+	public static ArrayList<String> listAllBenchmarks(){
+		ArrayList<String> benches = new ArrayList<String>();
+		String dir = "src/main/java/" + BenchmarkOne.class.getPackageName().replace('.', '/') + "/";
+		File benchmarkFolder = new File(dir);
+		for(File f : benchmarkFolder.listFiles()) {
+			benches.add(dir + f.getName());
+		}
+		return benches;
+	}
+	
+	/**
+	 * Creates or updates allbenchmarks.txt
+	 */
+	public static void createAllBenchmarksFile() {
+		ArrayList<String> benches = listAllBenchmarks();
+		File allBenches = new File("allbenchmarks.txt");
+		try {
+			FileWriter writer = new FileWriter(allBenches);
+			for(String s : benches) {
+				writer.write(s);
+				writer.write("\n");
+			}
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Main method for testing
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		if(args.length > 0) {
+			createAllBenchmarksFile();
+		}
 		BenchmarkSpace bench = new BenchmarkSpace();
 		bench.printBenchmarkInfo();
 		try{

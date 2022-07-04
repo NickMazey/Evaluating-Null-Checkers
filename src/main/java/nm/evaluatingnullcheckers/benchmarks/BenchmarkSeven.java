@@ -8,6 +8,11 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.GenericsNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParameterSource;
 
+/**
+ * 
+ * @author Nick Mazey
+ *
+ */
 @Annotated
 @Intraprocedural
 @MethodParameterSource

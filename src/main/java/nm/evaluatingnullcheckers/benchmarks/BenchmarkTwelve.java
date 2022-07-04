@@ -6,7 +6,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ExpectedTrue;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.GenericsNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
 
 /**
  * 
@@ -15,12 +15,15 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
  */
 @Annotated
 @Intraprocedural
-@LocalSource
+@ReturnSource
 @GenericsNPE
 @ExpectedTrue
-public class BenchmarkEight {
-	public static <T> void throwNPE(){
-		@Nullable T object = null;
-		object.toString();
+public class BenchmarkTwelve {
+	private static <T> @Nullable T getGeneric() {
+		return null;
+	}
+	
+	public static <T> void throwNPE() {
+		getGeneric().toString();
 	}
 }
