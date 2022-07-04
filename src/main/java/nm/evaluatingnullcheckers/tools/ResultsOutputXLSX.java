@@ -22,6 +22,8 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 
 	@Override
 	public XSSFWorkbook outputResults(HashMap<KnownChecker, CheckerResult> results) {
+		//To suppress warning
+		System.setProperty("log4j2.loggerContextFactory","org.apache.logging.log4j.simple.SimpleLoggerContextFactory");
 		ArrayList<String> subjects = InvokerUtils.getSubjectsFromResults(results);
 		ArrayList<KnownChecker> checkersInOrder = new ArrayList<KnownChecker>();
 		for (KnownChecker checker : results.keySet()) {
