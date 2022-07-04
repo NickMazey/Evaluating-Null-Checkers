@@ -53,6 +53,7 @@ public class BenchmarkInvokerCLI {
 				request.setGoals(Arrays.asList("clean", "compile"));
 				request.addArg("-P compiletools");
 				request.addArg("-q");
+				request.setBatchMode(true);
 				Invoker invoker = new DefaultInvoker();
 				invoker.execute(request);
 

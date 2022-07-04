@@ -79,5 +79,5 @@ else
     echo $CHECKERS
     echo "With the benchmarks in file:"
     echo $BENCHMARKLISTFILE
-    time IterateThroughCheckers 
+    IterateThroughCheckers 
 fi
