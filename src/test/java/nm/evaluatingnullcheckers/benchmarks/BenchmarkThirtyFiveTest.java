@@ -1,4 +1,4 @@
-package test.nm.evaluatingnullcheckers.benchmarks;
+package nm.evaluatingnullcheckers.benchmarks;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

@@ -1,22 +1,22 @@
-package test.nm.evaluatingnullcheckers.benchmarks;
+package nm.evaluatingnullcheckers.benchmarks;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import nm.evaluatingnullcheckers.benchmarks.BenchmarkFour;
+import nm.evaluatingnullcheckers.benchmarks.BenchmarkThree;
 
 /**
- * JUnit test to validate that BenchmarkFour can throw an NPE
+ * JUnit test to validate that BenchmarkThree can throw an NPE
  * @author Nick Mazey
  *
  */
-public class BenchmarkFourTest {
+public class BenchmarkThreeTest {
 
 		@Test
 		public void throwsNPE() {
 			assertThrows(NullPointerException.class,()->{
-				BenchmarkFour bench = new BenchmarkFour();
+				BenchmarkThree bench = new BenchmarkThree();
 				bench.throwNPE();
 			});
 		}

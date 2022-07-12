@@ -1,4 +1,4 @@
-package test.nm.evaluatingnullcheckers.benchmarks;
+package nm.evaluatingnullcheckers.benchmarks;
 
 import org.junit.jupiter.api.Test;
 
