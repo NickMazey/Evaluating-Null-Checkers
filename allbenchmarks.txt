@@ -4,6 +4,7 @@ nm/evaluatingnullcheckers/benchmarks/BenchmarkFourty.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkThirtySix.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkTwentyOne.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkTwentySix.java
+nm/evaluatingnullcheckers/benchmarks/FlakySemanticsBenchmarkOne.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkThirty.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkFifteen.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkEleven.java
@@ -13,6 +14,7 @@ nm/evaluatingnullcheckers/benchmarks/BenchmarkFourtySix.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkSeven.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkThirtyEight.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkFourtyThree.java
+nm/evaluatingnullcheckers/benchmarks/FlakySemanticsBenchmarkTwo.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkTen.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkThirtyNine.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkEight.java
