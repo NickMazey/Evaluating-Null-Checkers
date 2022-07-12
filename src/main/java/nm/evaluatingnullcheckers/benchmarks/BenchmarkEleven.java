@@ -14,7 +14,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
  *
  */
 @Annotated
-@Intraprocedural
+@Interprocedural
 @ReturnSource
 @ArrayNPE
 @ExpectedTrue
