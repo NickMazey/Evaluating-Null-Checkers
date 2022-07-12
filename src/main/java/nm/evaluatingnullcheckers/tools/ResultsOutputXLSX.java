@@ -5,11 +5,16 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import nm.evaluatingnullcheckers.tools.InvokerUtils.Flag;
 import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
 
 /**
@@ -96,12 +101,18 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 		executionTime.setCellValue("Execution Time (ms)");
 		CheckerResult result = results.get(checker);
 		int i = 0;
-		for (String subjectName : result.getSubjectResults().keySet()) {
+		ArrayList<String> subjectNamesList = new ArrayList<String>();
+		subjectNamesList.addAll(result.getSubjectResults().keySet());
+		//Adding sorting to make subject order consistent
+		Collections.sort(subjectNamesList);
+		for (String subjectName : subjectNamesList) {
 			Row subject = details.createRow(i + 1);
 			Cell name = subject.createCell(0);
 			name.setCellValue(subjectName);
 			Cell flag = subject.createCell(1);
 			flag.setCellValue(result.getSubjectResults().get(subjectName).toString());
+			flag.setCellStyle(getFlagStyle(workbook,result.getSubjectResults().get(subjectName)));
+
 			Cell message = subject.createCell(2);
 			message.setCellValue(result.getSubjectMessages().get(subjectName));
 			Cell exectime = subject.createCell(3);
@@ -109,6 +120,32 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 			i++;
 		}
 		return details;
+	}
+	
+	private CellStyle getFlagStyle(Workbook workbook, Flag flag) {
+		CellStyle style = workbook.createCellStyle();
+		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		switch(flag) {
+		case ERROR:
+			style.setFillForegroundColor(IndexedColors.DARK_RED.getIndex());
+			break;
+		case FALSENEGATIVE:
+			style.setFillForegroundColor(IndexedColors.DARK_RED.getIndex());
+			break;
+		case FALSEPOSITIVE:
+			style.setFillForegroundColor(IndexedColors.DARK_RED.getIndex());
+			break;
+		case TRUENEGATIVE:
+			style.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+			break;
+		case TRUEPOSITIVE:
+			style.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+			break;
+		default:
+			style.setFillForegroundColor(IndexedColors.AUTOMATIC.getIndex());
+			break;
+		}
+		return style;
 	}
 
 }
