@@ -13,7 +13,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 @Intraprocedural
 @LocalSource
 @ObjectNPE
-@ExpectedTrue
+@NPEProne
 public class BenchmarkOne {
 	/**
 	 * Method to throw an NPE

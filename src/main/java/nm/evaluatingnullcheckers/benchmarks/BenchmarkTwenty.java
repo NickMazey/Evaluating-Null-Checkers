@@ -3,7 +3,7 @@ package nm.evaluatingnullcheckers.benchmarks;
 import javax.annotation.Nullable;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ExpectedFalse;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.GenericsNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
@@ -18,7 +18,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
 @Intraprocedural
 @LocalSource
 @GenericsNPE
-@ExpectedFalse
+@NPEProof
 public class BenchmarkTwenty {
 	public static <T> void throwNPE(){
 		@Nullable T object = null;

@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ExpectedFalse;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.FieldSource;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 
@@ -18,7 +18,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedura
 @Intraprocedural
 @FieldSource
 @ArrayNPE
-@ExpectedFalse
+@NPEProof
 public class BenchmarkSixteen {
 	@Nullable
 	int[] numbers = null;

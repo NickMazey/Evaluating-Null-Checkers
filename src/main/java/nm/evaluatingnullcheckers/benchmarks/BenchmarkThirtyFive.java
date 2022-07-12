@@ -2,7 +2,7 @@ package nm.evaluatingnullcheckers.benchmarks;
 
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ExpectedTrue;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
@@ -17,7 +17,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
 @Interprocedural
 @ReturnSource
 @ArrayNPE
-@ExpectedTrue
+@NPEProne
 public class BenchmarkThirtyFive {
 	
 	private static Object[] getArray() {

@@ -1,7 +1,7 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ExpectedFalse;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
@@ -16,7 +16,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 @Intraprocedural
 @LocalSource
 @ArrayNPE
-@ExpectedFalse
+@NPEProof
 public class BenchmarkThirtyEight {
 
 	public static int throwNPE() {

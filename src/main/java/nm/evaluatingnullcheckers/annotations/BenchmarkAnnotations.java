@@ -15,13 +15,13 @@ public class BenchmarkAnnotations {
   @ExpectedNPE
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
-  public @interface ExpectedTrue{
+  public @interface NPEProne{
   }
   
   @ExpectedNPE
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
-  public @interface ExpectedFalse{
+  public @interface NPEProof{
   }
   
   @Retention(RetentionPolicy.RUNTIME)

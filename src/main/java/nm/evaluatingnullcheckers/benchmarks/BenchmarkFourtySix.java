@@ -1,7 +1,7 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
 
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ExpectedFalse;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
@@ -17,7 +17,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
 @Interprocedural
 @ReturnSource
 @ObjectNPE
-@ExpectedFalse
+@NPEProof
 public class BenchmarkFourtySix {
 	
 	private static Object getObject() {

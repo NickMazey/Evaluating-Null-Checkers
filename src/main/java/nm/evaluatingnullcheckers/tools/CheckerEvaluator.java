@@ -56,9 +56,9 @@ public class CheckerEvaluator {
 				for (Annotation annotation : metadata.get(subjectName)) {
 					for (Annotation superAnnotation : annotation.annotationType().getAnnotations()) {
 						if (superAnnotation.annotationType().equals(BenchmarkAnnotations.ExpectedNPE.class)) {
-							if (annotation.annotationType().equals(BenchmarkAnnotations.ExpectedTrue.class)) {
+							if (annotation.annotationType().equals(BenchmarkAnnotations.NPEProne.class)) {
 								expectedOutputs.put(subjectName, CheckerOutput.VULNERABLE);
-							} else if (annotation.annotationType().equals(BenchmarkAnnotations.ExpectedFalse.class)) {
+							} else if (annotation.annotationType().equals(BenchmarkAnnotations.NPEProof.class)) {
 								expectedOutputs.put(subjectName, CheckerOutput.SAFE);
 							}
 						}

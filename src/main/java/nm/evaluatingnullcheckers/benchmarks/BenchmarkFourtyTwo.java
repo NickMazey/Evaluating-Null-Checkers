@@ -2,7 +2,7 @@ package nm.evaluatingnullcheckers.benchmarks;
 
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ExpectedFalse;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParameterSource;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
@@ -17,7 +17,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 @Intraprocedural
 @MethodParameterSource
 @ArrayNPE
-@ExpectedFalse
+@NPEProof
 public class BenchmarkFourtyTwo {
 	public static Object FirstIndex(Object[] arr) {
 		if(arr != null && arr.length != 0) {

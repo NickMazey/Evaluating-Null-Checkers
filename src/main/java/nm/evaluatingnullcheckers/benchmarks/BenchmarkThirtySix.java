@@ -1,6 +1,6 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ExpectedTrue;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.GenericsNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
@@ -16,7 +16,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
 @Interprocedural
 @ReturnSource
 @GenericsNPE
-@ExpectedTrue
+@NPEProne
 public class BenchmarkThirtySix {
 	private static <T> T getGeneric() {
 		return null;
