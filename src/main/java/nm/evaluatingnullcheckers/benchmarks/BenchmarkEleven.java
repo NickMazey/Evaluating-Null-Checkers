@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ExpectedTrue;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
 
 /**
