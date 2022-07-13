@@ -124,6 +124,42 @@ public class CheckerEvaluator {
 			return 0;
 		}
 	}
+	
+	/**
+	 * Computes accuracy of a checker
+	 * 
+	 * @param results - Collection of flags From a checker
+	 * @return - Accuracy value computed using these flags ((TP + TN) / (TP + TN + FP + FN))
+	 */
+	public static double calculateAccuracy(Collection<Flag> results) {
+		double truePositives = 0;
+		double trueNegatives = 0;
+		double falsePositives = 0;
+		double falseNegatives = 0;
+		for (Flag result : results) {
+			switch (result) {
+			case TRUEPOSITIVE:
+				truePositives++;
+				break;
+			case TRUENEGATIVE:
+				trueNegatives++;
+				break;
+			case FALSEPOSITIVE:
+				falsePositives++;
+				break;
+			case FALSENEGATIVE:
+				falseNegatives++;
+				break;
+			default:
+				break;
+			}
+		}
+		if (truePositives + trueNegatives + falsePositives + falseNegatives > 0) {
+			return (truePositives + trueNegatives) / (truePositives + trueNegatives + falsePositives + falseNegatives);
+		} else {
+			return 0;
+		}
+	}
 
 	/**
 	 * Method for assessing checker output
@@ -186,7 +222,8 @@ public class CheckerEvaluator {
 				}
 				double precision = calculatePrecision(subjectResults.values());
 				double recall = calculateRecall(subjectResults.values());
-				results.put(checker, new CheckerResult(precision, recall, totalTime, subjectResults, subjectMessages,subjectExecutionTimes));
+				double accuracy = calculateAccuracy(subjectResults.values());
+				results.put(checker, new CheckerResult(precision, recall,accuracy, totalTime, subjectResults, subjectMessages,subjectExecutionTimes));
 			}
 
 		}

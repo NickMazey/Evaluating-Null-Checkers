@@ -65,11 +65,13 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 		Row titles = summary.createRow(0);
 		Cell checkers = titles.createCell(0);
 		checkers.setCellValue("Checker");
-		Cell precision = titles.createCell(1);
+		Cell accuracy = titles.createCell(1);
+		accuracy.setCellValue("Accuracy");
+		Cell precision = titles.createCell(2);
 		precision.setCellValue("Precision");
-		Cell recall = titles.createCell(2);
+		Cell recall = titles.createCell(3);
 		recall.setCellValue("Recall");
-		Cell time = titles.createCell(3);
+		Cell time = titles.createCell(4);
 		time.setCellValue("Time Taken");
 		for (int i = 0; i < checkersInOrder.size(); i++) {
 			KnownChecker checker = checkersInOrder.get(i);
@@ -77,11 +79,13 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 			Row checkerData = summary.createRow(i + 1);
 			Cell checkerName = checkerData.createCell(0);
 			checkerName.setCellValue(checker.toString());
-			Cell checkerPrecision = checkerData.createCell(1);
+			Cell checkerAccuracy = checkerData.createCell(1);
+			checkerAccuracy.setCellValue(result.getAccuracy());
+			Cell checkerPrecision = checkerData.createCell(2);
 			checkerPrecision.setCellValue(result.getPrecision());
-			Cell checkerRecall = checkerData.createCell(2);
+			Cell checkerRecall = checkerData.createCell(3);
 			checkerRecall.setCellValue(result.getRecall());
-			Cell checkerTime = checkerData.createCell(3);
+			Cell checkerTime = checkerData.createCell(4);
 			checkerTime.setCellValue(result.getExecutionTime());
 		}
 		return summary;

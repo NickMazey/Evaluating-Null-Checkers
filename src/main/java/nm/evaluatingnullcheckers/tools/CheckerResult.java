@@ -14,6 +14,7 @@ public class CheckerResult {
 
 	private double precision;
 	private double recall;
+	private double accuracy;
 	private long executionTime;
 	private HashMap<String, Flag> subjectResults;
 	private HashMap<String, String> subjectMessages;
@@ -26,14 +27,16 @@ public class CheckerResult {
 	 * @param recall                - The checker's recall
 	 * @param executionTime         - How long the checker took (in milliseconds) to
 	 *                              execute the subjects
+	 * @param accuracy              - The checker's accuracy
 	 * @param subjectResults        - Map from subject names to results
 	 * @param subjectMessages       - Map from subject names to messages
 	 * @param subjectExecutionTimes - Map from subject names to execution times
 	 */
-	public CheckerResult(double precision, double recall, long executionTime, HashMap<String, Flag> subjectResults,
+	public CheckerResult(double precision, double recall, double accuracy, long executionTime, HashMap<String, Flag> subjectResults,
 			HashMap<String, String> subjectMessages, HashMap<String, Long> subjectExecutionTimes) {
 		this.precision = precision;
 		this.recall = recall;
+		this.accuracy = accuracy;
 		this.subjectResults = subjectResults;
 		this.executionTime = executionTime;
 		this.subjectMessages = subjectMessages;
@@ -81,6 +84,24 @@ public class CheckerResult {
 	 */
 	public void setRecall(double recall) {
 		this.recall = recall;
+	}
+	
+	/**
+	 * Getter for accuracy
+	 * 
+	 * @return - The checker's accuracy
+	 */
+	public double getAccuracy() {
+		return accuracy;
+	}
+	
+	/**
+	 * Setter for accuracy
+	 * 
+	 * @param accuracy - Value to set accuracy to
+	 */
+	public void setAccuracy(double accuracy) {
+		this.accuracy = accuracy;
 	}
 
 	/**
