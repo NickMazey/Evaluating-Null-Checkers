@@ -65,30 +65,15 @@ public class BenchmarkInvokerCLI {
 						logFolder + "/results" + timestamp + ".json" };
 				CheckerEvaluator.main(evaluatorArgs);
 				System.out.println("Evaluator output available at: " + logFolder + "/results" + timestamp + ".json");
-				HashMap<KnownChecker, CheckerResult> results = InvokerUtils
-						.deserialiseResults(new File(logFolder + "/results" + timestamp + ".json"));
-				if (args.length >= 3 && args[2].equalsIgnoreCase("xlsx")) {
-					File resultsOutputXLSX = new File(logFolder + "/resultsoutput" + timestamp + ".xlsx");
-					FileOutputStream outputStream = new FileOutputStream(resultsOutputXLSX);
-					XSSFWorkbook workbook = new ResultsOutputXLSX().outputResults(results);
-					workbook.write(outputStream);
-					workbook.close();
-					outputStream.close();
-					System.out.println(
-							"Results XLSX available at: " + logFolder + "/resultsoutput" + timestamp + ".xlsx");
-
-				} else {
-					File resultsOutputCSV = new File(logFolder + "/resultsoutput" + timestamp + ".csv");
-					FileWriter writer = new FileWriter(resultsOutputCSV);
-					writer.write(new ResultsOutputCSV().outputResults(results));
-					writer.close();
-					System.out
-							.println("Results CSV available at: " + logFolder + "/resultsoutput" + timestamp + ".csv");
+				String[] resultsOutputArgs = {logFolder,timestamp,".csv"};
+				if(args.length >= 3) {
+					resultsOutputArgs[2] = args[2];
 				}
+				ResultsOutputHandler.main(resultsOutputArgs);
 			} catch (IOException e) {
 				System.out.println("Failed to load file");
 				System.out.println("Error message: " + e.getMessage());
-			} catch (MavenInvocationException e) {
+			}catch (MavenInvocationException e) {
 				System.out.println("Tool compilation encountered an error");
 				System.out.println("Error message: " + e.getMessage());
 			} catch (InterruptedException e) {

@@ -7,11 +7,15 @@ import java.util.HashMap;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellUtil;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import nm.evaluatingnullcheckers.tools.InvokerUtils.Flag;
@@ -42,7 +46,7 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 			// Fixes row height only in MS Excel, does not work for libreoffice
 			summary.getRow(i).setHeight((short) -1);
 		}
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 5; i++) {
 			summary.autoSizeColumn(i);
 		}
 		for (KnownChecker checker : checkersInOrder) {
@@ -60,9 +64,14 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 	}
 
 	private Sheet summarySheet(HashMap<KnownChecker, CheckerResult> results, ArrayList<KnownChecker> checkersInOrder,
-			Workbook workbook) {
+			XSSFWorkbook workbook) {
 		Sheet summary = workbook.createSheet("Summary");
-		Row titles = summary.createRow(0);
+		Row metrics = summary.createRow(0);
+		Cell metricsTitle = metrics.createCell(0);
+		metricsTitle.setCellValue("Metrics");
+		CellUtil.setAlignment(metricsTitle, HorizontalAlignment.CENTER);
+		summary.addMergedRegion(new CellRangeAddress(0,0,0,4));
+		Row titles = summary.createRow(1);
 		Cell checkers = titles.createCell(0);
 		checkers.setCellValue("Checker");
 		Cell accuracy = titles.createCell(1);
@@ -72,25 +81,80 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 		Cell recall = titles.createCell(3);
 		recall.setCellValue("Recall");
 		Cell time = titles.createCell(4);
-		time.setCellValue("Time Taken");
+		time.setCellValue("Total Execution Time (ms)");
 		for (int i = 0; i < checkersInOrder.size(); i++) {
 			KnownChecker checker = checkersInOrder.get(i);
 			CheckerResult result = results.get(checker);
-			Row checkerData = summary.createRow(i + 1);
+			Row checkerData = summary.createRow(summary.getLastRowNum() + 1);
 			Cell checkerName = checkerData.createCell(0);
 			checkerName.setCellValue(checker.toString());
 			Cell checkerAccuracy = checkerData.createCell(1);
-			checkerAccuracy.setCellValue(result.getAccuracy());
+			checkerAccuracy.setCellValue(String.format("%.02f",result.getAccuracy()));
 			Cell checkerPrecision = checkerData.createCell(2);
-			checkerPrecision.setCellValue(result.getPrecision());
+			checkerPrecision.setCellValue(String.format("%.02f",result.getPrecision()));
 			Cell checkerRecall = checkerData.createCell(3);
-			checkerRecall.setCellValue(result.getRecall());
+			checkerRecall.setCellValue(String.format("%.02f",result.getRecall()));
 			Cell checkerTime = checkerData.createCell(4);
 			checkerTime.setCellValue(result.getExecutionTime());
 		}
+		
+		//Similarity
+		Row emptyRow = summary.createRow(summary.getLastRowNum() +1);
+		Row indicesTitleRow = summary.createRow(summary.getLastRowNum() + 1);
+		Cell indicesTitle = indicesTitleRow.createCell(0);
+		indicesTitle.setCellValue("Similarity (Jaccard Index)");
+		CellUtil.setAlignment(indicesTitle, HorizontalAlignment.CENTER);
+		summary.addMergedRegion(new CellRangeAddress(indicesTitleRow.getRowNum(),indicesTitleRow.getRowNum(),0,checkersInOrder.size()));
+		Row checkerNamesRow = summary.createRow(summary.getLastRowNum() + 1);
+		//Titles
+		for(int i = 0; i < checkersInOrder.size() + 1; i++) {
+			if(i != 0) {
+				Cell checkerName = checkerNamesRow.createCell(i);
+				checkerName.setCellValue(checkersInOrder.get(i-1).toString());
+			}
+		}
+		
+		//Columns
+		for(int i = 0; i < checkersInOrder.size(); i++) {
+			KnownChecker checker = checkersInOrder.get(i);
+			Row checkerSimilarityRow = summary.createRow(summary.getLastRowNum() + 1);
+			Cell checkerName = checkerSimilarityRow.createCell(0);
+			checkerName.setCellValue(checker.toString());
+			for(int j = 0; j < checkersInOrder.size(); j++){
+				KnownChecker other = checkersInOrder.get(j);
+				Cell valueCell = checkerSimilarityRow.createCell(j + 1);
+				if(checker != other) {
+					valueCell.setCellValue(String.format("%.02f",results.get(checker).getSimilarity().get(other)));
+					valueCell.setCellStyle(indexColour(workbook,results.get(checker).getSimilarity().get(other)));
+				}else {
+					valueCell.setCellValue(1);
+					valueCell.setCellStyle(indexColour(workbook,1));
+				}
+			}
+		}
+		
 		return summary;
 	}
-
+	
+	private XSSFCellStyle indexColour(XSSFWorkbook workbook,double value) {
+		XSSFCellStyle style = workbook.createCellStyle();
+		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		int r = (int)((1.5-value) * 255.0);
+		int g = (int)((1.5-value)* 93.0) + 162;
+		int b = 255;
+		if(r > 255) {
+			r = 255;
+		}
+		if(g > 255) {
+			g = 255;
+		}
+		byte[] rgb = {(byte) r, (byte) g,(byte)b};
+		style.setFillForegroundColor(new XSSFColor(rgb,null));
+		return style;
+		
+		
+	}
+	
 	private Sheet checkerDetailSheet(HashMap<KnownChecker, CheckerResult> results, KnownChecker checker,
 			Workbook workbook) {
 		Sheet details = workbook.createSheet(checker.toString());

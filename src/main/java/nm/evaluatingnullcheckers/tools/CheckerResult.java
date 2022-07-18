@@ -3,6 +3,7 @@ package nm.evaluatingnullcheckers.tools;
 import java.util.HashMap;
 
 import nm.evaluatingnullcheckers.tools.InvokerUtils.Flag;
+import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
 
 /**
  * Class to store the result from a checker
@@ -19,6 +20,7 @@ public class CheckerResult {
 	private HashMap<String, Flag> subjectResults;
 	private HashMap<String, String> subjectMessages;
 	private HashMap<String, Long> subjectExecutionTimes;
+	private HashMap<KnownChecker,Double> similarity;
 
 	/**
 	 * Class to store data regarding an evaluated checker
@@ -174,5 +176,23 @@ public class CheckerResult {
 	 */
 	public void setSubjectExecutionTimes(HashMap<String, Long> subjectExecutionTimes) {
 		this.subjectExecutionTimes = subjectExecutionTimes;
+	}
+	
+	/**
+	 * Getter for jaccard similarity
+	 * 
+	 * @return - Mapping from other checkers to their jaccard similarity
+	 */
+	public HashMap<KnownChecker, Double> getSimilarity(){
+		return similarity;
+	}
+	
+	/**
+	 * Setter for jaccard similarity
+	 * 
+	 * @param similarity - Mapping from other checkers to their jaccard similarity
+	 */
+	public void setSimilarity(HashMap<KnownChecker,Double> similarity) {
+		this.similarity=similarity;
 	}
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
 import nm.evaluatingnullcheckers.tools.InvokerUtils.CheckerOutput;
@@ -225,9 +226,39 @@ public class CheckerEvaluator {
 				double accuracy = calculateAccuracy(subjectResults.values());
 				results.put(checker, new CheckerResult(precision, recall,accuracy, totalTime, subjectResults, subjectMessages,subjectExecutionTimes));
 			}
-
+			for (KnownChecker checker : results.keySet()) {
+				results.get(checker).setSimilarity(computeSimilarities(checker,results));
+			}
 		}
 		return results;
+	}
+	
+	private static HashMap<KnownChecker, Double> computeSimilarities(KnownChecker checker, HashMap<KnownChecker,CheckerResult> results){
+			HashMap<KnownChecker,Double> similarity = new HashMap<KnownChecker,Double>();
+			HashMap<String,Flag> subjectResults = results.get(checker).getSubjectResults();
+			for (KnownChecker other : results.keySet()) {
+				if(other != checker) {
+					HashMap<String,Flag> otherSubjectResults = results.get(other).getSubjectResults();
+					double total = subjectResults.size() + otherSubjectResults.size();
+					double union = 0;
+					HashSet<String> allSubjects = new HashSet<String>();
+					allSubjects.addAll(subjectResults.keySet());
+					allSubjects.addAll(otherSubjectResults.keySet());
+					for(String subjectName : allSubjects) {
+						if(subjectResults.containsKey(subjectName) && otherSubjectResults.containsKey(subjectName)) {
+							if(subjectResults.get(subjectName).equals(otherSubjectResults.get(subjectName))) {
+								union++;
+							}
+						}
+					}
+				    double index = 0;
+				    if(total-union != 0) {
+				    	index = union/(total-union);
+				    }
+				   similarity.put(other, index);
+				}
+			}
+			return similarity;
 	}
 
 	/**
