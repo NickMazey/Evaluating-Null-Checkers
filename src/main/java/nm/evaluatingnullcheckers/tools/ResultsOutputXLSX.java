@@ -3,6 +3,7 @@ package nm.evaluatingnullcheckers.tools;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -48,6 +49,14 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 		}
 		for (int i = 0; i < 5; i++) {
 			summary.autoSizeColumn(i);
+		}
+		Sheet notableSubjects = notableSubjects(results,checkersInOrder,workbook);
+		for (int i = 0; i < notableSubjects.getLastRowNum(); i++) {
+			// Fixes row height only in MS Excel, does not work for libreoffice
+			notableSubjects.getRow(i).setHeight((short) -1);
+		}
+		for (int i = 0; i < checkersInOrder.size() +1; i++) {
+			notableSubjects.autoSizeColumn(i);
 		}
 		for (KnownChecker checker : checkersInOrder) {
 			Sheet checkerSheet = checkerDetailSheet(results, checker, workbook);
@@ -153,6 +162,52 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 		return style;
 		
 		
+	}
+	
+	private Sheet notableSubjects(HashMap<KnownChecker,CheckerResult> results,ArrayList<KnownChecker> checkersInOrder, Workbook workbook) {
+		Sheet notableSubjects = workbook.createSheet("Notable Subjects");
+		HashSet<String> allSubjects = new HashSet<String>();
+		for(KnownChecker checker : results.keySet()) {
+			allSubjects.addAll(results.get(checker).getSubjectResults().keySet());
+		}
+		HashSet<String> notableSubjectNames = new HashSet<String>();
+		for(String subjectName : allSubjects) {
+			for(KnownChecker checker : results.keySet()) {
+				Flag subjectFlag =results.get(checker).getSubjectResults().get(subjectName);
+				if(subjectFlag != Flag.TRUEPOSITIVE && subjectFlag != Flag.TRUENEGATIVE) {
+					notableSubjectNames.add(subjectName);
+				}
+			}
+		}
+		ArrayList<String> orderedSubjects = new ArrayList<String>();
+		orderedSubjects.addAll(notableSubjectNames);
+		Collections.sort(orderedSubjects);
+		
+		Row checkerNamesRow = notableSubjects.createRow(notableSubjects.getLastRowNum() + 1);
+		//Titles
+		for(int i = 0; i < checkersInOrder.size() + 1; i++) {
+			if(i != 0) {
+				Cell checkerName = checkerNamesRow.createCell(i);
+				checkerName.setCellValue(checkersInOrder.get(i-1).toString());
+			}
+		}
+		for(int i = 0; i < orderedSubjects.size(); i++) {
+			String subjectName = orderedSubjects.get(i);
+			Row subjectRow = notableSubjects.createRow(notableSubjects.getLastRowNum() +1);
+			Cell nameCell = subjectRow.createCell(0);
+			nameCell.setCellValue(subjectName);
+			for(int j = 0; j < checkersInOrder.size(); j++) {
+				KnownChecker checker = checkersInOrder.get(j);
+				Cell resultCell = subjectRow.createCell(j + 1);
+				Flag flag = results.get(checker).getSubjectResults().get(subjectName);
+				resultCell.setCellValue(flag.toString());
+				resultCell.setCellStyle(getFlagStyle(workbook, flag));
+			}
+		}
+		
+		
+		
+		return notableSubjects;
 	}
 	
 	private Sheet checkerDetailSheet(HashMap<KnownChecker, CheckerResult> results, KnownChecker checker,
