@@ -25,7 +25,9 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 @NPEProne
 public class BenchmarkFourtyNine {
 	public static void throwNPE() {
+		/* TODO: Find a way to use this annotation in this context
 		@Nonnull Object @Nullable[] arr = new Object[10];
 		arr[0].toString();
+		*/
 	}
 }
