@@ -83,6 +83,13 @@
 			<version>2.9.0</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+		<groupId>nm.precompiledclasses</groupId>
+		<artifactId>precompiledclasses</artifactId>
+		<version>1.0</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/src/main/resources/precompiledclasses-1.0.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
