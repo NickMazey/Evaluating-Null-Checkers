@@ -51,3 +51,5 @@ nm/evaluatingnullcheckers/benchmarks/BenchmarkThirtyFive.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkFifty.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkTwelve.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkEighteen.java
+nm/evaluatingnullcheckers/benchmarks/BenchmarkFiftyTwo.java
+nm/evaluatingnullcheckers/benchmarks/BenchmarkFiftyThree.java
