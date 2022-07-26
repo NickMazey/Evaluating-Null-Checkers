@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.swing.JButton;
@@ -49,11 +50,11 @@ public class BenchmarkInvokerGUI {
 		buttonPanel.setBounds(x, y, width, buttonheight);
 
 		ArrayList<String> buttonNames = new ArrayList<String>(Arrays.asList(new String[] { "Name" }));
-		buttonNames.addAll(annotationClasses.stream().map(c -> c.getSimpleName()).toList());
+		buttonNames.addAll(annotationClasses.stream().map(c -> c.getSimpleName()).collect(Collectors.toList()));
 		int itemwidth = width / buttonNames.size();
 		List<JButton> buttons = buttonNames.stream()
 				.map(name -> makeButton(name, x + buttonNames.indexOf(name) * itemwidth, y, itemwidth, buttonheight))
-				.toList();
+				.collect(Collectors.toList());
 		for (JButton b : buttons) {
 			buttonPanel.add(b);
 		}
@@ -61,7 +62,7 @@ public class BenchmarkInvokerGUI {
 
 		JScrollPane listPanel = new JScrollPane();
 		HashMap<String, ArrayList<Annotation>> metadata = InvokerUtils.getMetadata(new ArrayList<String>(
-				BenchmarkSpace.getAllBenchmarkClasses().stream().map(c -> c.getSimpleName()).toList()));
+				BenchmarkSpace.getAllBenchmarkClasses().stream().map(c -> c.getSimpleName()).collect(Collectors.toList())));
 		List<List<String>> listValues = buttonNames.stream()
 				.map(index -> metadata.keySet().stream()
 						.map(name -> Stream.concat(Arrays.asList(new String[] { name }).stream(),
@@ -69,10 +70,10 @@ public class BenchmarkInvokerGUI {
 										.sorted((a1, a2) -> annotationClasses.indexOf(a1.annotationType())
 												- annotationClasses.indexOf(a2.annotationType()))
 										.map(a -> a.annotationType().getSimpleName()))
-								.toList())
-						.map(elem -> elem.get(buttonNames.indexOf(index))).toList())
-				.toList();
-		List<JList<Object>> categoryLists = listValues.stream().map(v -> makeList(v,listValues.indexOf(v) * itemwidth,0,itemwidth,height-buttonheight)).toList();
+								.collect(Collectors.toList()))
+						.map(elem -> elem.get(buttonNames.indexOf(index))).collect(Collectors.toList()))
+				.collect(Collectors.toList());
+		List<JList<Object>> categoryLists = listValues.stream().map(v -> makeList(v,listValues.indexOf(v) * itemwidth,0,itemwidth,height-buttonheight)).collect(Collectors.toList());
 		for(JList<Object> l : categoryLists) {
 			listPanel.add(l);
 		}
