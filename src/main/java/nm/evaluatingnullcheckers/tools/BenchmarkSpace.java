@@ -274,7 +274,10 @@ public class BenchmarkSpace {
         String str = null;
         try {
         for(str = reader.readLine(); str !=null;str = reader.readLine()) {
-        	benchmarks.add(Class.forName(packageName + "." + str.substring(0,str.lastIndexOf("."))));
+        	//Ignore subclasses
+        	if(!str.contains("$")) {
+        		benchmarks.add(Class.forName(packageName + "." + str.substring(0,str.lastIndexOf("."))));
+        	}
         }
         }catch(Exception e) {
         	e.printStackTrace();
