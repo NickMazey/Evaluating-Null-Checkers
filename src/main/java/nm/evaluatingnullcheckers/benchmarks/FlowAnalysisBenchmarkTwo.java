@@ -1,11 +1,10 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedural;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
 
@@ -18,18 +17,17 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
 @Interprocedural
 @ReturnSource
 @ObjectNPE
-@NPEProof
-public class BenchmarkFiftyOne {
+@NPEProne
+public class FlowAnalysisBenchmarkTwo {
+
 	class A{
-		@Nullable Object foo(@Nonnull Object obj) {
-			return obj;
+		@Nonnull Object foo() {
+			return null;
 		}
 	}
 	
 	public static void throwNPE() {
-		BenchmarkFiftyOne b = new BenchmarkFiftyOne();
-		b.new A().foo(new Object()).toString();
+		FlowAnalysisBenchmarkTwo b = new FlowAnalysisBenchmarkTwo();
+		b.new A().foo().toString();
 	}
-	
-	
 }

@@ -13,7 +13,8 @@ public class BenchmarkFourtyNineTest {
 	@Test
 	public void throwsNPE() {
 		assertThrows(NullPointerException.class,()->{
-			BenchmarkFourtyNine.throwNPE();
+			BenchmarkFourtyNine b = new BenchmarkFourtyNine();
+			b.new B().foo().toString();
 		});
 	}
 }
