@@ -7,18 +7,13 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
 import nm.precompiledclasses.AnnotationConversions;
 
-/**
- * 
- * @author Nick Mazey
- *
- */
 @Annotated
 @Interprocedural
 @ReturnSource
 @ObjectNPE
 @NPEProof
-public class BenchmarkFiftyThree {
+public class PrecompiledBenchmarkFive {
 	public static void throwNPE() {
-		AnnotationConversions.convertToNullable(new Object()).toString();
+		AnnotationConversions.getNonNullCorrectAnno().toString();
 	}
 }

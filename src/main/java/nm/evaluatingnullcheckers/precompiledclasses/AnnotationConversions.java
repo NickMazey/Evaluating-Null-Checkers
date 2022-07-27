@@ -10,14 +10,31 @@ import javax.annotation.Nullable;
  *
  */
 public class AnnotationConversions{
-
-	public static @Nullable Object convertToNullable(@Nonnull Object object) {
-		return object;
+	
+	public static Object getNull() {
+		return null;
 	}
 	
-	public static @Nonnull Object convertToNonNull(@Nullable Object object) {
-		return object;
+	public static Object getNonNull() {
+		return new Object();
 	}
+	
+	public static @Nullable Object getNullCorrectAnno() {
+		return null;
+	}
+	
+	public static @Nonnull Object getNullIncorrectAnno() {
+		return null;
+	}
+	
+	public static @Nonnull Object getNonNullCorrectAnno() {
+		return new Object();
+	}
+	
+	public static @Nullable Object getNonNullIncorrectAnno() {
+		return new Object();
+	}
+	
 	
 
 	

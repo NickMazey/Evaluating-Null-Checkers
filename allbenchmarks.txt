@@ -1,4 +1,6 @@
 nm/evaluatingnullcheckers/benchmarks/BenchmarkThirtyTwo.java
+nm/evaluatingnullcheckers/benchmarks/PrecompiledBenchmarkSix.java
+nm/evaluatingnullcheckers/benchmarks/PrecompiledBenchmarkOne.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkNineteen.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkFourty.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkThirtySix.java
@@ -20,6 +22,7 @@ nm/evaluatingnullcheckers/benchmarks/BenchmarkFiftyOne.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkTen.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkThirtyNine.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkEight.java
+nm/evaluatingnullcheckers/benchmarks/PrecompiledBenchmarkFive.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkTwenty.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkNine.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkTwentyTwo.java
@@ -32,6 +35,7 @@ nm/evaluatingnullcheckers/benchmarks/BenchmarkThirtyThree.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkFourtyOne.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkThree.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkTwentyFour.java
+nm/evaluatingnullcheckers/benchmarks/PrecompiledBenchmarkThree.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkThirteen.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkFourtyFive.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkTwo.java
@@ -41,15 +45,15 @@ nm/evaluatingnullcheckers/benchmarks/BenchmarkTwentySeven.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkTwentyEight.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkThirtySeven.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkSeventeen.java
+nm/evaluatingnullcheckers/benchmarks/PrecompiledBenchmarkFour.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkFourtyFour.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkTwentyNine.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkFourtyEight.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkThirtyFour.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkSixteen.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkThirtyOne.java
+nm/evaluatingnullcheckers/benchmarks/PrecompiledBenchmarkTwo.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkThirtyFive.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkFifty.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkTwelve.java
 nm/evaluatingnullcheckers/benchmarks/BenchmarkEighteen.java
-nm/evaluatingnullcheckers/benchmarks/BenchmarkFiftyTwo.java
-nm/evaluatingnullcheckers/benchmarks/BenchmarkFiftyThree.java

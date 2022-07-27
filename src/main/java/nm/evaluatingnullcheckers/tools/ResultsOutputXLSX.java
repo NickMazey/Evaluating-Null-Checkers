@@ -148,8 +148,8 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 	private XSSFCellStyle indexColour(XSSFWorkbook workbook,double value) {
 		XSSFCellStyle style = workbook.createCellStyle();
 		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-		int r = (int)((1.5-value) * 255.0);
-		int g = (int)((1.5-value)* 93.0) + 162;
+		int r = (int)((1 - value) * 255.0);
+		int g = (int)((1 - value)* 93.0) + 162;
 		int b = 255;
 		if(r > 255) {
 			r = 255;

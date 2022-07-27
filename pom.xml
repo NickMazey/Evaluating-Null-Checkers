@@ -278,7 +278,7 @@
 							<showWarnings>true</showWarnings>
 							<compilerArgs>
 								<arg>-XDcompilePolicy=simple</arg>
-								<arg>-Xplugin:ErrorProne -Xep:NullAway:ERROR -XepOpt:NullAway:AnnotatedPackages=nm.evaluatingnullcheckers.benchmarks -XepAllErrorsAsWarnings</arg>
+								<arg>-Xplugin:ErrorProne -XepDisableAllChecks -Xep:NullAway:ERROR -XepOpt:NullAway:AnnotatedPackages=nm.evaluatingnullcheckers.benchmarks -XepAllErrorsAsWarnings</arg>
 							</compilerArgs>
 							<annotationProcessorPaths>
 								<path>
