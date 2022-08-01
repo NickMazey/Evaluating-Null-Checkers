@@ -13,12 +13,9 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 @ObjectNPE
 @NPEProne
 public class BenchmarkTwentyFive {
-	/**
-	 * Method to throw an NPE
-	 * @return length of a null string
-	 */
-	public static int throwNPE() {
+
+	public static void throwNPE() {
 		String str = null;
-		return str.length();
+		int i = str.length();
 	}
 }

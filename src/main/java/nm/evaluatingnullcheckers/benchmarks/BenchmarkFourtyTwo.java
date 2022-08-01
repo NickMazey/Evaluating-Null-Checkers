@@ -19,10 +19,9 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 @ArrayNPE
 @NPEProof
 public class BenchmarkFourtyTwo {
-	public static Object FirstIndex(Object[] arr) {
+	public static void FirstIndex(Object[] arr) {
 		if(arr != null && arr.length != 0) {
-			return arr[0];
+			Object o = arr[0];
 		}
-		return null;
 	}
 }

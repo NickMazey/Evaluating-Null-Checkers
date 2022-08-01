@@ -21,12 +21,11 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
 @NPEProof
 public class BenchmarkFourteen {
 
-	public static int throwNPE() {
+	public static void throwNPE() {
 		@Nullable
 		int[] numbers = null;
 		if(numbers != null) {
-			return numbers[0];
+			int i = numbers[0];
 		}
-		return 0;
 	}
 }

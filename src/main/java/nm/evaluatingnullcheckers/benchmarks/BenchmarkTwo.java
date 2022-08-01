@@ -21,11 +21,10 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
 public class BenchmarkTwo {
 	/**
 	 * Method to throw an NPE
-	 * @return length of a null array
 	 */
-	public static int throwNPE() {
+	public static void throwNPE() {
 		@Nullable
 		int[] numbers = null;
-		return numbers[0];
+		int i = numbers[0];
 	}
 }

@@ -22,8 +22,8 @@ public class BenchmarkTwentySix {
 	 * Method to throw an NPE
 	 * @return length of a null array
 	 */
-	public static int throwNPE() {
+	public static void throwNPE() {
 		int[] numbers = null;
-		return numbers[0];
+		int i = numbers[0];
 	}
 }

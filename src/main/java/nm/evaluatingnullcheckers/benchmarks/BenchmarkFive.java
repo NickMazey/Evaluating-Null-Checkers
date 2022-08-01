@@ -19,7 +19,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
 @ObjectNPE
 @NPEProne
 public class BenchmarkFive {
-	public static int StringLength(@Nullable String str) {
-		return str.length();
+	public static void StringLength(@Nullable String str) {
+		int i = str.length();
 	}
 }

@@ -17,12 +17,11 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 @NPEProof
 public class BenchmarkThirteen {
 
-	public static int throwNPE() {
+	public static void throwNPE() {
 		@Nullable
 		String str = null;
 		if(str != null) {
-			return str.length();
+			str.length();
 		}
-		return 0;
 	}
 }

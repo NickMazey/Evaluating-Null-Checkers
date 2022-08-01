@@ -26,11 +26,10 @@ public class BenchmarkTwentyOne <T> {
 	
 	public BenchmarkTwentyOne() {}
 
-	public @Nullable String throwNPE() {
+	public void throwNPE() {
 		if(object != null) {
-		return object.toString();
+		object.toString();
 		}
-		return null;
 	}
 
 }

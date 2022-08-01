@@ -23,8 +23,8 @@ public class BenchmarkTwentySeven {
 	
 	public BenchmarkTwentySeven() {}
 	
-	public int throwNPE() {
-		return name.length();
+	public void throwNPE() {
+		int i = name.length();
 	}
 
 }

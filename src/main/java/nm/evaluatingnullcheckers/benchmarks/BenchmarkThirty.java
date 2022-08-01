@@ -19,7 +19,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 @ArrayNPE
 @NPEProne
 public class BenchmarkThirty {
-	public static Object FirstIndex(Object[] arr) {
-		return arr[0];
+	public static void FirstIndex(Object[] arr) {
+		Object o = arr[0];
 	}
 }

@@ -20,10 +20,9 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParamete
 @ArrayNPE
 @NPEProof
 public class BenchmarkEighteen {
-	public static @Nullable Object FirstIndex(@Nullable Object[] arr) {
+	public static void FirstIndex(@Nullable Object[] arr) {
 		if(arr != null && arr.length != 0) {
-			return arr[0];
+			@Nullable Object o = arr[0];
 		}
-		return null;
 	}
 }

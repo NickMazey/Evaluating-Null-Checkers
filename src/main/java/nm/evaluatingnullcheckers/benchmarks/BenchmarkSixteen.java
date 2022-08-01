@@ -25,10 +25,9 @@ public class BenchmarkSixteen {
 	
 	public BenchmarkSixteen() {}
 	
-	public int throwNPE() {
+	public void throwNPE() {
 		if(numbers != null) {
-			return numbers[0];
+			int i = numbers[0];
 		}
-		return 0;
 	}
 }

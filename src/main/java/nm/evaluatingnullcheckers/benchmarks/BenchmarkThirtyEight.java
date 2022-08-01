@@ -19,11 +19,10 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 @NPEProof
 public class BenchmarkThirtyEight {
 
-	public static int throwNPE() {
+	public static void throwNPE() {
 		int[] numbers = null;
 		if(numbers != null) {
-			return numbers[0];
+			int i = numbers[0];
 		}
-		return 0;
 	}
 }

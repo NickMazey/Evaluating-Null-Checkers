@@ -25,11 +25,10 @@ public class BenchmarkFifteen {
 	
 	public BenchmarkFifteen() {}
 	
-	public int throwNPE() {
+	public void throwNPE() {
 		if(name != null) {
-			return name.length();
+			int i = name.length();
 		}
-		return 0;
 	}
 
 }

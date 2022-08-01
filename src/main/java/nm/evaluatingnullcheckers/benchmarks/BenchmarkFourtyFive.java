@@ -25,11 +25,10 @@ public class BenchmarkFourtyFive <T> {
 	
 	public BenchmarkFourtyFive() {}
 
-	public String throwNPE() {
+	public void throwNPE() {
 		if(object != null) {
-		return object.toString();
+			object.toString();
 		}
-		return null;
 	}
 
 }

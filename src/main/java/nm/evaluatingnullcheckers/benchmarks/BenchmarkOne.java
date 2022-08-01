@@ -17,11 +17,10 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 public class BenchmarkOne {
 	/**
 	 * Method to throw an NPE
-	 * @return length of a null string
 	 */
-	public static int throwNPE() {
+	public static void throwNPE() {
 		@Nullable
 		String str = null;
-		return str.length();
+		str.length();
 	}
 }

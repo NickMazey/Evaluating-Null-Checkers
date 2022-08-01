@@ -23,11 +23,10 @@ public class BenchmarkThirtyNine {
 	
 	public BenchmarkThirtyNine() {}
 	
-	public int throwNPE() {
+	public void throwNPE() {
 		if(name != null) {
-			return name.length();
+			int i = name.length();
 		}
-		return 0;
 	}
 
 }

@@ -24,8 +24,8 @@ public class BenchmarkThree {
 	
 	public BenchmarkThree() {}
 	
-	public int throwNPE() {
-		return name.length();
+	public void throwNPE() {
+		int i = name.length();
 	}
 
 }

@@ -25,8 +25,8 @@ public class BenchmarkNine <T> {
 	
 	public BenchmarkNine() {}
 
-	public String throwNPE() {
-		return object.toString();
+	public void throwNPE() {
+		object.toString();
 	}
 
 }
