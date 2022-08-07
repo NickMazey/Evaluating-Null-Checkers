@@ -15,9 +15,6 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 @ObjectNPE
 @NPEProne
 public class BenchmarkOne {
-	/**
-	 * Method to throw an NPE
-	 */
 	public static void throwNPE() {
 		@Nullable
 		String str = null;

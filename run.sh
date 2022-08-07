@@ -7,21 +7,12 @@ Help()
 #Runs checkers
 RunChecker()
 {
-    shopt -s nocasematch
-    if [[ $CHECKER == "checkerframework" ]]
+    if [[ -f ${CHECKER}script.sh ]]
     then
-    mkdir -p $LOGLOCATION/checkerframework
-    ./checkerframeworkscript.sh $BENCHMARK $LOGLOCATION
-    fi
-    if [[ $CHECKER == "infer" ]]
-    then
-    mkdir -p $LOGLOCATION/infer
-    ./inferscript.sh $BENCHMARK $LOGLOCATION
-    fi
-    if [[ $CHECKER == "nullaway" ]]
-    then
-    mkdir -p $LOGLOCATION/nullaway
-    ./nullawayscript.sh $BENCHMARK $LOGLOCATION
+    mkdir -p $LOGLOCATION/$CHECKER
+    ./${CHECKER}script.sh $BENCHMARK $LOGLOCATION
+    else
+    echo "Exec script not found for ${CHECKER}"
     fi
 }
 
