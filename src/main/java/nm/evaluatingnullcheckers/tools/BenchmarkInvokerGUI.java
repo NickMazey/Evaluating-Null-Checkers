@@ -185,7 +185,7 @@ public class BenchmarkInvokerGUI {
             enabledBenches.keySet().stream().filter(e -> enabledBenches.get(e)).forEach(
                     e -> {
                         try {
-                            benchWriter.write(e + "\n");
+                            benchWriter.write("nm/evaluatingnullcheckers/benchmarks/" +e +".java" + "\n");
                         } catch (IOException ex) {
                         }
                     }
