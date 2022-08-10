@@ -1,30 +1,33 @@
 package nm.evaluatingnullcheckers.tools;
 
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
+import org.apache.maven.shared.invoker.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
-import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
-import org.apache.maven.shared.invoker.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class BenchmarkInvokerGUI {
 
-    private ArrayList<Class<?>> annotationClasses;
+    private final ArrayList<Class<?>> annotationClasses;
     private HashMap<String, Boolean> enabledBenches;
     private JTable benchSortTable;
     private boolean blockingBench = false;
@@ -46,12 +49,12 @@ public class BenchmarkInvokerGUI {
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
     private static final SimpleDateFormat logTimeFormat = new SimpleDateFormat("HH:mm:ss");
     private Thread benchmarkThread;
-    private JFrame masterFrame;
+    private final JFrame masterFrame;
 
 
     public BenchmarkInvokerGUI() {
         benchmarkThread = new Thread();
-        annotationClasses = new ArrayList<Class<?>>();
+        annotationClasses = new ArrayList<>();
         annotationClasses.addAll(Arrays.asList(new Class<?>[]{BenchmarkAnnotations.Annotation.class,
                 BenchmarkAnnotations.AnalysisScope.class, BenchmarkAnnotations.VariableScope.class,
                 BenchmarkAnnotations.VariableType.class, BenchmarkAnnotations.ExpectedNPE.class}));
@@ -84,12 +87,13 @@ public class BenchmarkInvokerGUI {
     private JScrollPane logPane() {
         logArea = new JTextArea();
         logArea.setEditable(false);
+        logArea.setLineWrap(true);
         logScrollPane = new JScrollPane(logArea);
         logScrollPane.setBorder(BorderFactory.createTitledBorder("Log"));
         logScrollPane.setVisible(false);
         logStream = new PrintStream(new OutputStream() {
             @Override
-            public void write(int b) throws IOException {
+            public void write(int b) {
                 logArea.append(new String(new byte[]{(byte) b}));
             }
         }) {
@@ -102,7 +106,7 @@ public class BenchmarkInvokerGUI {
         return logScrollPane;
     }
 
-    private JPanel configPanel(){
+    private JPanel configPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -112,7 +116,7 @@ public class BenchmarkInvokerGUI {
         constraints.gridx = 0;
         constraints.gridy = 0;
         panel.add(configSortPanel(), constraints);
-        constraints.weightx = 1.0;
+        constraints.weightx = 0.5;
         constraints.weighty = 1.0;
         constraints.gridx = 1;
         constraints.gridy = 0;
@@ -121,7 +125,7 @@ public class BenchmarkInvokerGUI {
         return panel;
     }
 
-    private JPanel controls(){
+    private JPanel controls() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -133,43 +137,33 @@ public class BenchmarkInvokerGUI {
         constraints.gridy = 0;
         panel.add(executeButton(), constraints);
         constraints.weightx = 1.0;
-        constraints.weightx = 1.0;
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.fill = GridBagConstraints.VERTICAL;
         constraints.gridx = 1;
         constraints.gridy = 0;
         JButton toggleLog = new JButton("Show/Hide Log");
-        toggleLog.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                logScrollPane.setVisible(!logScrollPane.isVisible());
-                masterFrame.getContentPane().revalidate();
-                masterFrame.getContentPane().repaint();
-            }
+        toggleLog.addActionListener(e -> {
+            logScrollPane.setVisible(!logScrollPane.isVisible());
+            masterFrame.getContentPane().revalidate();
+            masterFrame.getContentPane().repaint();
         });
-        panel.add(toggleLog,constraints);
+        panel.add(toggleLog, constraints);
         return panel;
     }
 
     private JButton executeButton() {
         executeBenchmark = new JButton("Evaluate Null Checkers \u2713");
-        executeBenchmark.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!executing && validConfiguration && !benchmarkThread.isAlive()) {
-                    executing = true;
-                    Runnable r = new Runnable() {
-                        @Override
-                        public void run() {
-                            invokeBenchmark();
-                            executing = false;
-                            validate();
-                        }
-                    };
-                    benchmarkThread = new Thread(r);
-                    benchmarkThread.start();
+        executeBenchmark.addActionListener(e -> {
+            if (!executing && validConfiguration && !benchmarkThread.isAlive()) {
+                executing = true;
+                Runnable r = () -> {
+                    invokeBenchmark();
+                    executing = false;
                     validate();
-                }
+                };
+                benchmarkThread = new Thread(r);
+                benchmarkThread.start();
+                validate();
             }
         });
         return executeBenchmark;
@@ -185,8 +179,9 @@ public class BenchmarkInvokerGUI {
             enabledBenches.keySet().stream().filter(e -> enabledBenches.get(e)).forEach(
                     e -> {
                         try {
-                            benchWriter.write("nm/evaluatingnullcheckers/benchmarks/" +e +".java" + "\n");
+                            benchWriter.write("nm/evaluatingnullcheckers/benchmarks/" + e + ".java" + "\n");
                         } catch (IOException ex) {
+                            ex.printStackTrace(logStream);
                         }
                     }
             );
@@ -197,6 +192,7 @@ public class BenchmarkInvokerGUI {
                         try {
                             checkerWriter.write(e.name().toLowerCase() + "\n");
                         } catch (IOException ex) {
+                            ex.printStackTrace(logStream);
                         }
                     }
             );
@@ -210,7 +206,7 @@ public class BenchmarkInvokerGUI {
                 }
             } catch (IOException e) {
                 e.printStackTrace(logStream);
-            };
+            }
             p.waitFor();
             logStream.println("Raw checker output available at: " + logFolder + "/checkeroutput");
             InvocationRequest request = new DefaultInvocationRequest();
@@ -235,7 +231,7 @@ public class BenchmarkInvokerGUI {
                     e -> {
                         try {
                             Class<? extends ResultsOutput> outclass = (Class<? extends ResultsOutput>) Class.forName("nm.evaluatingnullcheckers.tools.ResultsOutput" + e);
-                            ResultsOutput o = outclass.getDeclaredConstructor().newInstance();
+                            ResultsOutput<?> o = outclass.getDeclaredConstructor().newInstance();
                             String outFilePath = logFolder + "/resultsoutput" + timestamp + "." + e.toLowerCase();
                             File outFile = new File(outFilePath);
                             FileWriter outWriter = new FileWriter(outFile);
@@ -255,17 +251,17 @@ public class BenchmarkInvokerGUI {
                             }
                             logStream.println(
                                     "Results available at: " + outFilePath);
-                        } catch (ClassNotFoundException ex) {
-                            ex.printStackTrace(logStream);
-                        } catch (InvocationTargetException ex) {
-                            ex.printStackTrace(logStream);
-                        } catch (InstantiationException ex) {
-                            ex.printStackTrace(logStream);
                         } catch (IllegalAccessException ex) {
                             ex.printStackTrace(logStream);
                         } catch (NoSuchMethodException ex) {
                             ex.printStackTrace(logStream);
                         } catch (IOException ex) {
+                            ex.printStackTrace(logStream);
+                        } catch (ClassNotFoundException ex) {
+                            ex.printStackTrace(logStream);
+                        } catch (InvocationTargetException ex) {
+                            ex.printStackTrace(logStream);
+                        } catch (InstantiationException ex) {
                             ex.printStackTrace(logStream);
                         }
                     }
@@ -277,9 +273,9 @@ public class BenchmarkInvokerGUI {
             e.printStackTrace(logStream);
         } catch (MavenInvocationException e) {
             e.printStackTrace(logStream);
-        } catch(NoClassDefFoundError e){
+        } catch (NoClassDefFoundError e) {
             e.printStackTrace(logStream);
-        } finally{
+        } finally {
             //Cleanup
             benchmarkList.delete();
             checkerList.delete();
@@ -289,13 +285,10 @@ public class BenchmarkInvokerGUI {
 
     private void validate() {
         validConfiguration = false;
-        enabledBenches.values().stream().filter(b -> b).findFirst().ifPresent(
-                (b) -> enabledCheckers.values().stream().filter(c -> c).findFirst().ifPresent(
-                        (c) -> enabledFormats.values().stream().filter(f -> f).findFirst().ifPresent(
-                                (f) -> validConfiguration = !executing
-                        )
-                )
-        );
+        enabledBenches.values().stream().filter(b -> b).findFirst()
+                .flatMap(b -> enabledCheckers.values().stream().filter(c -> c).findFirst())
+                .flatMap(c -> enabledFormats.values().stream().filter(f -> f).findFirst())
+                .ifPresent((f) -> validConfiguration = !executing);
         executeBenchmark.setText("Evaluate Null Checkers " + (validConfiguration ? "\u2713" : "\u2613"));
     }
 
@@ -388,9 +381,9 @@ public class BenchmarkInvokerGUI {
 
     private JScrollPane benchmarkSortPanel() {
         HashMap<String, ArrayList<Annotation>> metadata = InvokerUtils
-                .getMetadata(new ArrayList<String>(BenchmarkSpace.getAllBenchmarkClasses().stream()
+                .getMetadata(new ArrayList<>(BenchmarkSpace.getAllBenchmarkClasses().stream()
                         .map(c -> c.getSimpleName()).collect(Collectors.toList())));
-        enabledBenches = new HashMap<String, Boolean>();
+        enabledBenches = new HashMap<>();
         metadata.keySet().stream().forEach(e -> enabledBenches.put(e, true));
 
         List<List<String>> listValuesHorizontal = metadata.keySet().stream()
@@ -411,8 +404,8 @@ public class BenchmarkInvokerGUI {
                 }
             }
         }
-        String[] columnNames = Stream.concat(Arrays.asList(new String[]{"Enabled", "Name"}).stream(),
-                annotationClasses.stream().map(c -> c.getSimpleName())).collect(Collectors.toList()).toArray(new String[]{});
+        String[] columnNames = Stream.concat(Arrays.stream(new String[]{"Enabled", "Name"}),
+                annotationClasses.stream().map(Class::getSimpleName)).collect(Collectors.toList()).toArray(new String[]{});
         benchSortTable = new JTable(data, columnNames);
         benchSortTable.setModel(new DefaultTableModel(data, columnNames) {
             @Override
@@ -423,21 +416,18 @@ public class BenchmarkInvokerGUI {
         benchSortTable.setAutoCreateRowSorter(true);
         benchSortTable.getTableHeader().setReorderingAllowed(false);
 
-        benchSortTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting() && !blockingBench) {
-                    blockingBench = true;
-                    if (e.getFirstIndex() == lastBenchIndex) {
-                        lastBenchIndex = e.getLastIndex();
-                    } else {
-                        lastBenchIndex = e.getFirstIndex();
-                    }
-                    String benchName = benchSortTable.getValueAt(lastBenchIndex, 1).toString();
-                    enabledBenches.put(benchName, !enabledBenches.get(benchName));
-                    updateBenchmarkTableData();
-                    blockingBench = false;
+        benchSortTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && !blockingBench) {
+                blockingBench = true;
+                if (e.getFirstIndex() == lastBenchIndex) {
+                    lastBenchIndex = e.getLastIndex();
+                } else {
+                    lastBenchIndex = e.getFirstIndex();
                 }
+                String benchName = benchSortTable.getValueAt(lastBenchIndex, 1).toString();
+                enabledBenches.put(benchName, !enabledBenches.get(benchName));
+                updateBenchmarkTableData();
+                blockingBench = false;
             }
         });
         return new JScrollPane(benchSortTable);
@@ -454,7 +444,7 @@ public class BenchmarkInvokerGUI {
     }
 
     private JScrollPane checkerSortTable() {
-        enabledCheckers = new HashMap<InvokerUtils.KnownChecker, Boolean>();
+        enabledCheckers = new HashMap<>();
         Arrays.stream(InvokerUtils.KnownChecker.values()).forEach(c -> enabledCheckers.put(c, true));
         String[] columnNames = new String[]{"Enabled", "Name"};
         String[][] data = new String[InvokerUtils.KnownChecker.values().length][2];
@@ -476,22 +466,19 @@ public class BenchmarkInvokerGUI {
         });
         checkerSortTable.setAutoCreateRowSorter(true);
         checkerSortTable.getTableHeader().setReorderingAllowed(false);
-        checkerSortTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting() && !blockingChecker) {
-                    blockingChecker = true;
-                    if (e.getFirstIndex() == lastCheckerIndex) {
-                        lastCheckerIndex = e.getLastIndex();
-                    } else {
-                        lastCheckerIndex = e.getFirstIndex();
-                    }
-                    String checkerName = checkerSortTable.getValueAt(lastCheckerIndex, 1).toString();
-                    InvokerUtils.KnownChecker checker = InvokerUtils.KnownChecker.valueOf(checkerName);
-                    enabledCheckers.put(checker, !enabledCheckers.get(checker));
-                    updateCheckerTableData();
-                    blockingChecker = false;
+        checkerSortTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && !blockingChecker) {
+                blockingChecker = true;
+                if (e.getFirstIndex() == lastCheckerIndex) {
+                    lastCheckerIndex = e.getLastIndex();
+                } else {
+                    lastCheckerIndex = e.getFirstIndex();
                 }
+                String checkerName = checkerSortTable.getValueAt(lastCheckerIndex, 1).toString();
+                InvokerUtils.KnownChecker checker = InvokerUtils.KnownChecker.valueOf(checkerName);
+                enabledCheckers.put(checker, !enabledCheckers.get(checker));
+                updateCheckerTableData();
+                blockingChecker = false;
             }
         });
 
@@ -518,12 +505,9 @@ public class BenchmarkInvokerGUI {
         c.gridy = 0;
         c.fill = GridBagConstraints.HORIZONTAL;
         JButton selectAll = new JButton("Enable All");
-        selectAll.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                enabledBenches.keySet().forEach(e -> enabledBenches.put(e, true));
-                updateBenchmarkTableData();
-            }
+        selectAll.addActionListener(actionEvent -> {
+            enabledBenches.keySet().forEach(e -> enabledBenches.put(e, true));
+            updateBenchmarkTableData();
         });
         buttonPanel.add(selectAll, c);
         c.weighty = 1.0;
@@ -532,16 +516,79 @@ public class BenchmarkInvokerGUI {
         c.gridy = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         JButton clearSelect = new JButton("Disable All");
-        clearSelect.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                enabledBenches.keySet().forEach(e -> enabledBenches.put(e, false));
-                updateBenchmarkTableData();
-            }
+        clearSelect.addActionListener(actionEvent -> {
+            enabledBenches.keySet().forEach(e -> enabledBenches.put(e, false));
+            updateBenchmarkTableData();
         });
         buttonPanel.add(clearSelect, c);
+        c.weighty = 1.0;
+        c.weightx = 1.0;
+        c.gridx = 0;
+        c.gridy = 2;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.SOUTH;
+        buttonPanel.add(filterBenchmarks(), c);
         return buttonPanel;
 
+    }
+
+    private JPanel filterBenchmarks() {
+        JPanel filterPanel = new JPanel();
+        JComboBox<Object> filterBy = new JComboBox<>(
+                IntStream.range(0, benchSortTable.getColumnCount() - 1).mapToObj(i -> benchSortTable.getColumnName(i + 1)).toArray()
+        );
+        filterPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "Filter"));
+        filterPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.weighty = 1.0;
+        c.weightx = 1.0;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        JTextField filter = new JTextField();
+        filter.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                //filterBenchmarks((str)->str.toLowerCase().contains(filter.getText().toLowerCase()),filterBy.getSelectedIndex() + 1);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                filterBenchmarks((str) -> str.toLowerCase().contains(filter.getText().toLowerCase()), filterBy.getSelectedIndex() + 1);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                filterBenchmarks((str) -> str.toLowerCase().contains(filter.getText().toLowerCase()), filterBy.getSelectedIndex() + 1);
+            }
+        });
+        filterPanel.add(filter, c);
+        c.weightx = 1.0;
+        c.weighty = 1.0;
+        c.gridx = 0;
+        c.gridy = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        filterPanel.add(filterBy, c);
+        filterBy.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                filterBenchmarks((str)->str.toLowerCase().contains(filter.getText().toLowerCase()),filterBy.getSelectedIndex() + 1);
+            }
+        });
+        return filterPanel;
+
+    }
+
+    private void filterBenchmarks(Predicate<String> pred, int column) {
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(benchSortTable.getModel());
+        sorter.setRowFilter(new RowFilter<>() {
+            @Override
+            public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
+                int row = entry.getIdentifier();
+                return pred.test(entry.getModel().getValueAt(row, column).toString());
+            }
+        });
+        benchSortTable.setRowSorter(sorter);
     }
 
     private JPanel checkerListButtons() {
@@ -554,12 +601,9 @@ public class BenchmarkInvokerGUI {
         c.gridy = 0;
         c.fill = GridBagConstraints.HORIZONTAL;
         JButton selectAll = new JButton("Enable All");
-        selectAll.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                enabledCheckers.keySet().forEach(e -> enabledCheckers.put(e, true));
-                updateCheckerTableData();
-            }
+        selectAll.addActionListener(actionEvent -> {
+            enabledCheckers.keySet().forEach(e -> enabledCheckers.put(e, true));
+            updateCheckerTableData();
         });
         buttonPanel.add(selectAll, c);
         c.weighty = 1.0;
@@ -568,12 +612,9 @@ public class BenchmarkInvokerGUI {
         c.gridy = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         JButton clearSelect = new JButton("Disable All");
-        clearSelect.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                enabledCheckers.keySet().forEach(e -> enabledCheckers.put(e, false));
-                updateCheckerTableData();
-            }
+        clearSelect.addActionListener(actionEvent -> {
+            enabledCheckers.keySet().forEach(e -> enabledCheckers.put(e, false));
+            updateCheckerTableData();
         });
         buttonPanel.add(clearSelect, c);
 
@@ -582,8 +623,8 @@ public class BenchmarkInvokerGUI {
     }
 
     private JScrollPane formatSortTable() {
-        enabledFormats = new HashMap<String, Boolean>();
-        List<String> formats = new ArrayList<String>();
+        enabledFormats = new HashMap<>();
+        List<String> formats = new ArrayList<>();
         String packageName = "nm.evaluatingnullcheckers.tools";
         InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("[.]", "/"));
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
@@ -601,7 +642,7 @@ public class BenchmarkInvokerGUI {
         if (enabledFormats.containsKey("CSV")) {
             enabledFormats.put("CSV", true);
         }
-        formats = formats.stream().sorted((e1, e2) -> e1.compareTo(e2)).collect(Collectors.toList());
+        formats = formats.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList());
         String[] columnNames = new String[]{"Enabled", "Format"};
         String[][] data = new String[enabledFormats.keySet().size()][2];
         for (int i = 0; i < data.length; i++) {
@@ -622,21 +663,18 @@ public class BenchmarkInvokerGUI {
         });
         formatSortTable.setAutoCreateRowSorter(true);
         formatSortTable.getTableHeader().setReorderingAllowed(false);
-        formatSortTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting() && !blockingFormat) {
-                    blockingFormat = true;
-                    if (e.getFirstIndex() == lastFormatIndex) {
-                        lastFormatIndex = e.getLastIndex();
-                    } else {
-                        lastFormatIndex = e.getFirstIndex();
-                    }
-                    String format = formatSortTable.getValueAt(lastFormatIndex, 1).toString();
-                    enabledFormats.put(format, !enabledFormats.get(format));
-                    updateFormatTableData();
-                    blockingFormat = false;
+        formatSortTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && !blockingFormat) {
+                blockingFormat = true;
+                if (e.getFirstIndex() == lastFormatIndex) {
+                    lastFormatIndex = e.getLastIndex();
+                } else {
+                    lastFormatIndex = e.getFirstIndex();
                 }
+                String format = formatSortTable.getValueAt(lastFormatIndex, 1).toString();
+                enabledFormats.put(format, !enabledFormats.get(format));
+                updateFormatTableData();
+                blockingFormat = false;
             }
         });
 
@@ -653,12 +691,9 @@ public class BenchmarkInvokerGUI {
         c.gridy = 0;
         c.fill = GridBagConstraints.HORIZONTAL;
         JButton selectAll = new JButton("Enable All");
-        selectAll.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                enabledFormats.keySet().forEach(e -> enabledFormats.put(e, true));
-                updateFormatTableData();
-            }
+        selectAll.addActionListener(actionEvent -> {
+            enabledFormats.keySet().forEach(e -> enabledFormats.put(e, true));
+            updateFormatTableData();
         });
         buttonPanel.add(selectAll, c);
         c.weighty = 1.0;
@@ -667,12 +702,9 @@ public class BenchmarkInvokerGUI {
         c.gridy = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         JButton clearSelect = new JButton("Disable All");
-        clearSelect.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                enabledFormats.keySet().forEach(e -> enabledFormats.put(e, false));
-                updateFormatTableData();
-            }
+        clearSelect.addActionListener(actionEvent -> {
+            enabledFormats.keySet().forEach(e -> enabledFormats.put(e, false));
+            updateFormatTableData();
         });
         buttonPanel.add(clearSelect, c);
 
@@ -692,7 +724,7 @@ public class BenchmarkInvokerGUI {
 
 
     public static void main(String[] arg) {
-        BenchmarkInvokerGUI b = new BenchmarkInvokerGUI();
+        new BenchmarkInvokerGUI();
     }
 
 }
