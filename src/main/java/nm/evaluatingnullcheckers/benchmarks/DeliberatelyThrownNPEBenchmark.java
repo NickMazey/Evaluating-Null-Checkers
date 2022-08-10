@@ -1,6 +1,6 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
@@ -12,7 +12,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
  * @author Nick Mazey
  *
  */
-@BenchmarkAnnotations.Nonannotated
+@Nonannotated
 @Intraprocedural
 @LocalSource
 @ObjectNPE
