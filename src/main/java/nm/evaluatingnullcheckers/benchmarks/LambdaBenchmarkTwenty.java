@@ -5,7 +5,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 import java.util.function.Supplier;
 
 /**
- * Lambda version of BenchmarkThirtyFour
+ * Null-guarded version of LambdaBenchmarkNine
  * @author Nick Mazey
  *
  */
@@ -13,12 +13,15 @@ import java.util.function.Supplier;
 @Interprocedural
 @ReturnSource
 @ObjectNPE
-@NPEProne
-public class LambdaBenchmarkNine {
+@NPEProof
+public class LambdaBenchmarkTwenty {
 	
 	private static Supplier<Object> getObject = ()->null;
 	
 	public static Runnable throwNPE = ()->{
-		getObject.get().toString();
+		Object o = getObject.get();
+		if(o != null) {
+			o.toString();
+		}
 	};
 }

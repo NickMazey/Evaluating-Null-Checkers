@@ -6,7 +6,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 import java.util.function.Supplier;
 
 /**
- * Lambda version of BenchmarkThirtyFive
+ * Null-guarded version of LambdaBenchmarkTen
  * 
  * @author Nick Mazey
  *
@@ -15,12 +15,15 @@ import java.util.function.Supplier;
 @Interprocedural
 @ReturnSource
 @ArrayNPE
-@NPEProne
-public class LambdaBenchmarkThirtyFive {
+@NPEProof
+public class LambdaBenchmarkTwentyOne {
 	
 	private static Supplier<Object[]> getArray = ()->null;
 	
 	public static Runnable throwNPE = ()-> {
-		Object obj = getArray.get()[0];
+		Object[] arr = getArray.get();
+		if(arr != null && arr.length > 0) {
+			Object obj = getArray.get()[0];
+		}
 	};
 }

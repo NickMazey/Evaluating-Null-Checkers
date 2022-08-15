@@ -6,15 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 /**
- * JUnit test to validate that LambdaBenchmarkThirtyFive can throw an NPE
+ * JUnit test to validate that LambdaBenchmarkEleven can throw an NPE
  * @author Nick Mazey
  *
  */
-public class LambdaBenchmarkThirtyFiveTest {
+public class LambdaBenchmarkElevenTest {
 	@Test
 	public void throwsNPE() {
 		assertThrows(NullPointerException.class,()->{
-			LambdaBenchmarkThirtyFive.throwNPE.run();
+			LambdaBenchmarkEleven.throwNPE.run();
 		});
 	}
 }

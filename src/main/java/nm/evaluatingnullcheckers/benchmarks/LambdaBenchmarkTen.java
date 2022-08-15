@@ -1,24 +1,26 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
+
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 
 import java.util.function.Supplier;
 
 /**
- * Lambda version of BenchmarkThirtyFour
+ * Lambda version of BenchmarkThirtyFive
+ * 
  * @author Nick Mazey
  *
  */
-@Annotated
+@Nonannotated
 @Interprocedural
 @ReturnSource
-@ObjectNPE
+@ArrayNPE
 @NPEProne
-public class LambdaBenchmarkThirtyFour {
+public class LambdaBenchmarkTen {
 	
-	private static Supplier<Object> getObject = ()->null;
+	private static Supplier<Object[]> getArray = ()->null;
 	
-	public static Runnable throwNPE = ()->{
-		getObject.get().toString();
+	public static Runnable throwNPE = ()-> {
+		Object obj = getArray.get()[0];
 	};
 }
