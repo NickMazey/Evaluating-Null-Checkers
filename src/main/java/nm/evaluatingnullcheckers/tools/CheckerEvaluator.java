@@ -61,6 +61,8 @@ public class CheckerEvaluator {
 								expectedOutputs.put(subjectName, CheckerOutput.VULNERABLE);
 							} else if (annotation.annotationType().equals(BenchmarkAnnotations.NPEProof.class)) {
 								expectedOutputs.put(subjectName, CheckerOutput.SAFE);
+							} else{
+								expectedOutputs.put(subjectName,CheckerOutput.ERROR);
 							}
 						}
 					}
@@ -170,7 +172,7 @@ public class CheckerEvaluator {
 	 * @return - Flag corresponding to checker accuracy
 	 */
 	public static Flag getFlag(CheckerOutput expectedOutput, CheckerOutput reportOutput) {
-		if (reportOutput != CheckerOutput.ERROR) {
+		if (reportOutput != CheckerOutput.ERROR && expectedOutput != null) {
 			boolean correct = expectedOutput == reportOutput;
 			switch (expectedOutput) {
 			case VULNERABLE:
