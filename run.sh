@@ -51,7 +51,7 @@ IterateThroughCheckers(){
     #fi
     BENCHINDEX=$(($BENCHINDEX+1))
     echo -ne "Evaluating Benchmark $BENCHINDEX of $BENCHNUM ($((($BENCHINDEX*100)/($BENCHNUM)))%)\r"
-    #RunChecker
+    RunChecker
     
     done
     echo -ne "\n"
