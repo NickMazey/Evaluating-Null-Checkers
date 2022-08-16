@@ -51,7 +51,7 @@ IterateThroughCheckers(){
     #fi
     BENCHINDEX=$(($BENCHINDEX+1))
     echo -ne "Evaluating Benchmark $BENCHINDEX of $BENCHNUM ($((($BENCHINDEX*100)/($BENCHNUM)))%)\r"
-    RunChecker
+    #RunChecker
     
     done
     echo -ne "\n"
@@ -69,7 +69,11 @@ else
     if [ -z $LOGLOCATION ]; then echo "NO log location specified, exiting"; exit 0; fi
     CHECKERS=$(cat $CHECKERLISTFILE)
     BENCHMARKS=$(cat $BENCHMARKLISTFILE)
-    BENCHNUM=$(wc -l < "$BENCHMARKLISTFILE")
+    BENCHNUM=0
+    for BENCHMARK in $BENCHMARKS
+    do
+    BENCHNUM=$((BENCHNUM + 1))
+    done
     OSVERSION=`uname -r`
     echo "Running on:"
     echo "$OSTYPE ($OSVERSION)"
