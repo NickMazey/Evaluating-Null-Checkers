@@ -36,6 +36,8 @@ IterateThroughCheckers(){
     for CHECKER in $CHECKERS
     do
     mvn clean -q
+    echo "($CHECKER)"
+    BENCHINDEX=0
     for BENCHMARK in $BENCHMARKS
     do
     #Compiles benchmarks in parallel
@@ -47,8 +49,12 @@ IterateThroughCheckers(){
     #else
     #RunChecker
     #fi
+    BENCHINDEX=$(($BENCHINDEX+1))
+    echo -ne "Evaluating Benchmark $BENCHINDEX of $BENCHNUM ($((($BENCHINDEX*100)/($BENCHNUM)))%)\r"
     RunChecker
+    
     done
+    echo -ne "\n"
     wait
     done
 }
@@ -63,6 +69,7 @@ else
     if [ -z $LOGLOCATION ]; then echo "NO log location specified, exiting"; exit 0; fi
     CHECKERS=$(cat $CHECKERLISTFILE)
     BENCHMARKS=$(cat $BENCHMARKLISTFILE)
+    BENCHNUM=$(wc -l < "$BENCHMARKLISTFILE")
     OSVERSION=`uname -r`
     echo "Running on:"
     echo "$OSTYPE ($OSVERSION)"
