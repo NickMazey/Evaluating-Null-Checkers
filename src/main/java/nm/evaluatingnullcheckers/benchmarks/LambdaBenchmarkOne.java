@@ -16,6 +16,7 @@ import javax.annotation.Nullable;
 @LocalSource
 @ObjectNPE
 @NPEProne
+@Lambda
 public class LambdaBenchmarkOne {
     public static Runnable throwNPE = ()->{
         @Nullable

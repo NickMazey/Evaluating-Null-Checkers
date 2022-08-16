@@ -57,7 +57,7 @@ public class BenchmarkInvokerGUI {
         annotationClasses = new ArrayList<>();
         annotationClasses.addAll(Arrays.asList(new Class<?>[]{BenchmarkAnnotations.Annotation.class,
                 BenchmarkAnnotations.AnalysisScope.class, BenchmarkAnnotations.VariableScope.class,
-                BenchmarkAnnotations.VariableType.class, BenchmarkAnnotations.ExpectedNPE.class}));
+                BenchmarkAnnotations.VariableType.class, BenchmarkAnnotations.ExpectedNPE.class,BenchmarkAnnotations.Style.class}));
         masterFrame = new JFrame();
         Container pane = masterFrame.getContentPane();
         setupGUI(pane);

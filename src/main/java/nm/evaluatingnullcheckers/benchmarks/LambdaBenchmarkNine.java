@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 @ReturnSource
 @ObjectNPE
 @NPEProne
+@Lambda
 public class LambdaBenchmarkNine {
 	
 	private static Supplier<Object> getObject = ()->null;

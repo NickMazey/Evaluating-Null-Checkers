@@ -6,6 +6,8 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedura
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
+
 
 /**
  * Non-annotated version of benchmarktwentytwo
@@ -18,6 +20,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
 @ReturnSource
 @ObjectNPE
 @NPEProof
+@Imperative
 public class BenchmarkFourtySix {
 	
 	private static Object getObject() {

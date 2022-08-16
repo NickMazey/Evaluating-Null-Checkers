@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 @LocalSource
 @ObjectNPE
 @NPEProof
+@Imperative
 public class ExceptionBenchmarkOne {
     public static void preventNPE(@Nullable Object obj){
         if(obj == null){

@@ -15,6 +15,7 @@ import java.util.function.Consumer;
 @MethodParameterSource
 @ArrayNPE
 @NPEProof
+@Lambda
 public class LambdaBenchmarkSeventeen {
 	public static Consumer<Object[]> FirstIndex = (@Nullable Object[] arr) ->{
 		if(arr != null && arr.length > 0) {

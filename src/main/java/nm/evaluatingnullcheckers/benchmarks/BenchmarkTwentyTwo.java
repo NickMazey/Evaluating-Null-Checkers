@@ -7,6 +7,8 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
+
 
 /**
  * Null-guarded version of benchmarkten
@@ -19,6 +21,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
 @ReturnSource
 @ObjectNPE
 @NPEProof
+@Imperative
 public class BenchmarkTwentyTwo {
 	
 	private static @Nullable Object getObject() {

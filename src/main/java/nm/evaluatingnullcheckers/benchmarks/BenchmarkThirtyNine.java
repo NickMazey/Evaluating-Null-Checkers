@@ -6,6 +6,8 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.FieldSource;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
+
 
 /**
  * Non-annotated version of benchmarkfifteen
@@ -18,6 +20,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
 @FieldSource
 @ObjectNPE
 @NPEProof
+@Imperative
 public class BenchmarkThirtyNine {
 	String name = null;
 	

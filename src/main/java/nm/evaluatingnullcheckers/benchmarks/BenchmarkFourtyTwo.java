@@ -6,6 +6,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParameterSource;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 
 /**
  * Non-annotated version of benchmarkeighteen
@@ -18,6 +19,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 @MethodParameterSource
 @ArrayNPE
 @NPEProof
+@Imperative
 public class BenchmarkFourtyTwo {
 	public static void FirstIndex(Object[] arr) {
 		if(arr != null && arr.length != 0) {

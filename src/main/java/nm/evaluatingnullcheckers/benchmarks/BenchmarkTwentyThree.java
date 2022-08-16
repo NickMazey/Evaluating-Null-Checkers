@@ -7,6 +7,8 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
+
 
 /**
  * Null-guarded version of benchmarkeleven
@@ -19,6 +21,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
 @ReturnSource
 @ArrayNPE
 @NPEProof
+@Imperative
 public class BenchmarkTwentyThree {
 	
 	private static @Nullable Object[] getArray() {

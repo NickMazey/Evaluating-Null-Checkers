@@ -7,6 +7,8 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
+
 
 /**
  * 
@@ -18,6 +20,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
 @LocalSource
 @ArrayNPE
 @NPEProne
+@Imperative
 public class BenchmarkTwo {
 	/**
 	 * Method to throw an NPE

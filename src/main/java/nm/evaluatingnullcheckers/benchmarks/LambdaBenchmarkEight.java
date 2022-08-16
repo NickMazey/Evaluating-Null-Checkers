@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 @FieldSource
 @GenericsNPE
 @NPEProne
+@Lambda
 public class LambdaBenchmarkEight<T> {
 
 	@Nullable T object = null;

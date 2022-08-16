@@ -14,6 +14,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 @LocalSource
 @ObjectNPE
 @NPEProne
+@Imperative
 public class BenchmarkOne {
 	public static void throwNPE() {
 		@Nullable

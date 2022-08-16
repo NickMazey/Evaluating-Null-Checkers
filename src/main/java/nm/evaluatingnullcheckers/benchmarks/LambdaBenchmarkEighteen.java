@@ -15,6 +15,7 @@ import java.util.function.Consumer;
 @MethodParameterSource
 @GenericsNPE
 @NPEProof
+@Lambda
 public class LambdaBenchmarkEighteen {
 
 	public static Consumer<? extends Object> throwNPE = (@Nullable Object object) ->{

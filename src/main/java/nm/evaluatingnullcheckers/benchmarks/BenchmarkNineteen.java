@@ -7,6 +7,8 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.GenericsNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParameterSource;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
+
 
 /**
  * Null-guarded version of benchmarkseven
@@ -19,6 +21,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParamete
 @MethodParameterSource
 @GenericsNPE
 @NPEProof
+@Imperative
 public class BenchmarkNineteen {
 
 	public static <T> void throwNPE(@Nullable T object){

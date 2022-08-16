@@ -5,6 +5,8 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.GenericsNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParameterSource;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
+
 
 /**
  * Non-annotated version of benchmarkseven
@@ -17,6 +19,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 @MethodParameterSource
 @GenericsNPE
 @NPEProne
+@Imperative
 public class BenchmarkThirtyOne {
 
 	public static <T> void throwNPE(T object){

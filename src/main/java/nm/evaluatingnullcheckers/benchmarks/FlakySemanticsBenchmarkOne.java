@@ -7,6 +7,8 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedura
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
+
 
 /**
  * Initial test to see how the checkers handle flaky semantics
@@ -19,6 +21,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
 @LocalSource
 @ObjectNPE
 @NPEProne
+@Imperative
 public class FlakySemanticsBenchmarkOne {
 	public static void throwNPE() {
 		@Nullable Object obj = new Object();

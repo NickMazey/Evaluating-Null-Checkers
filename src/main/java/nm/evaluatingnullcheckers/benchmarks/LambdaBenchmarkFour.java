@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 @FieldSource
 @ArrayNPE
 @NPEProne
+@Lambda
 public class LambdaBenchmarkFour {
 	@Nullable
 	int[] numbers = null;

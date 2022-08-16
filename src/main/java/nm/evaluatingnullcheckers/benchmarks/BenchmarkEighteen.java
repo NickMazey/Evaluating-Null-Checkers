@@ -2,6 +2,8 @@ package nm.evaluatingnullcheckers.benchmarks;
 
 import javax.annotation.Nullable;
 
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
+
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
@@ -19,6 +21,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParamete
 @MethodParameterSource
 @ArrayNPE
 @NPEProof
+@Imperative
 public class BenchmarkEighteen {
 	public static void FirstIndex(@Nullable Object[] arr) {
 		if(arr != null && arr.length != 0) {

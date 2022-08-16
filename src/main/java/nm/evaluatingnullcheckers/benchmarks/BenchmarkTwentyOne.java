@@ -7,6 +7,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.FieldSource;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.GenericsNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 
 /**
  * Null-guarded version of benchmarknine
@@ -20,6 +21,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedura
 @FieldSource
 @GenericsNPE
 @NPEProof
+@Imperative
 public class BenchmarkTwentyOne <T> {
 	
 	@Nullable T object = null;

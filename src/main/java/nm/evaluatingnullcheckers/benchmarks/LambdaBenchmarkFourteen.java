@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 @FieldSource
 @ObjectNPE
 @NPEProof
+@Lambda
 public class LambdaBenchmarkFourteen {
 	@Nullable
 	Object obj = null;

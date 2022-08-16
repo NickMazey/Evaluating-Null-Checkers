@@ -15,6 +15,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 @LocalSource
 @ObjectNPE
 @NPEProne
+@Imperative
 public class BoxingBenchmarkOne {
     public static void throwNPE(){
         @Nullable Integer in = null;

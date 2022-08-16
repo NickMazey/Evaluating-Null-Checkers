@@ -15,6 +15,7 @@ import java.util.function.Consumer;
 @MethodParameterSource
 @ArrayNPE
 @NPEProne
+@Lambda
 public class LambdaBenchmarkSix {
 	public static Consumer<Object[]> FirstIndex = (@Nullable Object[] arr) ->{
 		Object o = arr[0];

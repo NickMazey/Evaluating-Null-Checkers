@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 @ReturnSource
 @ObjectNPE
 @NPEProof
+@Lambda
 public class LambdaBenchmarkTwenty {
 	
 	private static Supplier<Object> getObject = ()->null;

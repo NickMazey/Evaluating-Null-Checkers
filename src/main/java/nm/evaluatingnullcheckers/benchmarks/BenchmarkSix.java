@@ -7,6 +7,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParameterSource;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 
 /**
  * 
@@ -18,6 +19,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParamete
 @MethodParameterSource
 @ArrayNPE
 @NPEProne
+@Imperative
 public class BenchmarkSix {
 	public static void FirstIndex(@Nullable Object[] arr) {
 		Object o = arr[0];

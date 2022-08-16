@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 @ReturnSource
 @GenericsNPE
 @NPEProne
+@Lambda
 public class LambdaBenchmarkEleven {
 	private static Supplier<? extends Object> getGeneric = ()->null;
 

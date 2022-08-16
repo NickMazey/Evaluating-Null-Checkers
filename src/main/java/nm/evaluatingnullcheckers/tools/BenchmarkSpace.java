@@ -65,6 +65,7 @@ public class BenchmarkSpace {
 		annotationTypes.add(BenchmarkAnnotations.VariableScope.class);
 		annotationTypes.add(BenchmarkAnnotations.VariableType.class);
 		annotationTypes.add(BenchmarkAnnotations.ExpectedNPE.class);
+		annotationTypes.add(BenchmarkAnnotations.Style.class);
 		loadAnnotationSubTypes();
 	}
 	

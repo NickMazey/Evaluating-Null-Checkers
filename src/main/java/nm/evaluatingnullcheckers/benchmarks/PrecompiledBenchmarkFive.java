@@ -5,6 +5,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedura
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 import nm.precompiledclasses.AnnotationConversions;
 
 @Annotated
@@ -12,6 +13,7 @@ import nm.precompiledclasses.AnnotationConversions;
 @ReturnSource
 @ObjectNPE
 @NPEProof
+@Imperative
 public class PrecompiledBenchmarkFive {
 	public static void throwNPE() {
 		AnnotationConversions.getNonNullCorrectAnno().toString();

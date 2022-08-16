@@ -7,6 +7,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParameterSource;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 
 /**
  * Null-guarded version of benchmarkfive
@@ -19,6 +20,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
 @MethodParameterSource
 @ObjectNPE
 @NPEProof
+@Imperative
 public class BenchmarkSeventeen {
 	public static void StringLength(@Nullable String str) {
 		if(str != null) {

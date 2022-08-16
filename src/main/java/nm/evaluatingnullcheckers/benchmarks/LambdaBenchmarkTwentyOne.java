@@ -16,6 +16,7 @@ import java.util.function.Supplier;
 @ReturnSource
 @ArrayNPE
 @NPEProof
+@Lambda
 public class LambdaBenchmarkTwentyOne {
 	
 	private static Supplier<Object[]> getArray = ()->null;

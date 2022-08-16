@@ -14,6 +14,7 @@ import javax.annotation.Nullable;
 @MethodParameterSource
 @ObjectNPE
 @NPEProne
+@Imperative
 public class BoxingBenchmarkTwo {
     public static void throwNPE(@Nullable Integer in){
         int i = in;

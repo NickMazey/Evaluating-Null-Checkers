@@ -110,4 +110,22 @@ public class BenchmarkAnnotations {
   @Target(ElementType.TYPE)
   public @interface Nonannotated{
   }
+
+  @Annotation
+  @Retention(RetentionPolicy.RUNTIME)
+  @Target(ElementType.TYPE)
+  public @interface Style{
+  }
+
+  @Style
+  @Retention(RetentionPolicy.RUNTIME)
+  @Target(ElementType.TYPE)
+  public @interface Imperative{
+  }
+
+  @Style
+  @Retention(RetentionPolicy.RUNTIME)
+  @Target(ElementType.TYPE)
+  public @interface Lambda{
+  }
 }

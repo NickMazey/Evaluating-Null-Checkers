@@ -15,6 +15,7 @@ import java.util.function.Consumer;
 @MethodParameterSource
 @ObjectNPE
 @NPEProof
+@Lambda
 public class LambdaBenchmarkSixteen {
 	public static Consumer<String> StringLength = (@Nullable String str) -> {
 		if(str != null) {

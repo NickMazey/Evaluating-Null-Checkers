@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 @ObjectNPE
 @NPEProof
 //Brings into question the meaning of "NPEProof"
+@Imperative
 public class ExceptionBenchmarkTwo {
     public static void preventNPE(@Nullable Object object){
         try{
