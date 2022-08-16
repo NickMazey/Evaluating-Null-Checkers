@@ -9,7 +9,7 @@ import java.util.function.Supplier;
  * @author Nick Mazey
  *
  */
-@Annotated
+@Nonannotated
 @Interprocedural
 @ReturnSource
 @ObjectNPE
