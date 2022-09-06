@@ -21,7 +21,7 @@ public class CheckerOutputParser {
 
 	/**
 	 * Parses a checkerframework log file
-	 * 
+	 *
 	 * @param file - The file to read
 	 * @return - The output from the checker
 	 */
@@ -57,7 +57,7 @@ public class CheckerOutputParser {
 
 	/**
 	 * Parses a nullaway log file
-	 * 
+	 *
 	 * @param file - The log file to parse
 	 * @return - The output from the checker
 	 */
@@ -95,7 +95,7 @@ public class CheckerOutputParser {
 
 	/**
 	 * Parses an infer log file
-	 * 
+	 *
 	 * @param file - The file to be parsed
 	 * @return - The output from the checker
 	 */
@@ -181,78 +181,83 @@ public class CheckerOutputParser {
 	}
 
 	/**
-	 * Parses reports and creates a standardised report file
-	 * 
+	 * Parses reports and creates a standardised report file in JSON format
+	 *
 	 * @param logDirectory - The folder where logs are stored
 	 */
 	public static HashMap<KnownChecker, ArrayList<CheckerReport>> parseReports(File logDirectory) {
 		HashMap<KnownChecker, ArrayList<CheckerReport>> outputs = new HashMap<KnownChecker, ArrayList<CheckerReport>>();
-		if (logDirectory != null) {
+		if (logDirectory != null && logDirectory.isDirectory()) {
 			for (File checkerFolder : logDirectory.listFiles()) {
 				if (checkerFolder.isDirectory()) {
 					KnownChecker checkerName = KnownChecker.valueOf(checkerFolder.getName().toUpperCase());
 					ArrayList<CheckerReport> reports = new ArrayList<CheckerReport>();
 					switch (checkerName) {
 
-					case CHECKERFRAMEWORK:
-						for (File log : checkerFolder.listFiles()) {
-							if (!log.getName().contains(".time")) {
-								reports.add(parseCheckerFramework(log));
-							}
-						}
-						outputs.put(checkerName, reports);
-						break;
-
-					case NULLAWAY:
-						for (File log : checkerFolder.listFiles()) {
-							if (!log.getName().contains(".time")) {
-								reports.add(parseNullAway(log));
-							}
-						}
-						outputs.put(checkerName, reports);
-						break;
-
-					case INFER:
-						for (File log : checkerFolder.listFiles()) {
-							if (!log.getName().contains(".time")) {
-								if (log.getName().contains(".inferreport")) {
-									reports.add(parseInfer(log));
+						case CHECKERFRAMEWORK:
+							for (File log : checkerFolder.listFiles()) {
+								if (!log.getName().contains(".time")) {
+									reports.add(parseCheckerFramework(log));
 								}
 							}
-						}
-						outputs.put(checkerName, reports);
-						break;
+							outputs.put(checkerName, reports);
+							break;
+
+						case NULLAWAY:
+							for (File log : checkerFolder.listFiles()) {
+								if (!log.getName().contains(".time")) {
+									reports.add(parseNullAway(log));
+								}
+							}
+							outputs.put(checkerName, reports);
+							break;
+
+						case INFER:
+							for (File log : checkerFolder.listFiles()) {
+								if (!log.getName().contains(".time")) {
+									if (log.getName().contains(".inferreport")) {
+										reports.add(parseInfer(log));
+									}
+								}
+							}
+							outputs.put(checkerName, reports);
+							break;
 					}
 
 				}
 			}
+		} else {
+			throw new IllegalArgumentException("ERROR - \"" +  logDirectory + "\" is not a directory or does not exist");
 		}
 		return outputs;
 	}
 
 	/**
 	 * Method for executing the output parser directly
-	 * 
+	 *
 	 * @param args    - Arguments for the output parser
 	 * @param args[0] - Folder to search for logs
 	 * @param args[1] - File to export to
 	 */
 	public static void main(String[] args) {
-		parse(args);
+		if (args.length >= 2) {
+			try {
+				parse(args[0], args[1]);
+			} catch (IllegalArgumentException e) {
+				System.out.println(e.getMessage());
+			}
+		} else {
+			System.out.println("Usage: CheckerOutputParser {Log Folder} {Output File}");
+		}
 	}
 
 	/**
 	 * Method for executing the output parser from another class
-	 * 
-	 * @param args    - Arguments for the output parser
-	 * @param args[0] - Folder to search for logs
-	 * @param args[1] - File to export to
+	 *
+	 * @param logFolder - Log folder to read from
+	 * @param export - File to export to
 	 */
-	public static void parse(String[] args) {
-		if (args.length >= 2) {
-			File logFolder = new File(args[0]);
-			File export = new File(args[1]);
-			InvokerUtils.outputReportsToFile(parseReports(logFolder), export);
-		}
+	public static void parse(String logFolder, String export) {
+		InvokerUtils.outputReportsToFile(parseReports(new File(logFolder)), new File(export));
 	}
 }

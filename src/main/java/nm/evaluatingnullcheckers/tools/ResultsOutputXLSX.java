@@ -1,5 +1,7 @@
 package nm.evaluatingnullcheckers.tools;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,10 +30,10 @@ import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
  * @author Nick Mazey
  *
  */
-public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
+public class ResultsOutputXLSX implements ResultsOutput {
 
 	@Override
-	public XSSFWorkbook outputResults(HashMap<KnownChecker, CheckerResult> results) {
+	public byte[] outputResults(HashMap<KnownChecker, CheckerResult> results) {
 		//To suppress warning
 		System.setProperty("log4j2.loggerContextFactory","org.apache.logging.log4j.simple.SimpleLoggerContextFactory");
 		ArrayList<String> subjects = InvokerUtils.getSubjectsFromResults(results);
@@ -68,8 +70,16 @@ public class ResultsOutputXLSX implements ResultsOutput<XSSFWorkbook> {
 				checkerSheet.autoSizeColumn(i);
 			}
 		}
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-		return workbook;
+		try{
+			workbook.write(out);
+		} catch(IOException e){
+			//Do nothing
+		}
+
+
+		return out.toByteArray();
 	}
 
 	private Sheet summarySheet(HashMap<KnownChecker, CheckerResult> results, ArrayList<KnownChecker> checkersInOrder,

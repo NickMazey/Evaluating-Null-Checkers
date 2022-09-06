@@ -58,19 +58,15 @@ public class BenchmarkInvokerCLI {
 				Invoker invoker = new DefaultInvoker();
 				invoker.execute(request);
 
-				String[] parserArgs = { logFolder, logFolder + "/checkeroutput" + timestamp + ".json" };
-				CheckerOutputParser.main(parserArgs);
-				printStream.println(
-						"Parsed checker output available at: " + logFolder + "/checkeroutput" + timestamp + ".json");
-				String[] evaluatorArgs = { logFolder + "/checkeroutput" + timestamp + ".json",
-						logFolder + "/results" + timestamp + ".json" };
-				CheckerEvaluator.main(evaluatorArgs);
+				CheckerOutputParser.parse(logFolder, logFolder + "/checkeroutput" + timestamp + ".json");
+				printStream.println("Parsed checker output available at: " + logFolder + "/checkeroutput" + timestamp + ".json");
+				CheckerEvaluator.evaluate(logFolder + "/checkeroutput" + timestamp + ".json",logFolder + "/results" + timestamp + ".json");
 				printStream.println("Evaluator output available at: " + logFolder + "/results" + timestamp + ".json");
-				String[] resultsOutputArgs = {logFolder,timestamp,".csv"};
+				String format = "csv";
 				if(args.length >= 3) {
-					resultsOutputArgs[2] = args[2];
+					format = args[2];
 				}
-				ResultsOutputHandler.main(resultsOutputArgs);
+				ResultsOutputHandler.handleOutput(logFolder,timestamp,format);
 			} catch (IOException e) {
 				printStream.println("Failed to load file");
 				printStream.println("Error message: " + e.getMessage());

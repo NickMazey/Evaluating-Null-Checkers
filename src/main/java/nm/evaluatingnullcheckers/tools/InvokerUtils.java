@@ -34,6 +34,18 @@ public class InvokerUtils {
 		TRUEPOSITIVE, FALSEPOSITIVE, TRUENEGATIVE, FALSENEGATIVE, ERROR;
 	}
 
+	private static void invalidOutputFile(File file){
+		throw new IllegalArgumentException("ERROR - \"" + file +"\" is not a valid output file");
+	}
+
+	private static void fileNotFound(File file){
+		throw new IllegalArgumentException("ERROR - \"" + file +"\" could not be found");
+	}
+
+	private static void invalidJson(File file){
+		throw new IllegalArgumentException("ERROR - \"" + file + "\" does not contain valid json");
+	}
+
 	/**
 	 * Converts processed outputs into a JSON file
 	 * 
@@ -47,10 +59,8 @@ public class InvokerUtils {
 			FileWriter writer = new FileWriter(file);
 			writer.write(output);
 			writer.close();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			invalidOutputFile(file);
 		}
 	}
 
@@ -62,19 +72,17 @@ public class InvokerUtils {
 	 */
 	public static HashMap<KnownChecker, ArrayList<CheckerReport>> deserialiseReports(File file) {
 		ObjectMapper mapper = new ObjectMapper();
-		TypeReference<HashMap<KnownChecker, ArrayList<CheckerReport>>> outputRef = new TypeReference<HashMap<KnownChecker, ArrayList<CheckerReport>>>() {
+		TypeReference<HashMap<KnownChecker, ArrayList<CheckerReport>>> outputRef = new TypeReference<>() {
 		};
 		try {
 			HashMap<KnownChecker, ArrayList<CheckerReport>> output = mapper.readValue(file, outputRef);
 			return output;
 		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
+			invalidJson(file);
 		} catch (IOException e) {
-			e.printStackTrace();
+			fileNotFound(file);
 		}
-		return new HashMap<KnownChecker, ArrayList<CheckerReport>>();
+		return new HashMap<>();
 	}
 
 	/**
@@ -90,10 +98,8 @@ public class InvokerUtils {
 			FileWriter writer = new FileWriter(file);
 			writer.write(output);
 			writer.close();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			invalidOutputFile(file);
 		}
 	}
 
@@ -111,13 +117,11 @@ public class InvokerUtils {
 			HashMap<KnownChecker, CheckerResult> output = mapper.readValue(file, outputRef);
 			return output;
 		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
+			invalidJson(file);
 		} catch (IOException e) {
-			e.printStackTrace();
+			fileNotFound(file);
 		}
-		return new HashMap<KnownChecker, CheckerResult>();
+		return new HashMap<>();
 	}
 	
 	/**

@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -17,46 +20,52 @@ import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
  *
  */
 public class ResultsOutputHandler {
+
 	/**
-	 * Method for directly generating results output
+	 * Handles output by reflectively invoking formatter and outputting its data to a file
+	 * @param logFolder - The folder to output to
+	 * @param timestamp - The timestamp to append to the file
+	 * @param format - The format to use
+	 */
+	public static void handleOutput(String logFolder, String timestamp, String format) {
+		format = format.toUpperCase();
+		HashMap<KnownChecker, CheckerResult> results = InvokerUtils
+				.deserialiseResults(new File(logFolder + "/results" + timestamp + ".json"));
+		String outFilePath = logFolder + "/resultsoutput" + timestamp + "." + format.toLowerCase();
+		try {
+			//Reflectively calls formatter
+			Class<? extends ResultsOutput> outclass = (Class<? extends ResultsOutput>) Class.forName("nm.evaluatingnullcheckers.tools.ResultsOutput" + format);
+			ResultsOutput o = outclass.getDeclaredConstructor().newInstance();
+			Files.write(new File(outFilePath).toPath(), o.outputResults(results));
+		} catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
+				 InvocationTargetException e) {
+			throw new IllegalArgumentException("ERROR - unsupported format \"" + format + "\"");
+		} catch (IOException e) {
+			throw new IllegalArgumentException("ERROR - could not open file \"" + outFilePath + "\"");
+		}
+	}
+
+	/**
+	 * Method for invoking ResultsOutputHandler from outside Java
 	 * 
 	 * @param args    - Arguments for the results output handler
 	 * @param args[0] - Folder to use
 	 * @param args[1] - Timestamp to use
-	 * @param args[2] - File format to use (default csv)
+	 * @param args[2] - File format to use
 	 */
 	public static void main(String[] args) {
 		if (args.length >= 3) {
 			String logFolder = args[0];
 			String timestamp = args[1];
 			String format = args[2];
-			HashMap<KnownChecker, CheckerResult> results = InvokerUtils
-					.deserialiseResults(new File(logFolder + "/results" + timestamp + ".json"));
-			try {
-				if (format.equalsIgnoreCase("xlsx")) {
-					File resultsOutputXLSX = new File(logFolder + "/resultsoutput" + timestamp + ".xlsx");
-					FileOutputStream outputStream = new FileOutputStream(resultsOutputXLSX);
-					XSSFWorkbook workbook = new ResultsOutputXLSX().outputResults(results);
-					workbook.write(outputStream);
-					workbook.close();
-					outputStream.close();
-					System.out.println(
-							"Results XLSX available at: " + logFolder + "/resultsoutput" + timestamp + ".xlsx");
-
-				} else {
-					File resultsOutputCSV = new File(logFolder + "/resultsoutput" + timestamp + ".csv");
-					FileWriter writer = new FileWriter(resultsOutputCSV);
-					writer.write(new ResultsOutputCSV().outputResults(results));
-					writer.close();
-					System.out
-							.println("Results CSV available at: " + logFolder + "/resultsoutput" + timestamp + ".csv");
-				}
-			} catch (IOException e) {
-				System.out.println("Failed to load file");
-				System.out.println("Error message: " + e.getMessage());
+			try{
+				handleOutput(logFolder,timestamp,format);
+			} catch(IllegalArgumentException e){
+				System.out.println(e.getMessage());
 			}
 		} else {
-			System.out.println("Insufficient arguments given for ResultsOutputHandler");
+			System.out.println("Usage: ResultsOutputHandler {Log Folder} {Timestamp} {Output Format}");
 		}
 	}
+
 }

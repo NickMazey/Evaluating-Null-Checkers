@@ -229,41 +229,7 @@ public class BenchmarkInvokerGUI {
                     .deserialiseResults(new File(logFolder + "/results" + timestamp + ".json"));
             enabledFormats.keySet().stream().filter(e -> enabledFormats.get(e)).forEach(
                     e -> {
-                        try {
-                            Class<? extends ResultsOutput> outclass = (Class<? extends ResultsOutput>) Class.forName("nm.evaluatingnullcheckers.tools.ResultsOutput" + e);
-                            ResultsOutput<?> o = outclass.getDeclaredConstructor().newInstance();
-                            String outFilePath = logFolder + "/resultsoutput" + timestamp + "." + e.toLowerCase();
-                            File outFile = new File(outFilePath);
-                            FileWriter outWriter = new FileWriter(outFile);
-                            try {
-                                outWriter.write((String) o.outputResults(results));
-                                outWriter.close();
-                            } catch (ClassCastException ex) {
-                                try {
-                                    outWriter.close();
-                                    XSSFWorkbook workbook = (XSSFWorkbook) o.outputResults(results);
-                                    FileOutputStream fOut = new FileOutputStream(outFile);
-                                    workbook.write(fOut);
-                                    fOut.close();
-                                } catch (ClassCastException ex2) {
-                                    //Additional Formats go here...
-                                }
-                            }
-                            logStream.println(
-                                    "Results available at: " + outFilePath);
-                        } catch (IllegalAccessException ex) {
-                            ex.printStackTrace(logStream);
-                        } catch (NoSuchMethodException ex) {
-                            ex.printStackTrace(logStream);
-                        } catch (IOException ex) {
-                            ex.printStackTrace(logStream);
-                        } catch (ClassNotFoundException ex) {
-                            ex.printStackTrace(logStream);
-                        } catch (InvocationTargetException ex) {
-                            ex.printStackTrace(logStream);
-                        } catch (InstantiationException ex) {
-                            ex.printStackTrace(logStream);
-                        }
+                        ResultsOutputHandler.main(new String[]{logFolder,timestamp,e});
                     }
             );
 

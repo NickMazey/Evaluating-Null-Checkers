@@ -271,22 +271,25 @@ public class CheckerEvaluator {
 	 * @param args[1] - File to export to
 	 */
 	public static void main(String args[]) {
-		evaluate(args);
+		if (args.length >= 2) {
+			String report = args[0];
+			String output = args[1];
+			try {
+				evaluate(report,output);
+			} catch(IllegalArgumentException e){
+				System.out.println(e.getMessage());
+			}
+		}
 	}
-	
+
 	/**
 	 * Method for executing the checker evaluator from another class
-	 * 
-	 * @param args    - Arguments for the evaluator
-	 * @param args[0] - Report file in JSON format
-	 * @param args[1] - File to export to
+	 *
+	 * @param report - Parsed output to read
+	 * @param output - File for outputting results
 	 */
-	public static void evaluate(String args[]) {
-		if (args.length >= 2) {
-			File report = new File(args[0]);
-			File output = new File(args[1]);
-			InvokerUtils.outputResultsToFile(evaluateCheckers(InvokerUtils.deserialiseReports(report)), output);
-		}
+	public static void evaluate(String report, String output) {
+		InvokerUtils.outputResultsToFile(evaluateCheckers(InvokerUtils.deserialiseReports(new File(report))), new File(output));
 	}
 
 }

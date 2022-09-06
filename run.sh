@@ -7,13 +7,8 @@ Help()
 #Runs checkers
 RunChecker()
 {
-    if [[ -f ${CHECKER}script.sh ]]
-    then
     mkdir -p $LOGLOCATION/$CHECKER
-    ./${CHECKER}script.sh $BENCHMARK $LOGLOCATION
-    else
-    echo "Exec script not found for ${CHECKER}"
-    fi
+    ./scripts/${CHECKER}script.sh $BENCHMARK $LOGLOCATION
 }
 
 while getopts ":c:b:l:" option; do
@@ -35,6 +30,8 @@ done
 IterateThroughCheckers(){
     for CHECKER in $CHECKERS
     do
+    if [[ -f scripts/${CHECKER}script.sh ]]
+    then
     mvn clean -q
     echo "($CHECKER)"
     BENCHINDEX=0
@@ -55,6 +52,9 @@ IterateThroughCheckers(){
     
     done
     echo -ne "\n"
+    else
+    echo "Exec script not found for ${CHECKER}"
+    fi
     wait
     done
 }

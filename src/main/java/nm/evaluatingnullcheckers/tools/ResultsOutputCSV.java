@@ -13,10 +13,10 @@ import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
  * @author Nick Mazey
  *
  */
-public class ResultsOutputCSV implements ResultsOutput<String> {
+public class ResultsOutputCSV implements ResultsOutput {
 
 	@Override
-	public String outputResults(HashMap<KnownChecker, CheckerResult> results) {
+	public byte[] outputResults(HashMap<KnownChecker, CheckerResult> results) {
 		//Specifying top left cell as empty
 		StringBuilder csvStr = new StringBuilder("\"\"");
 		
@@ -83,6 +83,6 @@ public class ResultsOutputCSV implements ResultsOutput<String> {
  			}
  			csvStr.append("\n");
  		}
-		return csvStr.toString();
+		return csvStr.toString().getBytes();
 	}
 }
