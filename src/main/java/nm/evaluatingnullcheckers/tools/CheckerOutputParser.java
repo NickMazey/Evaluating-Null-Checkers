@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.function.Function;
+import java.util.regex.Pattern;
 
 import nm.evaluatingnullcheckers.tools.InvokerUtils.CheckerOutput;
 import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
@@ -19,87 +21,16 @@ import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
  */
 public class CheckerOutputParser {
 
-	/**
-	 * Parses a checkerframework log file
-	 *
-	 * @param file - The file to read
-	 * @return - The output from the checker
-	 */
-	public static CheckerReport parseCheckerFramework(File file) {
-		if (file != null) {
-			String name = file.getName();
-			int i = name.lastIndexOf(".");
-			if (i != -1) {
-				name = name.substring(0, i);
-			}
-			long time = getTime(file);
-			try {
-				Scanner reader = new Scanner(file);
-				while (reader.hasNextLine()) {
-					String line = reader.nextLine();
-					if (line.contains("[ERROR]")) {
-						reader.close();
-						return new CheckerReport(CheckerOutput.ERROR, name, line, time);
-					}
-					if (line.contains("[WARNING]") && line.contains(".java")) {
-						reader.close();
-						return new CheckerReport(CheckerOutput.VULNERABLE, name, line, time);
-					}
-				}
-				reader.close();
-				return new CheckerReport(CheckerOutput.SAFE, name, "", time);
-			} catch (FileNotFoundException e) {
-				return new CheckerReport(CheckerOutput.ERROR, name, "File Not Found", time);
-			}
+
+	//Method using multiple files for parsing output
+	private static CheckerReport parseFile(File file, String vulnerableRegex,String errorRegex, CheckerReport other){
+		if(other.getOutput() != CheckerOutput.SAFE){
+			return other;
 		}
-		return new CheckerReport(CheckerOutput.ERROR, "N/A", "Null File", 0);
+		return parseFile(file,vulnerableRegex,errorRegex);
 	}
 
-	/**
-	 * Parses a nullaway log file
-	 *
-	 * @param file - The log file to parse
-	 * @return - The output from the checker
-	 */
-	public static CheckerReport parseNullAway(File file) {
-		if (file != null) {
-			String name = file.getName();
-			int i = name.lastIndexOf(".");
-			if (i != -1) {
-				name = name.substring(0, i);
-			}
-			long time = getTime(file);
-			try {
-				Scanner reader = new Scanner(file);
-
-				while (reader.hasNextLine()) {
-					String line = reader.nextLine();
-					if (line.contains("[ERROR]")) {
-						reader.close();
-						return new CheckerReport(CheckerOutput.ERROR, name, line, time);
-					}
-					if (line.contains("[WARNING]") && line.contains("[NullAway]")) {
-						reader.close();
-						return new CheckerReport(CheckerOutput.VULNERABLE, name, line, time);
-					}
-				}
-				reader.close();
-				return new CheckerReport(CheckerOutput.SAFE, name, "", time);
-
-			} catch (FileNotFoundException e) {
-				return new CheckerReport(CheckerOutput.ERROR, name, "File Not Found", time);
-			}
-		}
-		return new CheckerReport(CheckerOutput.ERROR, "N/A", "Null File", 0);
-	}
-
-	/**
-	 * Parses an infer log file
-	 *
-	 * @param file - The file to be parsed
-	 * @return - The output from the checker
-	 */
-	public static CheckerReport parseInfer(File file) {
+	private static CheckerReport parseFile(File file, String vulnerableRegex,String errorRegex){
 		if (file != null) {
 			String name = file.getName();
 			int i = name.lastIndexOf(".");
@@ -108,43 +39,18 @@ public class CheckerOutputParser {
 			}
 			long time = getTime(file);
 			CheckerOutput status = CheckerOutput.SAFE;
-			String logName = file.getAbsolutePath();
-			i = logName.lastIndexOf(".");
-			if (i != -1) {
-				logName = logName.substring(0, i);
-			}
-			// Checking the Maven log to ensure compilation succeeded
-			File logFile = new File(logName + ".log");
-			if (logFile.exists()) {
-				try {
-					Scanner reader = new Scanner(logFile);
-					while (reader.hasNextLine()) {
-						String line = reader.nextLine();
-						if (line.contains("[ERROR]")) {
-							reader.close();
-							return new CheckerReport(CheckerOutput.ERROR, name, line, time);
-						}
-					}
-					reader.close();
-				} catch (IOException e) {
-					// Do nothing
-				}
-			}
-
 			StringBuilder messages = new StringBuilder();
 			try {
 				Scanner reader = new Scanner(file);
 				while (reader.hasNextLine()) {
 					String line = reader.nextLine();
-					if (line.contains("error") && line.contains(".java")) {
+					if (line.matches(vulnerableRegex)) {
 						status = CheckerOutput.VULNERABLE;
 						messages.append(line);
 						messages.append(System.getProperty("line.separator"));
-
-					} else if (line.contains("warning") && line.contains(".java")) {
-						status = CheckerOutput.VULNERABLE;
-						messages.append(line);
-						messages.append("\n");
+					} else if(line.matches(errorRegex)){
+						reader.close();
+						return new CheckerReport(CheckerOutput.ERROR, name, line, time);
 					}
 				}
 				reader.close();
@@ -155,6 +61,17 @@ public class CheckerOutputParser {
 			}
 		}
 		return new CheckerReport(CheckerOutput.ERROR, "N/A", "Null File", 0);
+	}
+
+	private static File customLogToLog(File file){
+		String logName = file.getAbsolutePath();
+		int i = logName.lastIndexOf(".");
+		if (i != -1) {
+			logName = logName.substring(0, i);
+		}
+		// Checking the Maven log to ensure compilation succeeded
+		File logFile = new File(logName + ".log");
+		return logFile;
 	}
 
 	private static long getTime(File file) {
@@ -193,11 +110,10 @@ public class CheckerOutputParser {
 					KnownChecker checkerName = KnownChecker.valueOf(checkerFolder.getName().toUpperCase());
 					ArrayList<CheckerReport> reports = new ArrayList<CheckerReport>();
 					switch (checkerName) {
-
 						case CHECKERFRAMEWORK:
 							for (File log : checkerFolder.listFiles()) {
 								if (!log.getName().contains(".time")) {
-									reports.add(parseCheckerFramework(log));
+									reports.add(parseFile(log,"(?=\\[WARNING\\]).*\\.java.*","\\[ERROR\\]"));
 								}
 							}
 							outputs.put(checkerName, reports);
@@ -206,7 +122,7 @@ public class CheckerOutputParser {
 						case NULLAWAY:
 							for (File log : checkerFolder.listFiles()) {
 								if (!log.getName().contains(".time")) {
-									reports.add(parseNullAway(log));
+									reports.add(parseFile(log,"(?=\\[WARNING\\]).*\\[NullAway\\].*","\\[ERROR\\]"));
 								}
 							}
 							outputs.put(checkerName, reports);
@@ -216,7 +132,10 @@ public class CheckerOutputParser {
 							for (File log : checkerFolder.listFiles()) {
 								if (!log.getName().contains(".time")) {
 									if (log.getName().contains(".inferreport")) {
-										reports.add(parseInfer(log));
+										reports.add(
+												parseFile(
+														log,".*\\.java.*(error|warning).*","(?!a)a",
+														parseFile(customLogToLog(log),"(?!a)a","\\[ERROR\\]")));
 									}
 								}
 							}
