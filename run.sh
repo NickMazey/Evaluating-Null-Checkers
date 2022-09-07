@@ -1,4 +1,5 @@
 #!/bin/bash
+#Script for executing a list of null checkers on a list of microbenchmarks using auxiliary scripts 
 Help()
 {
     echo "usage: run [-c checkerlistfile] [-b benchmarklistfile] [-l logoutputfolder]"
@@ -37,15 +38,6 @@ IterateThroughCheckers(){
     BENCHINDEX=0
     for BENCHMARK in $BENCHMARKS
     do
-    #Compiles benchmarks in parallel
-    #From testing, it has no speed improvement and makes the reported maven compile times the same for every class
-    #Will probably look into this more in the future, because it seems like a good way to speed up the benchmarking process
-    #if [[ $CHECKER != "infer" ]]
-    #then
-    #RunChecker &
-    #else
-    #RunChecker
-    #fi
     BENCHINDEX=$(($BENCHINDEX+1))
     echo -ne "Evaluating Benchmark $BENCHINDEX of $BENCHNUM ($((($BENCHINDEX*100)/($BENCHNUM)))%)\r"
     RunChecker

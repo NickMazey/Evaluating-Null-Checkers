@@ -1,8 +1,6 @@
 package nm.evaluatingnullcheckers.tools;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
-import org.apache.maven.shared.invoker.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,7 +13,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -25,6 +22,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+/**
+ * Utility class for testing benchmarking tools
+ */
 public class BenchmarkInvokerGUI {
 
     private final ArrayList<Class<?>> annotationClasses;
@@ -197,47 +197,26 @@ public class BenchmarkInvokerGUI {
                     }
             );
             checkerWriter.close();
-            Process p = new ProcessBuilder(System.getProperty("user.dir") + "/run.sh", "-b " + "benchmarklist.txt", "-c " + "checkerlist.txt",
-                    "-l " + logFolder).start();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            try {
-                for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                    logStream.println(line);
-                }
-            } catch (IOException e) {
-                e.printStackTrace(logStream);
-            }
-            p.waitFor();
-            logStream.println("Raw checker output available at: " + logFolder + "/checkeroutput");
-            InvocationRequest request = new DefaultInvocationRequest();
-            request.setPomFile(new File(System.getProperty("user.dir") + "/pom.xml"));
-            request.setGoals(Arrays.asList("clean", "compile"));
-            request.addArg("-P compiletools");
-            request.addArg("-q");
-            request.setBatchMode(true);
-            Invoker invoker = new DefaultInvoker();
-            invoker.execute(request);
-            String[] parserArgs = {logFolder, logFolder + "/checkeroutput" + timestamp + ".json"};
-            CheckerOutputParser.main(parserArgs);
-            logStream.println(
-                    "Parsed checker output available at: " + logFolder + "/checkeroutput" + timestamp + ".json");
-            String[] evaluatorArgs = {logFolder + "/checkeroutput" + timestamp + ".json",
-                    logFolder + "/results" + timestamp + ".json"};
-            CheckerEvaluator.main(evaluatorArgs);
-            logStream.println("Evaluator output available at: " + logFolder + "/results" + timestamp + ".json");
-            HashMap<InvokerUtils.KnownChecker, CheckerResult> results = InvokerUtils
-                    .deserialiseResults(new File(logFolder + "/results" + timestamp + ".json"));
+            BenchmarkInvokerCLI.auxilliaryMain(benchmarkList.getAbsolutePath(),
+                    checkerList.getAbsolutePath(),
+                    logFolder,
+                    timestamp,
+                    //Results outputting will be handled by GUI
+                    null,
+                    logStream);
+
             enabledFormats.keySet().stream().filter(e -> enabledFormats.get(e)).forEach(
                     e -> {
-                        ResultsOutputHandler.main(new String[]{logFolder,timestamp,e});
+                        try {
+                            ResultsOutputHandler.handleOutput(logFolder, timestamp, e);
+                            logStream.println("Results output available at: " + logFolder + "/results" + timestamp + "." + e.toLowerCase());
+                        }catch(IllegalArgumentException ex){
+                            logStream.println(ex.getMessage());
+                        }
                     }
             );
 
         } catch (IOException e) {
-            e.printStackTrace(logStream);
-        } catch (InterruptedException e) {
-            e.printStackTrace(logStream);
-        } catch (MavenInvocationException e) {
             e.printStackTrace(logStream);
         } catch (NoClassDefFoundError e) {
             e.printStackTrace(logStream);

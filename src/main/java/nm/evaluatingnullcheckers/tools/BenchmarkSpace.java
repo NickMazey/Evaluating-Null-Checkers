@@ -377,22 +377,44 @@ public class BenchmarkSpace {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * Main method for testing
-	 * @param args
+	 * Creates or updates allcheckers.txt
+	 */
+	public static void createAllCheckersFile(){
+
+		File allBenches = new File("allcheckers.txt");
+		try {
+			FileWriter writer = new FileWriter(allBenches);
+			for(InvokerUtils.KnownChecker c : InvokerUtils.KnownChecker.values()) {
+				writer.write(c.toString().toLowerCase());
+				writer.write("\n");
+			}
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *
+	 * @param args - Generates "allbenchmarks.txt" and "allcheckers.txt" files if an argument is given, passing "q" in the first argument suppresses output
 	 */
 	public static void main(String[] args) {
-		if(args.length > 0) {
+		if (args.length > 0) {
 			createAllBenchmarksFile();
-			System.out.println("Created allbenchmarks.txt file");
-		}
-		BenchmarkSpace bench = new BenchmarkSpace();
-		bench.printBenchmarkInfo();
-		try{
-			bench.outputMissingBenchmarksToCSV();
-			} catch(Exception e) {
+			createAllCheckersFile();
+			if(!args[0].contains("q")) {
+				System.out.println("Created allbenchmarks.txt and allcheckers.txt files");
+			}
+		} else {
+			BenchmarkSpace bench = new BenchmarkSpace();
+			bench.printBenchmarkInfo();
+			try {
+				bench.outputMissingBenchmarksToCSV();
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
 	}
 }
