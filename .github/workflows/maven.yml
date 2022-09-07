@@ -34,11 +34,7 @@ jobs:
         sudo make install
     - name: Build with Maven
       run: |
-       mvn clean compile -Dcompiletools=true
-       mvn dependency:build-classpath -Dmdep.outputFile=classpath.txt
-       classpath="$(cat classpath.txt)"
-       java -cp target/classes:$classpath nm.evaluatingnullcheckers.tools.BenchmarkInvokerCLI allbenchmarks.txt allcheckers.txt xlsx
-       rm classpath.txt
+       ./runall.sh
        
     - name: Archive Results
       if: always()
