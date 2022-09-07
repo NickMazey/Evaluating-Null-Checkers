@@ -1,15 +1,10 @@
 package nm.evaluatingnullcheckers.tools;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.HashMap;
-import java.util.function.Consumer;
-
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
 

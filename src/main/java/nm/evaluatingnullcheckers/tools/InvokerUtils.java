@@ -5,13 +5,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -23,15 +22,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class InvokerUtils {
 
 	public enum CheckerOutput {
-		VULNERABLE, SAFE, ERROR;
+		VULNERABLE, SAFE, ERROR
 	}
 
 	public enum KnownChecker {
-		CHECKERFRAMEWORK, INFER, INFERPULSE,INFERERADICATE, NULLAWAY;
+		CHECKERFRAMEWORK, INFER, INFERPULSE,INFERERADICATE, NULLAWAY
 	}
 
 	public enum Flag {
-		TRUEPOSITIVE, FALSEPOSITIVE, TRUENEGATIVE, FALSENEGATIVE, ERROR;
+		TRUEPOSITIVE, FALSEPOSITIVE, TRUENEGATIVE, FALSENEGATIVE, ERROR
 	}
 
 	private static void invalidOutputFile(File file){
@@ -75,8 +74,7 @@ public class InvokerUtils {
 		TypeReference<HashMap<KnownChecker, ArrayList<CheckerReport>>> outputRef = new TypeReference<>() {
 		};
 		try {
-			HashMap<KnownChecker, ArrayList<CheckerReport>> output = mapper.readValue(file, outputRef);
-			return output;
+			return mapper.readValue(file, outputRef);
 		} catch (JsonParseException e) {
 			invalidJson(file);
 		} catch (IOException e) {
@@ -111,11 +109,10 @@ public class InvokerUtils {
 	 */
 	public static HashMap<KnownChecker, CheckerResult> deserialiseResults(File file) {
 		ObjectMapper mapper = new ObjectMapper();
-		TypeReference<HashMap<KnownChecker, CheckerResult>> outputRef = new TypeReference<HashMap<KnownChecker, CheckerResult>>() {
+		TypeReference<HashMap<KnownChecker, CheckerResult>> outputRef = new TypeReference<>() {
 		};
 		try {
-			HashMap<KnownChecker, CheckerResult> output = mapper.readValue(file, outputRef);
-			return output;
+			return mapper.readValue(file, outputRef);
 		} catch (JsonParseException e) {
 			invalidJson(file);
 		} catch (IOException e) {
@@ -131,7 +128,7 @@ public class InvokerUtils {
 	 * @return - ArrayList of all unique subject names in the results map
 	 */
 	public static ArrayList<String> getSubjectsFromResults(HashMap<KnownChecker, CheckerResult> results){
-		ArrayList<String> subjects = new ArrayList<String>();
+		ArrayList<String> subjects = new ArrayList<>();
 		for (CheckerResult checkerResult : results.values()) {
 			for(String subject : checkerResult.getSubjectResults().keySet()) {
 				if(!subjects.contains(subject)) {
@@ -149,16 +146,14 @@ public class InvokerUtils {
 	 * @return - Map from class name to annotations
 	 */
 	public static HashMap<String, ArrayList<Annotation>> getMetadata(ArrayList<String> names) {
-		HashMap<String, ArrayList<Annotation>> metadata = new HashMap<String, ArrayList<Annotation>>();
+		HashMap<String, ArrayList<Annotation>> metadata = new HashMap<>();
 		if (names != null) {
 			HashSet<Class<?>> benchmarkClasses = BenchmarkSpace.getAllBenchmarkClasses();
 			for (Class<?> clazz : benchmarkClasses) {
 				String simpleName = clazz.getSimpleName();
 				if (names.contains(simpleName)) {
-					ArrayList<Annotation> annotations = new ArrayList<Annotation>();
-					for (Annotation annotation : clazz.getAnnotations()) {
-						annotations.add(annotation);
-					}
+					ArrayList<Annotation> annotations = new ArrayList<>();
+					Collections.addAll(annotations, clazz.getAnnotations());
 					metadata.put(simpleName, annotations);
 				}
 			}

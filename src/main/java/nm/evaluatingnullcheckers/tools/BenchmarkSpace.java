@@ -10,7 +10,6 @@ import java.io.PrintStream;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -59,7 +58,7 @@ public class BenchmarkSpace {
 	}
 	
 	private void loadAnnotationTypes() {
-		annotationTypes = new ArrayList<Class<?>>();
+		annotationTypes = new ArrayList<>();
 		annotationTypes.add(BenchmarkAnnotations.Annotation.class);
 		annotationTypes.add(BenchmarkAnnotations.AnalysisScope.class);
 		annotationTypes.add(BenchmarkAnnotations.VariableScope.class);
@@ -70,9 +69,9 @@ public class BenchmarkSpace {
 	}
 	
 	private void loadAnnotationSubTypes() {
-		annotationSubTypes = new HashMap<Class<?>,ArrayList<Class<?>>>();
+		annotationSubTypes = new HashMap<>();
 		for (Class<?> clazz : annotationTypes) {
-			annotationSubTypes.put(clazz, new ArrayList<Class<?>>());
+			annotationSubTypes.put(clazz, new ArrayList<>());
 		}
 		
 		Class<?>[] classList = BenchmarkAnnotations.class.getClasses();
@@ -170,7 +169,7 @@ public class BenchmarkSpace {
 		int categoryIndex = annotationTypes.indexOf(annotationType);
 		int annotationIndex = annotationSubTypes.get(annotationType).indexOf(annotation);
 		for(String combination : benchmarkCombinations) {
-			if(Integer.valueOf(combination.charAt(categoryIndex)) == annotationIndex) {
+			if((int) combination.charAt(categoryIndex) == annotationIndex) {
 				n++;
 			}
 		}
@@ -233,9 +232,7 @@ public class BenchmarkSpace {
 		StringBuilder prettyCombination = new StringBuilder();
 		for(int i = 0; i < combination.size(); i++) {
 			if (i != 0) {
-				for (int j = 0; j < i; j ++) {
-					prettyCombination.append('\t');
-				}
+				prettyCombination.append("\t".repeat(i));
 				prettyCombination.append('-');
 			}
 			
@@ -256,11 +253,11 @@ public class BenchmarkSpace {
 		String[] annotations = new String[values.length];
 		for(int i = 0; i < values.length; i++) {
 			Class<?> annotationType = annotationTypes.get(i);
-			int subTypeIndex = Integer.valueOf(values[i]);
+			int subTypeIndex = values[i];
 			String annotationName = annotationSubTypes.get(annotationType).get(subTypeIndex).getSimpleName();
 			annotations[i] = annotationName;
 		}
-		return new ArrayList<String>(Arrays.asList(annotations));
+		return new ArrayList<>(Arrays.asList(annotations));
 	}
 	
 	/**
@@ -268,11 +265,11 @@ public class BenchmarkSpace {
 	 * @return - A hashset containing all benchmark classes
 	 */
 	public static HashSet<Class<?>> getAllBenchmarkClasses(){
-		HashSet<Class<?>> benchmarks = new HashSet<Class<?>>();
+		HashSet<Class<?>> benchmarks = new HashSet<>();
 		String packageName = "nm.evaluatingnullcheckers.benchmarks";
         InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("[.]", "/"));
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-        String str = null;
+        String str;
         try {
         for(str = reader.readLine(); str !=null;str = reader.readLine()) {
         	//Ignore subclasses
@@ -288,7 +285,7 @@ public class BenchmarkSpace {
 	
 	private HashSet<String> getPresentAnnotationCombinations(HashSet<Class<?>> benchmarks){
         //Check how many unique combinations have been done
-        HashSet<String> annotationCombinations = new HashSet<String>();
+        HashSet<String> annotationCombinations = new HashSet<>();
         for(Class<?> benchmark : benchmarks) {
         	char[] combination = new char[annotationTypes.size()];
         	for(Annotation annotation : benchmark.getAnnotations()) {
@@ -313,19 +310,17 @@ public class BenchmarkSpace {
 		int finalIndex = annotationTypes.size();
 		int currentIndex = 0;
 		char[] start = new char[1];
-		HashSet<String> currentPerms = new HashSet<String>();
+		HashSet<String> currentPerms = new HashSet<>();
 		while(currentIndex < finalIndex) {
 			int size = annotationSubTypes.get(annotationTypes.get(currentIndex)).size();
-			HashSet<String> newPerms = new HashSet<String>();
+			HashSet<String> newPerms = new HashSet<>();
 			if(currentIndex == 0) {
 				newPerms = getAllValuesForIndex(new String(start), currentIndex, size);
 			} else {
 				for(String existingPerm : currentPerms) {
 					String base = existingPerm + ((char) 0);
 					HashSet<String> allValues = getAllValuesForIndex(base,currentIndex,size);
-					for(String value : allValues) {
-						newPerms.add(value);
-					}
+					newPerms.addAll(allValues);
 				}
 			}
 			currentIndex++;
@@ -335,7 +330,7 @@ public class BenchmarkSpace {
 	}
 		
 	private HashSet<String> getAllValuesForIndex(String base, int index, int numValues){
-		HashSet<String> combinations = new HashSet<String>();
+		HashSet<String> combinations = new HashSet<>();
 		assert(index < base.length());
 		for(int i = 0; i < numValues; i++) {
 			char[] newStr = base.toCharArray();
@@ -351,7 +346,7 @@ public class BenchmarkSpace {
 	 * @return - ArrayList of benchmarks
 	 */
 	public static ArrayList<String> listAllBenchmarks(){
-		ArrayList<String> benches = new ArrayList<String>();
+		ArrayList<String> benches = new ArrayList<>();
 		String dir = "src/main/java/" + BenchmarkOne.class.getPackageName().replace('.', '/') + "/";
 		File benchmarkFolder = new File(dir);
 		for(File f : benchmarkFolder.listFiles()) {

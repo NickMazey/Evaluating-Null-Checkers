@@ -18,7 +18,7 @@ public interface ResultsOutput {
 	 * @param results - Results from the checker evaluator
 	 * @return - The results presented in a format related to the concrete class
 	 */
-	public byte[] outputResults(HashMap<KnownChecker, CheckerResult> results);
+	byte[] outputResults(HashMap<KnownChecker, CheckerResult> results);
 	
 	
 }

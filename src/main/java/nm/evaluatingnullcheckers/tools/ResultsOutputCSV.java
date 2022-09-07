@@ -21,15 +21,12 @@ public class ResultsOutputCSV implements ResultsOutput {
 		StringBuilder csvStr = new StringBuilder("\"\"");
 		
 		ArrayList<String> subjects = InvokerUtils.getSubjectsFromResults(results);
-		ArrayList<KnownChecker> checkersInOrder = new ArrayList<KnownChecker>();
- 		for (KnownChecker checker : results.keySet()) {
- 			checkersInOrder.add(checker);
-		}
+		ArrayList<KnownChecker> checkersInOrder = new ArrayList<>(results.keySet());
  		Collections.sort(checkersInOrder);
  		
  		//First line
  		for(KnownChecker checker : checkersInOrder) {
- 			csvStr.append(",\"" + checker + "\"");
+ 			csvStr.append(",\"").append(checker).append("\"");
  		}
  		csvStr.append("\n");
  		
@@ -37,49 +34,49 @@ public class ResultsOutputCSV implements ResultsOutput {
  		csvStr.append("\"Precision\"");
  		for(KnownChecker checker : checkersInOrder) {
  			CheckerResult result = results.get(checker);
- 			csvStr.append(",\"" + result.getPrecision() + "\"");
+ 			csvStr.append(",\"").append(result.getPrecision()).append("\"");
  		}
  		csvStr.append("\n");
  		csvStr.append("\"Recall\"");
  		for(KnownChecker checker : checkersInOrder) {
  			CheckerResult result = results.get(checker);
- 			csvStr.append(",\"" + result.getRecall() + "\"");
+ 			csvStr.append(",\"").append(result.getRecall()).append("\"");
  		}
  		csvStr.append("\n");
  		csvStr.append("\"Execution Time\"");
  		for(KnownChecker checker : checkersInOrder) {
  			CheckerResult result = results.get(checker);
- 			csvStr.append(",\"" + result.getExecutionTime() + "\"");
+ 			csvStr.append(",\"").append(result.getExecutionTime()).append("\"");
  		}
  		csvStr.append("\n");
  		csvStr.append("\"Subject Results: \" \n");
  		
  		//Subject Results
  		for(String subject : subjects) {
- 			csvStr.append("\""+subject+"\"");
+ 			csvStr.append("\"").append(subject).append("\"");
  			for(KnownChecker checker : checkersInOrder) {
  				CheckerResult result = results.get(checker);
- 				csvStr.append(",\"" + result.getSubjectResults().get(subject) + "\"");
+ 				csvStr.append(",\"").append(result.getSubjectResults().get(subject)).append("\"");
  			}
  			csvStr.append("\n");
  		}
  		csvStr.append("\"Subject Messages: \" \n");
  		//Subject Messages
  		for(String subject : subjects) {
- 			csvStr.append("\""+subject+"\"");
+ 			csvStr.append("\"").append(subject).append("\"");
  			for(KnownChecker checker : checkersInOrder) {
  				CheckerResult result = results.get(checker);
- 				csvStr.append(",\"" + result.getSubjectMessages().get(subject) + "\"");
+ 				csvStr.append(",\"").append(result.getSubjectMessages().get(subject)).append("\"");
  			}
  			csvStr.append("\n");
  		}
  		csvStr.append("\"Subject Execution Times: \" \n");
  		//Subject Execution Times
  		for(String subject : subjects) {
- 			csvStr.append("\""+subject+"\"");
+ 			csvStr.append("\"").append(subject).append("\"");
  			for(KnownChecker checker : checkersInOrder) {
  				CheckerResult result = results.get(checker);
- 				csvStr.append(",\"" + result.getSubjectExecutionTimes().get(subject) + "\"");
+ 				csvStr.append(",\"").append(result.getSubjectExecutionTimes().get(subject)).append("\"");
  			}
  			csvStr.append("\n");
  		}

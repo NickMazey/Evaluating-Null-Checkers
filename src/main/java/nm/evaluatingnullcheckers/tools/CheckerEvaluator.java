@@ -30,7 +30,7 @@ public class CheckerEvaluator {
 	 * @return - A list of unique subjects found in the outputs
 	 */
 	public static ArrayList<String> getSubjects(HashMap<KnownChecker, ArrayList<CheckerReport>> output) {
-		ArrayList<String> names = new ArrayList<String>();
+		ArrayList<String> names = new ArrayList<>();
 		if (output != null) {
 			for (ArrayList<CheckerReport> reports : output.values()) {
 				for (CheckerReport report : reports) {
@@ -51,7 +51,7 @@ public class CheckerEvaluator {
 	 * @return - A mapping from subjects to expected classifications
 	 */
 	public static HashMap<String, CheckerOutput> getExpectedOutput(HashMap<String, ArrayList<Annotation>> metadata) {
-		HashMap<String, CheckerOutput> expectedOutputs = new HashMap<String, CheckerOutput>();
+		HashMap<String, CheckerOutput> expectedOutputs = new HashMap<>();
 		if (metadata != null) {
 			for (String subjectName : metadata.keySet()) {
 				for (Annotation annotation : metadata.get(subjectName)) {
@@ -207,13 +207,13 @@ public class CheckerEvaluator {
 		ArrayList<String> names = getSubjects(output);
 		HashMap<String, ArrayList<Annotation>> metadata = InvokerUtils.getMetadata(names);
 		HashMap<String, CheckerOutput> expectedOutputs = getExpectedOutput(metadata);
-		HashMap<KnownChecker, CheckerResult> results = new HashMap<KnownChecker, CheckerResult>();
+		HashMap<KnownChecker, CheckerResult> results = new HashMap<>();
 		if (output != null) {
 			for (KnownChecker checker : output.keySet()) {
 				long totalTime = 0;
-				HashMap<String, Flag> subjectResults = new HashMap<String, Flag>();
-				HashMap<String, String> subjectMessages = new HashMap<String, String>();
-				HashMap<String, Long> subjectExecutionTimes = new HashMap<String, Long>();
+				HashMap<String, Flag> subjectResults = new HashMap<>();
+				HashMap<String, String> subjectMessages = new HashMap<>();
+				HashMap<String, Long> subjectExecutionTimes = new HashMap<>();
 				for (CheckerReport report : output.get(checker)) {
 					String subjectName = report.getSubjectName();
 					CheckerOutput expectedOutput = expectedOutputs.get(subjectName);
@@ -236,14 +236,14 @@ public class CheckerEvaluator {
 	}
 	
 	private static HashMap<KnownChecker, Double> computeSimilarities(KnownChecker checker, HashMap<KnownChecker,CheckerResult> results){
-			HashMap<KnownChecker,Double> similarity = new HashMap<KnownChecker,Double>();
+			HashMap<KnownChecker,Double> similarity = new HashMap<>();
 			HashMap<String,Flag> subjectResults = results.get(checker).getSubjectResults();
 			for (KnownChecker other : results.keySet()) {
 				if(other != checker) {
 					HashMap<String,Flag> otherSubjectResults = results.get(other).getSubjectResults();
 					double total = subjectResults.size() + otherSubjectResults.size();
 					double union = 0;
-					HashSet<String> allSubjects = new HashSet<String>();
+					HashSet<String> allSubjects = new HashSet<>();
 					allSubjects.addAll(subjectResults.keySet());
 					allSubjects.addAll(otherSubjectResults.keySet());
 					for(String subjectName : allSubjects) {
@@ -270,7 +270,7 @@ public class CheckerEvaluator {
 	 * @param args[0] - Report file in JSON format
 	 * @param args[1] - File to export to
 	 */
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		if (args.length >= 2) {
 			String report = args[0];
 			String output = args[1];

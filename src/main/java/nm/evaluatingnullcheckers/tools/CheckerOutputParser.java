@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.function.Function;
-import java.util.regex.Pattern;
 
 import nm.evaluatingnullcheckers.tools.InvokerUtils.CheckerOutput;
 import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
@@ -70,8 +68,7 @@ public class CheckerOutputParser {
 			logName = logName.substring(0, i);
 		}
 		// Checking the Maven log to ensure compilation succeeded
-		File logFile = new File(logName + ".log");
-		return logFile;
+		return new File(logName + ".log");
 	}
 
 	private static long getTime(File file) {
@@ -87,7 +84,7 @@ public class CheckerOutputParser {
 			try {
 				Scanner reader = new Scanner(timeFile);
 				if (reader.hasNextLine()) {
-					time = Long.valueOf(reader.nextLine());
+					time = Long.parseLong(reader.nextLine());
 				}
 				reader.close();
 			} catch (IOException e) {
@@ -103,12 +100,12 @@ public class CheckerOutputParser {
 	 * @param logDirectory - The folder where logs are stored
 	 */
 	public static HashMap<KnownChecker, ArrayList<CheckerReport>> parseReports(File logDirectory) {
-		HashMap<KnownChecker, ArrayList<CheckerReport>> outputs = new HashMap<KnownChecker, ArrayList<CheckerReport>>();
+		HashMap<KnownChecker, ArrayList<CheckerReport>> outputs = new HashMap<>();
 		if (logDirectory != null && logDirectory.isDirectory()) {
 			for (File checkerFolder : logDirectory.listFiles()) {
 				if (checkerFolder.isDirectory()) {
 					KnownChecker checkerName = KnownChecker.valueOf(checkerFolder.getName().toUpperCase());
-					ArrayList<CheckerReport> reports = new ArrayList<CheckerReport>();
+					ArrayList<CheckerReport> reports = new ArrayList<>();
 					switch (checkerName) {
 						case CHECKERFRAMEWORK:
 							for (File log : checkerFolder.listFiles()) {
