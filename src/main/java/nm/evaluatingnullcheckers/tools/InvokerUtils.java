@@ -27,7 +27,7 @@ public class InvokerUtils {
 	}
 
 	public enum KnownChecker {
-		CHECKERFRAMEWORK, INFER, NULLAWAY;
+		CHECKERFRAMEWORK, INFER, INFERPULSE,INFERERADICATE, NULLAWAY;
 	}
 
 	public enum Flag {

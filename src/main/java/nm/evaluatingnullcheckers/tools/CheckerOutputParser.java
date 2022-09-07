@@ -129,6 +129,10 @@ public class CheckerOutputParser {
 							break;
 
 						case INFER:
+
+						case INFERERADICATE:
+
+						case INFERPULSE:
 							for (File log : checkerFolder.listFiles()) {
 								if (!log.getName().contains(".time")) {
 									if (log.getName().contains(".inferreport")) {
