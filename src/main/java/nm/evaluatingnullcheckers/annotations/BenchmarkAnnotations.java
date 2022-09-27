@@ -111,7 +111,6 @@ public class BenchmarkAnnotations {
   public @interface Nonannotated{
   }
 
-  @Annotation
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
   public @interface Style{
