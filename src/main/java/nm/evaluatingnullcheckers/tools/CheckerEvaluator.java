@@ -286,7 +286,7 @@ public class CheckerEvaluator {
 	 * Method for executing the checker evaluator from another class
 	 *
 	 * @param report - Parsed output to read
-	 * @param output - File for outputting results
+	 * @param output - File to output results to
 	 */
 	public static void evaluate(String report, String output) {
 		InvokerUtils.outputResultsToFile(evaluateCheckers(InvokerUtils.deserialiseReports(new File(report))), new File(output));
