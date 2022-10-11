@@ -45,7 +45,7 @@ public class BenchmarkInvokerCLI {
                 printStream.println("Message: " + e.getMessage());
             }
             p.waitFor();
-            printStream.println("Raw checker output available at: " + logFolder + "/checkeroutput");
+            printStream.println("Raw checker output available at: " + logFolder);
 
             // Re-compiling tools because checkers use mvn clean
             InvocationRequest request = new DefaultInvocationRequest();
@@ -56,14 +56,16 @@ public class BenchmarkInvokerCLI {
             request.setBatchMode(true);
             Invoker invoker = new DefaultInvoker();
             invoker.execute(request);
-
-            CheckerOutputParser.parse(logFolder, logFolder + "/checkeroutput" + timestamp + ".json");
-            printStream.println("Parsed checker output available at: " + logFolder + "/checkeroutput" + timestamp + ".json");
-            CheckerEvaluator.evaluate(logFolder + "/checkeroutput" + timestamp + ".json", logFolder + "/results" + timestamp + ".json");
-            printStream.println("Evaluator output available at: " + logFolder + "/results" + timestamp + ".json");
+            String parsedOutputFile = logFolder + "/checkeroutput" + timestamp + ".json";
+            CheckerOutputParser.parse(logFolder, parsedOutputFile);
+            printStream.println("Parsed checker output available at: " +parsedOutputFile);
+            String evaluatedOutputFile = logFolder + "/results" + timestamp + ".json";
+            CheckerEvaluator.evaluate(parsedOutputFile, evaluatedOutputFile);
+            printStream.println("Evaluator output available at: " + evaluatedOutputFile);
 			if(format != null) {
-				ResultsOutputHandler.handleOutput(logFolder, timestamp, format);
-				printStream.println("Results output available at: " + logFolder + "/results" + timestamp + "." + format.toLowerCase());
+                String formatFile = logFolder + "/results" + timestamp + "." + format.toLowerCase();
+				ResultsOutputHandler.handleOutput(evaluatedOutputFile, formatFile, format);
+				printStream.println("Results output available at: " + formatFile);
 			}
 
         } catch (IOException e) {
@@ -96,7 +98,7 @@ public class BenchmarkInvokerCLI {
                 format = args[2];
             }
             try {
-                auxilliaryMain(args[0], args[1], format, logFolder, timestamp, System.out);
+                auxilliaryMain(args[0], args[1],logFolder, timestamp, format,System.out);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
@@ -104,8 +106,6 @@ public class BenchmarkInvokerCLI {
             System.out.println(
                     "Usage: BenchmarkInvokerCLI {Subject List File} {Checker List File} {Result File Format [default - csv]}");
         }
-
-
     }
 
 }

@@ -22,7 +22,7 @@ java -cp target/classes:$classpath nm.evaluatingnullcheckers.tools.CheckerEvalua
 echo "results available at $loglocation/log$timestamp/results$timestamp.json"
 if [[ -f ${loglocation}/log${timestamp}/results${timestamp}.json ]]
 then
-java -cp target/classes:$classpath nm.evaluatingnullcheckers.tools.ResultsOutputHandler ${loglocation}/log${timestamp} ${timestamp} xlsx
+java -cp target/classes:$classpath nm.evaluatingnullcheckers.tools.ResultsOutputHandler $loglocation/log$timestamp/results$timestamp.json $loglocation/log$timestamp/results$timestamp.xlsx xlsx
 echo "formatted results available at $loglocation/log$timestamp/results$timestamp.xlsx"
 fi
 fi

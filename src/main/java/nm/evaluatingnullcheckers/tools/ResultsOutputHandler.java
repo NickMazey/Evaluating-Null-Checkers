@@ -18,18 +18,16 @@ public class ResultsOutputHandler {
 
 	/**
 	 * Handles output by reflectively invoking formatter and outputting its data to a file
-	 * @param logFolder - The folder to output to
-	 * @param timestamp - The timestamp to append to the file
-	 * @param format - The format to use
+	 * @param input - The file to read from
+	 * @param format - The format write output in
 	 */
-	public static void handleOutput(String logFolder, String timestamp, String format) {
+	public static void handleOutput(String input, String outFilePath, String format) {
 		format = format.toUpperCase();
 		HashMap<KnownChecker, CheckerResult> results = InvokerUtils
-				.deserialiseResults(new File(logFolder + "/results" + timestamp + ".json"));
-		String outFilePath = logFolder + "/resultsoutput" + timestamp + "." + format.toLowerCase();
+				.deserialiseResults(new File(input));
 		try {
 			//Reflectively calls formatter
-			Class<? extends ResultsOutput> outclass = (Class<? extends ResultsOutput>) Class.forName("nm.evaluatingnullcheckers.tools.ResultsOutput" + format);
+			Class<? extends ResultsOutput> outclass = (Class<? extends ResultsOutput>) Class.forName(ResultsOutput.class.getName() + format);
 			ResultsOutput o = outclass.getDeclaredConstructor().newInstance();
 			Files.write(new File(outFilePath).toPath(), o.outputResults(results));
 		} catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
@@ -44,22 +42,22 @@ public class ResultsOutputHandler {
 	 * Method for invoking ResultsOutputHandler from outside Java
 	 * 
 	 * @param args    - Arguments for the results output handler
-	 * @param args[0] - Folder to use
-	 * @param args[1] - Timestamp to use
-	 * @param args[2] - File format to use
+	 * @param args[0] - File to read from
+	 * @param args[1] - File to write output to
+	 * @param args[2] - Format to use
 	 */
 	public static void main(String[] args) {
 		if (args.length >= 3) {
-			String logFolder = args[0];
-			String timestamp = args[1];
+			String input = args[0];
+			String output = args[1];
 			String format = args[2];
 			try{
-				handleOutput(logFolder,timestamp,format);
+				handleOutput(input,output,format);
 			} catch(IllegalArgumentException e){
 				System.out.println(e.getMessage());
 			}
 		} else {
-			System.out.println("Usage: ResultsOutputHandler {Log Folder} {Timestamp} {Output Format}");
+			System.out.println("Usage: ResultsOutputHandler {Input File} {Output File} {Output Format}");
 		}
 	}
 
