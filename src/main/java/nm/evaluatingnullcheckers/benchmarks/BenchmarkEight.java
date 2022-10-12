@@ -7,7 +7,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.GenericsNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Local;
 
 /**
  * 
@@ -16,7 +16,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
  */
 @Annotated
 @Intraprocedural
-@LocalSource
+@Local
 @GenericsNPE
 @NPEProne
 @Imperative

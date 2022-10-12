@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
  */
 @Annotated
 @Intraprocedural
-@MethodParameterSource
+@Parameter
 @ObjectNPE
 @NPEProne
 @Imperative

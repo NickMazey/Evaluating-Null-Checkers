@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
  */
 @Annotated
 @Intraprocedural
-@FieldSource
+@Field
 @ObjectNPE
 @NPEProof
 @Lambda

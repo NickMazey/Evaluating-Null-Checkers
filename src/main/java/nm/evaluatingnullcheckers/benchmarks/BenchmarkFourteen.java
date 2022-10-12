@@ -7,7 +7,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Local;
 
 /**
  * Null-guarded version of benchmarktwo
@@ -17,7 +17,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.LocalSource;
  */
 @Annotated
 @Intraprocedural
-@LocalSource
+@Local
 @ArrayNPE
 @NPEProof
 @Imperative

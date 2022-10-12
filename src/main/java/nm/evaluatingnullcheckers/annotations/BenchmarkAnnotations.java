@@ -55,27 +55,26 @@ public class BenchmarkAnnotations {
   @VariableScope
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
-  public @interface FieldSource{
+  public @interface Field {
   }
   
   @VariableScope
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
-  public @interface MethodParameterSource{
+  public @interface Parameter {
   }
   
   @VariableScope
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
-  public @interface ReturnSource{
+  public @interface Return {
   }
   
   @VariableScope
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
-  public @interface LocalSource{
+  public @interface Local {
   }
-  
   
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)

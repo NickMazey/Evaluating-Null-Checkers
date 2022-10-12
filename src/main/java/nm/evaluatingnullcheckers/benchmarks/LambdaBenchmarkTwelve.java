@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
  */
 @Annotated
 @Intraprocedural
-@LocalSource
+@Local
 @ObjectNPE
 @NPEProof
 @Lambda

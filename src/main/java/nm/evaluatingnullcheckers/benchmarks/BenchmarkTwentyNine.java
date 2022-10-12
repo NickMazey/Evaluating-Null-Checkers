@@ -3,7 +3,7 @@ package nm.evaluatingnullcheckers.benchmarks;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParameterSource;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Parameter;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
@@ -17,7 +17,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
  */
 @Nonannotated
 @Intraprocedural
-@MethodParameterSource
+@Parameter
 @ObjectNPE
 @NPEProne
 @Imperative

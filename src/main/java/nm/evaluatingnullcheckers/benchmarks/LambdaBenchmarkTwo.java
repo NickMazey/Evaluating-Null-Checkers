@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
  */
 @Annotated
 @Intraprocedural
-@LocalSource
+@Local
 @ArrayNPE
 @NPEProne
 @Lambda

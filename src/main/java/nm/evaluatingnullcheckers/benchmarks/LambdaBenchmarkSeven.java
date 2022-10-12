@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  */
 @Annotated
 @Intraprocedural
-@MethodParameterSource
+@Parameter
 @GenericsNPE
 @NPEProne
 @Lambda

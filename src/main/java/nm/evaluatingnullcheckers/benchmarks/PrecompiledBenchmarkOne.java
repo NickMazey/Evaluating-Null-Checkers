@@ -4,7 +4,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedura
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ReturnSource;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Return;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 import nm.precompiledclasses.AnnotationConversions;
 
@@ -15,7 +15,7 @@ import nm.precompiledclasses.AnnotationConversions;
  */
 @Nonannotated
 @Interprocedural
-@ReturnSource
+@Return
 @ObjectNPE
 @NPEProne
 @Imperative

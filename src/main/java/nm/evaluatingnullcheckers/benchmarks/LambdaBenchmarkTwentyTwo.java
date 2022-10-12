@@ -12,7 +12,7 @@ import java.util.function.Supplier;
  */
 @Nonannotated
 @Interprocedural
-@ReturnSource
+@Return
 @GenericsNPE
 @NPEProof
 @Lambda

@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  */
 @Annotated
 @Interprocedural
-@ReturnSource
+@Return
 @ObjectNPE
 @NPEProof
 @Lambda

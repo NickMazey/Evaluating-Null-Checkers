@@ -8,7 +8,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParameterSource;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Parameter;
 
 /**
  * Null-guarded version of benchmarksix
@@ -18,7 +18,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.MethodParamete
  */
 @Annotated
 @Intraprocedural
-@MethodParameterSource
+@Parameter
 @ArrayNPE
 @NPEProof
 @Imperative

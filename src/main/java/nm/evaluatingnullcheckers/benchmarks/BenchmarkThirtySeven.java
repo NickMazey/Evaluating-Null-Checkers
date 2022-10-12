@@ -11,7 +11,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
  */
 @Nonannotated
 @Intraprocedural
-@LocalSource
+@Local
 @ObjectNPE
 @NPEProof
 @Imperative

@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
  */
 @Annotated
 @Intraprocedural
-@LocalSource
+@Local
 @ObjectNPE
 @NPEProof
 //Brings into question the meaning of "NPEProof"
