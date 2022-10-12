@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.GenericsNPE;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Generic;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Return;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
@@ -18,7 +18,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 @Annotated
 @Interprocedural
 @Return
-@GenericsNPE
+@Generic
 @NPEProne
 @Imperative
 public class BenchmarkTwelve {

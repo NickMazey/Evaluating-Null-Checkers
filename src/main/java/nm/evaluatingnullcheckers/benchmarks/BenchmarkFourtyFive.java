@@ -3,7 +3,7 @@ package nm.evaluatingnullcheckers.benchmarks;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Field;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.GenericsNPE;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Generic;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
@@ -18,7 +18,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 @Nonannotated
 @Intraprocedural
 @Field
-@GenericsNPE
+@Generic
 @NPEProof
 @Imperative
 public class BenchmarkFourtyFive <T> {

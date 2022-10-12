@@ -4,7 +4,7 @@ package nm.evaluatingnullcheckers.benchmarks;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Object;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Return;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 
@@ -18,12 +18,12 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 @Nonannotated
 @Interprocedural
 @Return
-@ObjectNPE
+@Object
 @NPEProne
 @Imperative
 public class BenchmarkThirtyFour {
 	
-	private static Object getObject() {
+	private static java.lang.Object getObject() {
 		return null;
 	}
 	

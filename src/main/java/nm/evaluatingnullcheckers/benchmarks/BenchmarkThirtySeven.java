@@ -1,6 +1,7 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
 
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 
 /**
@@ -12,7 +13,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 @Nonannotated
 @Intraprocedural
 @Local
-@ObjectNPE
+@BenchmarkAnnotations.Object
 @NPEProof
 @Imperative
 public class BenchmarkThirtySeven {

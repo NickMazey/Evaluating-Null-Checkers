@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Object;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Return;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 
@@ -18,13 +18,14 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 @Annotated
 @Interprocedural
 @Return
-@ObjectNPE
+@Object
 @NPEProne
 @Imperative
 public class FlowAnalysisBenchmarkTwo {
 
 	class A{
-		@Nonnull Object foo() {
+		@Nonnull
+		java.lang.Object foo() {
 			return null;
 		}
 	}

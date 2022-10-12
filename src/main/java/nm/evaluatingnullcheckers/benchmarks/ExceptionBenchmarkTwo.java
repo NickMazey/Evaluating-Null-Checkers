@@ -1,8 +1,10 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 
 import javax.annotation.Nullable;
+import java.lang.Object;
 
 /**
  *
@@ -12,7 +14,7 @@ import javax.annotation.Nullable;
 @Annotated
 @Intraprocedural
 @Local
-@ObjectNPE
+@BenchmarkAnnotations.Object
 @NPEProof
 //Brings into question the meaning of "NPEProof"
 @Imperative

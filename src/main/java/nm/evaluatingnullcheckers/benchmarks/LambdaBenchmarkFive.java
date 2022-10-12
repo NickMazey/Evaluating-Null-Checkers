@@ -1,5 +1,6 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 
 import javax.annotation.Nullable;
@@ -13,7 +14,7 @@ import java.util.function.Consumer;
 @Annotated
 @Intraprocedural
 @Parameter
-@ObjectNPE
+@BenchmarkAnnotations.Object
 @NPEProne
 @Lambda
 public class LambdaBenchmarkFive {

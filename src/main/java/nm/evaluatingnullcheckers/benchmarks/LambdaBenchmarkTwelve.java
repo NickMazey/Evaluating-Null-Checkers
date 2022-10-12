@@ -1,9 +1,11 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
 
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 
 import javax.annotation.Nullable;
+import java.lang.Object;
 
 /**
  * Null-guarded version of LambdaBenchmarkOne
@@ -14,7 +16,7 @@ import javax.annotation.Nullable;
 @Annotated
 @Intraprocedural
 @Local
-@ObjectNPE
+@BenchmarkAnnotations.Object
 @NPEProof
 @Lambda
 public class LambdaBenchmarkTwelve {

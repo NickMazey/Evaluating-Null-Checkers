@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Object;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Return;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 
@@ -18,19 +18,20 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 @Annotated
 @Interprocedural
 @Return
-@ObjectNPE
+@Object
 @NPEProne
 @Imperative
 public class BenchmarkFourtyNine {
 	class A{
-		Object foo() {
-			return new Object();
+		java.lang.Object foo() {
+			return new java.lang.Object();
 		}
 	}
 	
 	class B extends A{
 		@Override
-		@Nullable Object foo() {
+		@Nullable
+		java.lang.Object foo() {
 			return null;
 		}
 	}

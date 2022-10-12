@@ -5,7 +5,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Parameter;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Object;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 
 
@@ -18,7 +18,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 @Nonannotated
 @Intraprocedural
 @Parameter
-@ObjectNPE
+@Object
 @NPEProof
 @Imperative
 public class BenchmarkFourtyOne {

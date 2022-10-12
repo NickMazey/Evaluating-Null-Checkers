@@ -7,7 +7,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Field;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Object;
 
 /**
  * Null-guarded version of benchmarkthree
@@ -18,7 +18,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
 @Annotated
 @Intraprocedural
 @Field
-@ObjectNPE
+@Object
 @NPEProof
 @Imperative
 public class BenchmarkFifteen {

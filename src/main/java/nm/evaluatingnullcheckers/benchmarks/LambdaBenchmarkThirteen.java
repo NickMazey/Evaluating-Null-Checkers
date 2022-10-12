@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 @Annotated
 @Intraprocedural
 @Local
-@ArrayNPE
+@Array
 @NPEProof
 @Lambda
 public class LambdaBenchmarkThirteen {

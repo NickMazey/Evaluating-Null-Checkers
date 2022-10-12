@@ -6,7 +6,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Local;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectNPE;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Object;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 
 
@@ -19,12 +19,12 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 @Annotated
 @Intraprocedural
 @Local
-@ObjectNPE
+@Object
 @NPEProne
 @Imperative
 public class FlakySemanticsBenchmarkOne {
 	public static void throwNPE() {
-		@Nullable Object obj = new Object();
+		@Nullable java.lang.Object obj = new java.lang.Object();
 		//Every other millisecond
 		if(System.currentTimeMillis() % 2 == 1) {
 			obj = null;

@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 @Annotated
 @Intraprocedural
 @Parameter
-@ArrayNPE
+@Array
 @NPEProof
 @Lambda
 public class LambdaBenchmarkSeventeen {

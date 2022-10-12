@@ -1,7 +1,9 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 
+import java.lang.Object;
 import java.util.function.Supplier;
 
 /**
@@ -12,7 +14,7 @@ import java.util.function.Supplier;
 @Annotated
 @Interprocedural
 @Return
-@ObjectNPE
+@BenchmarkAnnotations.Object
 @NPEProof
 @Lambda
 public class LambdaBenchmarkTwenty {

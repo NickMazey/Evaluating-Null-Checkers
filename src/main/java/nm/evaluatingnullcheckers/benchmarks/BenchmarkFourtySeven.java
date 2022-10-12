@@ -1,6 +1,6 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayNPE;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Array;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
@@ -17,7 +17,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 @Nonannotated
 @Interprocedural
 @Return
-@ArrayNPE
+@Array
 @NPEProof
 @Imperative
 public class BenchmarkFourtySeven {

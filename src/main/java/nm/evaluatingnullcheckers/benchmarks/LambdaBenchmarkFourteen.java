@@ -1,8 +1,10 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 
 import javax.annotation.Nullable;
+import java.lang.Object;
 
 /**
  * Null-guarded version of LambdaBenchmarkThree
@@ -13,12 +15,12 @@ import javax.annotation.Nullable;
 @Annotated
 @Intraprocedural
 @Field
-@ObjectNPE
+@BenchmarkAnnotations.Object
 @NPEProof
 @Lambda
 public class LambdaBenchmarkFourteen {
 	@Nullable
-	Object obj = null;
+    Object obj = null;
 
 	public LambdaBenchmarkFourteen() {}
 	

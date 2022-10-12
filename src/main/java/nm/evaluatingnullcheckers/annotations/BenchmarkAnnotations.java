@@ -32,19 +32,19 @@ public class BenchmarkAnnotations {
   @VariableType
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
-  public @interface ObjectNPE{
+  public @interface Object {
   }
   
   @VariableType
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
-  public @interface ArrayNPE{
+  public @interface Array {
   }
   
   @VariableType
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
-  public @interface GenericsNPE{
+  public @interface Generic {
   }
   
   @Retention(RetentionPolicy.RUNTIME)
@@ -75,7 +75,7 @@ public class BenchmarkAnnotations {
   @Target(ElementType.TYPE)
   public @interface Local {
   }
-  
+
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
   public @interface AnalysisScope{
