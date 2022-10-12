@@ -32,7 +32,7 @@ public class BenchmarkInvokerGUI {
     private JTable benchSortTable;
     private boolean blockingBench = false;
     private int lastBenchIndex = -1;
-    private HashMap<InvokerUtils.KnownChecker, Boolean> enabledCheckers;
+    private HashMap<String, Boolean> enabledCheckers;
     private JTable checkerSortTable;
     private boolean blockingChecker = false;
     private int lastCheckerIndex = -1;
@@ -190,7 +190,7 @@ public class BenchmarkInvokerGUI {
             enabledCheckers.keySet().stream().filter(e -> enabledCheckers.get(e)).forEach(
                     e -> {
                         try {
-                            checkerWriter.write(e.name().toLowerCase() + "\n");
+                            checkerWriter.write(e + "\n");
                         } catch (IOException ex) {
                             ex.printStackTrace(logStream);
                         }
@@ -390,15 +390,15 @@ public class BenchmarkInvokerGUI {
 
     private JScrollPane checkerSortTable() {
         enabledCheckers = new HashMap<>();
-        Arrays.stream(InvokerUtils.KnownChecker.values()).forEach(c -> enabledCheckers.put(c, true));
+        InvokerUtils.getAvailableCheckers().stream().forEach(c -> enabledCheckers.put(c, true));
         String[] columnNames = new String[]{"Enabled", "Name"};
-        String[][] data = new String[InvokerUtils.KnownChecker.values().length][2];
+        String[][] data = new String[InvokerUtils.getAvailableCheckers().size()][2];
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
                 if (j == 0) {
-                    data[i][j] = enabledCheckers.get(InvokerUtils.KnownChecker.values()[i]) ? "\u2713" : "\u2613";
+                    data[i][j] = enabledCheckers.get(InvokerUtils.getAvailableCheckers().get(i)) ? "\u2713" : "\u2613";
                 } else {
-                    data[i][j] = InvokerUtils.KnownChecker.values()[i].name();
+                    data[i][j] = InvokerUtils.getAvailableCheckers().get(i);
                 }
             }
         }
@@ -420,8 +420,7 @@ public class BenchmarkInvokerGUI {
                     lastCheckerIndex = e.getFirstIndex();
                 }
                 String checkerName = checkerSortTable.getValueAt(lastCheckerIndex, 1).toString();
-                InvokerUtils.KnownChecker checker = InvokerUtils.KnownChecker.valueOf(checkerName);
-                enabledCheckers.put(checker, !enabledCheckers.get(checker));
+                enabledCheckers.put(checkerName, !enabledCheckers.get(checkerName));
                 updateCheckerTableData();
                 blockingChecker = false;
             }
@@ -433,7 +432,7 @@ public class BenchmarkInvokerGUI {
     private void updateCheckerTableData() {
         DefaultTableModel sortTableModel = (DefaultTableModel) checkerSortTable.getModel();
         for (int i = 0; i < sortTableModel.getRowCount(); i++) {
-            sortTableModel.setValueAt(enabledCheckers.get(InvokerUtils.KnownChecker.valueOf((String) sortTableModel.getValueAt(i, 1))) ? "\u2713" : "\u2613", i, 0);
+            sortTableModel.setValueAt(enabledCheckers.get(((String) sortTableModel.getValueAt(i, 1))) ? "\u2713" : "\u2613", i, 0);
         }
         checkerSortTable.setModel(sortTableModel);
         sortTableModel.fireTableDataChanged();

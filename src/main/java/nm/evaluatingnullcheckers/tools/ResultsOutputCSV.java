@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 
 
-import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
-
 /**
  * Produces results output as a string in CSV format
  * 
@@ -16,35 +14,35 @@ import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
 public class ResultsOutputCSV implements ResultsOutput {
 
 	@Override
-	public byte[] outputResults(HashMap<KnownChecker, CheckerResult> results) {
+	public byte[] outputResults(HashMap<String, CheckerResult> results) {
 		//Specifying top left cell as empty
 		StringBuilder csvStr = new StringBuilder("\"\"");
 		
 		ArrayList<String> subjects = InvokerUtils.getSubjectsFromResults(results);
-		ArrayList<KnownChecker> checkersInOrder = new ArrayList<>(results.keySet());
+		ArrayList<String> checkersInOrder = new ArrayList<>(results.keySet());
  		Collections.sort(checkersInOrder);
  		
  		//First line
- 		for(KnownChecker checker : checkersInOrder) {
+ 		for(String checker : checkersInOrder) {
  			csvStr.append(",\"").append(checker).append("\"");
  		}
  		csvStr.append("\n");
  		
  		//Metrics
  		csvStr.append("\"Precision\"");
- 		for(KnownChecker checker : checkersInOrder) {
+ 		for(String checker : checkersInOrder) {
  			CheckerResult result = results.get(checker);
  			csvStr.append(",\"").append(result.getPrecision()).append("\"");
  		}
  		csvStr.append("\n");
  		csvStr.append("\"Recall\"");
- 		for(KnownChecker checker : checkersInOrder) {
+ 		for(String checker : checkersInOrder) {
  			CheckerResult result = results.get(checker);
  			csvStr.append(",\"").append(result.getRecall()).append("\"");
  		}
  		csvStr.append("\n");
  		csvStr.append("\"Execution Time\"");
- 		for(KnownChecker checker : checkersInOrder) {
+ 		for(String checker : checkersInOrder) {
  			CheckerResult result = results.get(checker);
  			csvStr.append(",\"").append(result.getExecutionTime()).append("\"");
  		}
@@ -54,7 +52,7 @@ public class ResultsOutputCSV implements ResultsOutput {
  		//Subject Results
  		for(String subject : subjects) {
  			csvStr.append("\"").append(subject).append("\"");
- 			for(KnownChecker checker : checkersInOrder) {
+ 			for(String checker : checkersInOrder) {
  				CheckerResult result = results.get(checker);
  				csvStr.append(",\"").append(result.getSubjectResults().get(subject)).append("\"");
  			}
@@ -64,7 +62,7 @@ public class ResultsOutputCSV implements ResultsOutput {
  		//Subject Messages
  		for(String subject : subjects) {
  			csvStr.append("\"").append(subject).append("\"");
- 			for(KnownChecker checker : checkersInOrder) {
+ 			for(String checker : checkersInOrder) {
  				CheckerResult result = results.get(checker);
  				csvStr.append(",\"").append(result.getSubjectMessages().get(subject)).append("\"");
  			}
@@ -74,7 +72,7 @@ public class ResultsOutputCSV implements ResultsOutput {
  		//Subject Execution Times
  		for(String subject : subjects) {
  			csvStr.append("\"").append(subject).append("\"");
- 			for(KnownChecker checker : checkersInOrder) {
+ 			for(String checker : checkersInOrder) {
  				CheckerResult result = results.get(checker);
  				csvStr.append(",\"").append(result.getSubjectExecutionTimes().get(subject)).append("\"");
  			}

@@ -6,8 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.HashMap;
 
-import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
-
 /**
  * Class for converting checker evaluations into chosen file formats
  * 
@@ -23,7 +21,7 @@ public class ResultsOutputHandler {
 	 */
 	public static void handleOutput(String input, String outFilePath, String format) {
 		format = format.toUpperCase();
-		HashMap<KnownChecker, CheckerResult> results = InvokerUtils
+		HashMap<String, CheckerResult> results = InvokerUtils
 				.deserialiseResults(new File(input));
 		try {
 			//Reflectively calls formatter

@@ -381,8 +381,8 @@ public class BenchmarkSpace {
 		File allBenches = new File("allcheckers.txt");
 		try {
 			FileWriter writer = new FileWriter(allBenches);
-			for(InvokerUtils.KnownChecker c : InvokerUtils.KnownChecker.values()) {
-				writer.write(c.toString().toLowerCase());
+			for(String checker : InvokerUtils.getAvailableCheckers()) {
+				writer.write(checker.toLowerCase());
 				writer.write("\n");
 			}
 			writer.close();

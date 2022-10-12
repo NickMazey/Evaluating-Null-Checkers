@@ -11,7 +11,6 @@ import java.util.Set;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
 import nm.evaluatingnullcheckers.tools.InvokerUtils.CheckerOutput;
 import nm.evaluatingnullcheckers.tools.InvokerUtils.Flag;
-import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
 
 /**
  * Evaluator for the null checkers Reads output from the parser and creates
@@ -29,7 +28,7 @@ public class CheckerEvaluator {
 	 * @param output - Output produced by the CheckerOutputParser
 	 * @return - A list of unique subjects found in the outputs
 	 */
-	public static ArrayList<String> getSubjects(HashMap<KnownChecker, ArrayList<CheckerReport>> output) {
+	public static ArrayList<String> getSubjects(HashMap<String, ArrayList<CheckerReport>> output) {
 		ArrayList<String> names = new ArrayList<>();
 		if (output != null) {
 			for (ArrayList<CheckerReport> reports : output.values()) {
@@ -202,14 +201,14 @@ public class CheckerEvaluator {
 	 * @param output - Output from CheckerOutputParser
 	 * @return - Map from checkers to results
 	 */
-	public static HashMap<KnownChecker, CheckerResult> evaluateCheckers(
-			HashMap<KnownChecker, ArrayList<CheckerReport>> output) {
+	public static HashMap<String, CheckerResult> evaluateCheckers(
+			HashMap<String, ArrayList<CheckerReport>> output) {
 		ArrayList<String> names = getSubjects(output);
 		HashMap<String, ArrayList<Annotation>> metadata = InvokerUtils.getMetadata(names);
 		HashMap<String, CheckerOutput> expectedOutputs = getExpectedOutput(metadata);
-		HashMap<KnownChecker, CheckerResult> results = new HashMap<>();
+		HashMap<String, CheckerResult> results = new HashMap<>();
 		if (output != null) {
-			for (KnownChecker checker : output.keySet()) {
+			for (String checker : output.keySet()) {
 				long totalTime = 0;
 				HashMap<String, Flag> subjectResults = new HashMap<>();
 				HashMap<String, String> subjectMessages = new HashMap<>();
@@ -228,18 +227,18 @@ public class CheckerEvaluator {
 				double accuracy = calculateAccuracy(subjectResults.values());
 				results.put(checker, new CheckerResult(precision, recall,accuracy, totalTime, subjectResults, subjectMessages,subjectExecutionTimes));
 			}
-			for (KnownChecker checker : results.keySet()) {
+			for (String checker : results.keySet()) {
 				results.get(checker).setSimilarity(computeSimilarities(checker,results));
 			}
 		}
 		return results;
 	}
 	
-	private static HashMap<KnownChecker, Double> computeSimilarities(KnownChecker checker, HashMap<KnownChecker,CheckerResult> results){
-			HashMap<KnownChecker,Double> similarity = new HashMap<>();
+	private static HashMap<String, Double> computeSimilarities(String checker, HashMap<String,CheckerResult> results){
+			HashMap<String,Double> similarity = new HashMap<>();
 			HashMap<String,Flag> subjectResults = results.get(checker).getSubjectResults();
-			for (KnownChecker other : results.keySet()) {
-				if(other != checker) {
+			for (String other : results.keySet()) {
+				if(!other.equals(checker)) {
 					HashMap<String,Flag> otherSubjectResults = results.get(other).getSubjectResults();
 					double total = subjectResults.size() + otherSubjectResults.size();
 					double union = 0;

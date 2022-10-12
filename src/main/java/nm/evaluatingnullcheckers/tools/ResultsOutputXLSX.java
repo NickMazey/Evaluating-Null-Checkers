@@ -22,7 +22,6 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import nm.evaluatingnullcheckers.tools.InvokerUtils.Flag;
-import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
 
 /**
  * Produces results output as an XSSFWorkbook in XLSX format
@@ -33,12 +32,12 @@ import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
 public class ResultsOutputXLSX implements ResultsOutput {
 
 	@Override
-	public byte[] outputResults(HashMap<KnownChecker, CheckerResult> results) {
+	public byte[] outputResults(HashMap<String, CheckerResult> results) {
 		//To suppress warning
 		System.setProperty("log4j2.loggerContextFactory","org.apache.logging.log4j.simple.SimpleLoggerContextFactory");
 		ArrayList<String> subjects = InvokerUtils.getSubjectsFromResults(results);
-		ArrayList<KnownChecker> checkersInOrder = new ArrayList<KnownChecker>();
-		for (KnownChecker checker : results.keySet()) {
+		ArrayList<String> checkersInOrder = new ArrayList<String>();
+		for (String checker : results.keySet()) {
 			checkersInOrder.add(checker);
 		}
 		Collections.sort(checkersInOrder);
@@ -60,7 +59,7 @@ public class ResultsOutputXLSX implements ResultsOutput {
 		for (int i = 0; i < checkersInOrder.size() +1; i++) {
 			notableSubjects.autoSizeColumn(i);
 		}
-		for (KnownChecker checker : checkersInOrder) {
+		for (String checker : checkersInOrder) {
 			Sheet checkerSheet = checkerDetailSheet(results, checker, workbook);
 			for (int i = 0; i < checkerSheet.getLastRowNum(); i++) {
 				// Fixes row height only in MS Excel, does not work for libreoffice
@@ -82,7 +81,7 @@ public class ResultsOutputXLSX implements ResultsOutput {
 		return out.toByteArray();
 	}
 
-	private Sheet summarySheet(HashMap<KnownChecker, CheckerResult> results, ArrayList<KnownChecker> checkersInOrder,
+	private Sheet summarySheet(HashMap<String, CheckerResult> results, ArrayList<String> checkersInOrder,
 			XSSFWorkbook workbook) {
 		Sheet summary = workbook.createSheet("Summary");
 		Row metrics = summary.createRow(0);
@@ -102,7 +101,7 @@ public class ResultsOutputXLSX implements ResultsOutput {
 		Cell time = titles.createCell(4);
 		time.setCellValue("Total Execution Time (ms)");
 		for (int i = 0; i < checkersInOrder.size(); i++) {
-			KnownChecker checker = checkersInOrder.get(i);
+			String checker = checkersInOrder.get(i);
 			CheckerResult result = results.get(checker);
 			Row checkerData = summary.createRow(summary.getLastRowNum() + 1);
 			Cell checkerName = checkerData.createCell(0);
@@ -135,12 +134,12 @@ public class ResultsOutputXLSX implements ResultsOutput {
 		
 		//Columns
 		for(int i = 0; i < checkersInOrder.size(); i++) {
-			KnownChecker checker = checkersInOrder.get(i);
+			String checker = checkersInOrder.get(i);
 			Row checkerSimilarityRow = summary.createRow(summary.getLastRowNum() + 1);
 			Cell checkerName = checkerSimilarityRow.createCell(0);
 			checkerName.setCellValue(checker.toString());
 			for(int j = 0; j < checkersInOrder.size(); j++){
-				KnownChecker other = checkersInOrder.get(j);
+				String other = checkersInOrder.get(j);
 				Cell valueCell = checkerSimilarityRow.createCell(j + 1);
 				if(checker != other) {
 					valueCell.setCellValue(String.format("%.02f",results.get(checker).getSimilarity().get(other)));
@@ -174,15 +173,15 @@ public class ResultsOutputXLSX implements ResultsOutput {
 		
 	}
 	
-	private Sheet notableSubjects(HashMap<KnownChecker,CheckerResult> results,ArrayList<KnownChecker> checkersInOrder, Workbook workbook) {
+	private Sheet notableSubjects(HashMap<String,CheckerResult> results,ArrayList<String> checkersInOrder, Workbook workbook) {
 		Sheet notableSubjects = workbook.createSheet("Notable Subjects");
 		HashSet<String> allSubjects = new HashSet<String>();
-		for(KnownChecker checker : results.keySet()) {
+		for(String checker : results.keySet()) {
 			allSubjects.addAll(results.get(checker).getSubjectResults().keySet());
 		}
 		HashSet<String> notableSubjectNames = new HashSet<String>();
 		for(String subjectName : allSubjects) {
-			for(KnownChecker checker : results.keySet()) {
+			for(String checker : results.keySet()) {
 				Flag subjectFlag =results.get(checker).getSubjectResults().get(subjectName);
 				if(subjectFlag != Flag.TRUEPOSITIVE && subjectFlag != Flag.TRUENEGATIVE) {
 					notableSubjectNames.add(subjectName);
@@ -207,7 +206,7 @@ public class ResultsOutputXLSX implements ResultsOutput {
 			Cell nameCell = subjectRow.createCell(0);
 			nameCell.setCellValue(subjectName);
 			for(int j = 0; j < checkersInOrder.size(); j++) {
-				KnownChecker checker = checkersInOrder.get(j);
+				String checker = checkersInOrder.get(j);
 				Cell resultCell = subjectRow.createCell(j + 1);
 				Flag flag = results.get(checker).getSubjectResults().get(subjectName);
 				resultCell.setCellValue(flag.toString());
@@ -220,7 +219,7 @@ public class ResultsOutputXLSX implements ResultsOutput {
 		return notableSubjects;
 	}
 	
-	private Sheet checkerDetailSheet(HashMap<KnownChecker, CheckerResult> results, KnownChecker checker,
+	private Sheet checkerDetailSheet(HashMap<String, CheckerResult> results, String checker,
 			Workbook workbook) {
 		Sheet details = workbook.createSheet(checker.toString());
 		Row titles = details.createRow(0);

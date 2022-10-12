@@ -2,8 +2,6 @@ package nm.evaluatingnullcheckers.tools;
 
 import java.util.HashMap;
 
-import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
-
 /**
  * Interface for creating results output generators
  * 
@@ -18,7 +16,7 @@ public interface ResultsOutput {
 	 * @param results - Results from the checker evaluator
 	 * @return - The results presented in a format related to the concrete class
 	 */
-	byte[] outputResults(HashMap<KnownChecker, CheckerResult> results);
+	byte[] outputResults(HashMap<String, CheckerResult> results);
 	
 	
 }

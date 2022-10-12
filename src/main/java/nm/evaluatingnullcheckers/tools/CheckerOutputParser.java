@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import nm.evaluatingnullcheckers.tools.InvokerUtils.CheckerOutput;
-import nm.evaluatingnullcheckers.tools.InvokerUtils.KnownChecker;
 
 /**
  * CheckerOutputParser provides several static methods to parse checker logs and
@@ -109,16 +108,16 @@ public class CheckerOutputParser {
 	 *
 	 * @param logDirectory - The folder where logs are stored
 	 */
-	public static HashMap<KnownChecker, ArrayList<CheckerReport>> parseReports(File logDirectory) {
+	public static HashMap<String, ArrayList<CheckerReport>> parseReports(File logDirectory) {
 		HashMap<String,OutputPattern> patternHashMap = InvokerUtils.getOutputPatterns();
-		HashMap<KnownChecker, ArrayList<CheckerReport>> outputs = new HashMap<>();
+		HashMap<String, ArrayList<CheckerReport>> outputs = new HashMap<>();
 		if (logDirectory != null && logDirectory.isDirectory()) {
 			for (File checkerFolder : logDirectory.listFiles()) {
 				if (checkerFolder.isDirectory()) {
-					//KnownChecker checkerName = KnownChecker.valueOf(checkerFolder.getName().toUpperCase());
-					String checkerName = checkerFolder.getName().toLowerCase();
+					String checkerName = checkerFolder.getName().toUpperCase();
 					ArrayList<CheckerReport> reports = new ArrayList<>();
 					OutputPattern pattern = patternHashMap.get(checkerName);
+					if(pattern == null){continue;}
 					for (File log : checkerFolder.listFiles()){
 						if(log.getName().endsWith("."+pattern.fileExtension)){
 							try{
@@ -131,7 +130,7 @@ public class CheckerOutputParser {
 
 						}
 					}
-					outputs.put(KnownChecker.valueOf(checkerName.toUpperCase()), reports);
+					outputs.put(checkerName, reports);
 					}
 				}
 		} else {
