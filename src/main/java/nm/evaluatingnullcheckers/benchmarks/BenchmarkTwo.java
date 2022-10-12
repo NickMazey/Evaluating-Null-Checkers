@@ -3,7 +3,7 @@ package nm.evaluatingnullcheckers.benchmarks;
 import javax.annotation.Nullable;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Array;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayVar;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Local;
@@ -18,7 +18,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 @Annotated
 @Intraprocedural
 @Local
-@Array
+@ArrayVar
 @NPEProne
 @Imperative
 public class BenchmarkTwo {

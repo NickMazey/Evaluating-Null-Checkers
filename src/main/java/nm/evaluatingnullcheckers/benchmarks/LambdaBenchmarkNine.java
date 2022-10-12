@@ -1,6 +1,5 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 
 import java.lang.Object;
@@ -14,7 +13,7 @@ import java.util.function.Supplier;
 @Nonannotated
 @Interprocedural
 @Return
-@BenchmarkAnnotations.Object
+@ObjectVar
 @NPEProne
 @Lambda
 public class LambdaBenchmarkNine {

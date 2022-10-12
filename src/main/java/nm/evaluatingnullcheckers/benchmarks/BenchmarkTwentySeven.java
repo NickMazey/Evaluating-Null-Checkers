@@ -5,7 +5,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Field;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Object;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectVar;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 
 /**
@@ -17,7 +17,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 @Nonannotated
 @Intraprocedural
 @Field
-@Object
+@ObjectVar
 @NPEProne
 @Imperative
 public class BenchmarkTwentySeven {

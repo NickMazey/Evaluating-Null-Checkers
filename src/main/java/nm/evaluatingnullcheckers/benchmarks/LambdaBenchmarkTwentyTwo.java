@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 @Nonannotated
 @Interprocedural
 @Return
-@Generic
+@GenericVar
 @NPEProof
 @Lambda
 public class LambdaBenchmarkTwentyTwo {

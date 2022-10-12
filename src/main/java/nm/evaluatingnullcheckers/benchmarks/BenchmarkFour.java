@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Array;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ArrayVar;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Field;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
@@ -17,7 +17,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedura
 @Annotated
 @Intraprocedural
 @Field
-@Array
+@ArrayVar
 @NPEProne
 @Imperative
 public class BenchmarkFour {

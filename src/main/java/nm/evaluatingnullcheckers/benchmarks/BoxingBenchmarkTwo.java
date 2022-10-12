@@ -1,6 +1,5 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.*;
 
 import javax.annotation.Nullable;
@@ -13,7 +12,7 @@ import javax.annotation.Nullable;
 @Annotated
 @Intraprocedural
 @Parameter
-@BenchmarkAnnotations.Object
+@ObjectVar
 @NPEProne
 @Imperative
 public class BoxingBenchmarkTwo {

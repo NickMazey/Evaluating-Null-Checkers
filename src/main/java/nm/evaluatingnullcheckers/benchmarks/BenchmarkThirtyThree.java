@@ -1,9 +1,9 @@
 package nm.evaluatingnullcheckers.benchmarks;
 
 
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Field;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Generic;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
@@ -13,12 +13,12 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
  * 
  * @author Nick Mazey
  *
- * @param <T> - Generic type
+ * @param <T> - GenericVar type
  */
 @Nonannotated
 @Intraprocedural
 @Field
-@Generic
+@BenchmarkAnnotations.GenericVar
 @NPEProne
 @Imperative
 public class BenchmarkThirtyThree <T> {

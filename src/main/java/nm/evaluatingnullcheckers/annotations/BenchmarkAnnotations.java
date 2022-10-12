@@ -32,19 +32,19 @@ public class BenchmarkAnnotations {
   @VariableType
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
-  public @interface Object {
+  public @interface ObjectVar {
   }
   
   @VariableType
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
-  public @interface Array {
+  public @interface ArrayVar {
   }
   
   @VariableType
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
-  public @interface Generic {
+  public @interface GenericVar {
   }
   
   @Retention(RetentionPolicy.RUNTIME)

@@ -8,12 +8,12 @@ import javax.annotation.Nullable;
  * Null-guarded version of LambdaBenchmarkEight
  * @author Nick Mazey
  *
- * @param <T> - Generic type
+ * @param <T> - GenericVar type
  */
 @Annotated
 @Intraprocedural
 @Field
-@Generic
+@GenericVar
 @NPEProof
 @Lambda
 public class LambdaBenchmarkNineteen<T> {

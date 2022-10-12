@@ -8,12 +8,12 @@ import javax.annotation.Nullable;
  * Lambda version of BenchmarkNine
  * @author Nick Mazey
  *
- * @param <T> - Generic type
+ * @param <T> - GenericVar type
  */
 @Annotated
 @Intraprocedural
 @Field
-@Generic
+@GenericVar
 @NPEProne
 @Lambda
 public class LambdaBenchmarkEight<T> {

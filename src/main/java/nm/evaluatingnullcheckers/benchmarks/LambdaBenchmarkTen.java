@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 @Nonannotated
 @Interprocedural
 @Return
-@Array
+@ArrayVar
 @NPEProne
 @Lambda
 public class LambdaBenchmarkTen {

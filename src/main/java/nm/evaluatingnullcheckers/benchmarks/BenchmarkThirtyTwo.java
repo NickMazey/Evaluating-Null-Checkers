@@ -2,7 +2,7 @@ package nm.evaluatingnullcheckers.benchmarks;
 
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProne;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Generic;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.GenericVar;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Local;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Nonannotated;
@@ -18,7 +18,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 @Nonannotated
 @Intraprocedural
 @Local
-@Generic
+@GenericVar
 @NPEProne
 @Imperative
 public class BenchmarkThirtyTwo {

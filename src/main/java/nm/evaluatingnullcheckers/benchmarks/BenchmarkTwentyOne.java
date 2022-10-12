@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Field;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Generic;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.GenericVar;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 
@@ -14,12 +14,12 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
  * 
  * @author Nick Mazey
  *
- * @param <T> - Generic type
+ * @param <T> - GenericVar type
  */
 @Annotated
 @Intraprocedural
 @Field
-@Generic
+@GenericVar
 @NPEProof
 @Imperative
 public class BenchmarkTwentyOne <T> {

@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
 @Annotated
 @Intraprocedural
 @Field
-@Array
+@ArrayVar
 @NPEProne
 @Lambda
 public class LambdaBenchmarkFour {

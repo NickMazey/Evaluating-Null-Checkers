@@ -6,7 +6,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Intraprocedural;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Local;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Object;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectVar;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 
 
@@ -19,7 +19,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 @Annotated
 @Intraprocedural
 @Local
-@Object
+@ObjectVar
 @NPEProof
 @Imperative
 public class FlakySemanticsBenchmarkTwo {

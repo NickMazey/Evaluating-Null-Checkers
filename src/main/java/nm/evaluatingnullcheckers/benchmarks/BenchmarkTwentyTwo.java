@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Annotated;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.NPEProof;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Interprocedural;
-import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Object;
+import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.ObjectVar;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Return;
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 
@@ -19,7 +19,7 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 @Annotated
 @Interprocedural
 @Return
-@Object
+@ObjectVar
 @NPEProof
 @Imperative
 public class BenchmarkTwentyTwo {

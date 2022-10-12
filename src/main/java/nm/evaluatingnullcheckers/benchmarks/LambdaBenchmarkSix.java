@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 @Annotated
 @Intraprocedural
 @Parameter
-@Array
+@ArrayVar
 @NPEProne
 @Lambda
 public class LambdaBenchmarkSix {
