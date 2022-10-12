@@ -94,58 +94,46 @@ public class CheckerOutputParser {
 		return time;
 	}
 
+	private static CheckerReport auxReports(String prefix,OutputPattern pattern){
+		File auxLog = new File(prefix+"."+pattern.fileExtension);
+		try {
+			OutputPattern auxPattern = pattern.auxiliaryPattern();
+			return parseFile(auxLog,pattern.vulnerableRegex,pattern.errorRegex,auxReports(prefix,auxPattern));
+		}catch (UnsupportedOperationException e){
+			return parseFile(auxLog,pattern.vulnerableRegex,pattern.errorRegex);
+		}
+	}
+
 	/**
 	 * Parses reports and creates a standardised report file in JSON format
 	 *
 	 * @param logDirectory - The folder where logs are stored
 	 */
 	public static HashMap<KnownChecker, ArrayList<CheckerReport>> parseReports(File logDirectory) {
+		HashMap<String,OutputPattern> patternHashMap = InvokerUtils.getOutputPatterns();
 		HashMap<KnownChecker, ArrayList<CheckerReport>> outputs = new HashMap<>();
 		if (logDirectory != null && logDirectory.isDirectory()) {
 			for (File checkerFolder : logDirectory.listFiles()) {
 				if (checkerFolder.isDirectory()) {
-					KnownChecker checkerName = KnownChecker.valueOf(checkerFolder.getName().toUpperCase());
+					//KnownChecker checkerName = KnownChecker.valueOf(checkerFolder.getName().toUpperCase());
+					String checkerName = checkerFolder.getName().toLowerCase();
 					ArrayList<CheckerReport> reports = new ArrayList<>();
-					switch (checkerName) {
-						case CHECKERFRAMEWORK:
-							for (File log : checkerFolder.listFiles()) {
-								if (!log.getName().contains(".time")) {
-									reports.add(parseFile(log,"(?=\\[WARNING\\]).*\\.java.*","\\[ERROR\\]"));
-								}
+					OutputPattern pattern = patternHashMap.get(checkerName);
+					for (File log : checkerFolder.listFiles()){
+						if(log.getName().endsWith("."+pattern.fileExtension)){
+							try{
+								OutputPattern auxPattern = pattern.auxiliaryPattern();
+								String logName = log.getPath().substring(0,log.getPath().length()-("." + pattern.fileExtension).length());
+								reports.add(parseFile(log,pattern.vulnerableRegex,pattern.errorRegex,auxReports(logName,auxPattern)));
+							} catch (UnsupportedOperationException e){
+								reports.add(parseFile(log,pattern.vulnerableRegex,pattern.errorRegex));
 							}
-							outputs.put(checkerName, reports);
-							break;
 
-						case NULLAWAY:
-							for (File log : checkerFolder.listFiles()) {
-								if (!log.getName().contains(".time")) {
-									reports.add(parseFile(log,"(?=\\[WARNING\\]).*\\[NullAway\\].*","\\[ERROR\\]"));
-								}
-							}
-							outputs.put(checkerName, reports);
-							break;
-
-						case INFER:
-
-						case INFERERADICATE:
-
-						case INFERPULSE:
-							for (File log : checkerFolder.listFiles()) {
-								if (!log.getName().contains(".time")) {
-									if (log.getName().contains(".inferreport")) {
-										reports.add(
-												parseFile(
-														log,".*\\.java.*(error|warning).*","(?!a)a",
-														parseFile(customLogToLog(log),"(?!a)a","\\[ERROR\\]")));
-									}
-								}
-							}
-							outputs.put(checkerName, reports);
-							break;
+						}
 					}
-
+					outputs.put(KnownChecker.valueOf(checkerName.toUpperCase()), reports);
+					}
 				}
-			}
 		} else {
 			throw new IllegalArgumentException("ERROR - \"" +  logDirectory + "\" is not a directory or does not exist");
 		}

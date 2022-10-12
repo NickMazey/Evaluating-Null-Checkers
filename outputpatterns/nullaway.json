@@ -1,0 +1,6 @@
+{
+  "vulnerableRegex" : "(?=\\[WARNING\\]).*\\[NullAway\\].*",
+  "errorRegex" : "\\[ERROR\\]",
+  "fileExtension" : "log",
+  "auxPattern" : null
+}

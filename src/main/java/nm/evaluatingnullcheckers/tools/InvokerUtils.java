@@ -1,6 +1,7 @@
 package nm.evaluatingnullcheckers.tools;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -9,9 +10,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 /**
  * Class containing several utility methods / classes for the invoker
@@ -159,6 +167,53 @@ public class InvokerUtils {
 			}
 		}
 		return metadata;
+	}
+
+	private static final class OutputPatternDeserializer extends StdDeserializer<OutputPattern>{
+
+		private int depth = 0;
+
+		public OutputPatternDeserializer(Class<?> vc){
+			super(vc);
+		}
+
+		private OutputPattern deserialize(JsonNode node){
+			if(node == null || node.isNull()){
+				return null;
+			}
+			depth +=1;
+			if(depth > 5){
+				throw new IllegalArgumentException("Auxiliary pattern maximum depth of 5 cannot be exceeded.");
+			}
+			return OutputPattern.of(node.get("vulnerableRegex").asText(),node.get("errorRegex").asText(),node.get("fileExtension").asText(),deserialize(node.get("auxPattern")));
+		}
+
+		@Override
+		public OutputPattern deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
+			depth = 0;
+			return deserialize(p.getCodec().readTree(p));
+		}
+	}
+
+	public static HashMap<String,OutputPattern> getOutputPatterns(){
+		ObjectMapper mapper = new ObjectMapper();
+		SimpleModule module = new SimpleModule();
+		HashMap<String,OutputPattern> checkerOutputPatterns = new HashMap<>();
+		module.addDeserializer(OutputPattern.class,new OutputPatternDeserializer(OutputPattern.class));
+		mapper.registerModule(module);
+		File folder = new File("outputpatterns");
+		try{
+			if(!folder.exists() || !folder.isDirectory()){throw new FileNotFoundException("ERROR - Folder \"outputpatterns\" is missing");}
+			for(File pattern : folder.listFiles()){
+				if(pattern.getName().endsWith(".json")){
+					String checkerName = pattern.getName().substring(0,pattern.getName().length()-5).toLowerCase();
+					checkerOutputPatterns.put(checkerName,mapper.readValue(pattern,OutputPattern.class));
+				}
+			}
+		} catch (Exception e){
+		throw new RuntimeException(e);
+		}
+		return checkerOutputPatterns;
 	}
 
 }

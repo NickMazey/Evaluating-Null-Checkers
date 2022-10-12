@@ -1,0 +1,11 @@
+{
+  "vulnerableRegex" : ".*\\.java.*(error|warning).*",
+  "errorRegex" : "(?!a)a",
+  "fileExtension" : "inferreport",
+  "auxPattern" : {
+    "vulnerableRegex" : "(?!a)a",
+    "errorRegex" : "\\[ERROR\\]",
+    "fileExtension" : "log",
+    "auxPattern" : null
+  }
+}

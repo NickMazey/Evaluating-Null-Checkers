@@ -1,0 +1,6 @@
+{
+  "vulnerableRegex" : "(?=\\[WARNING\\]).*\\.java.*",
+  "errorRegex" : "\\[ERROR\\]",
+  "fileExtension" : "log",
+  "auxPattern" : null
+}
