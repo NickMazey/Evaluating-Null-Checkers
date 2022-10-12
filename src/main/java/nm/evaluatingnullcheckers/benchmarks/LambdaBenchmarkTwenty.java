@@ -10,7 +10,7 @@ import java.util.function.Supplier;
  * @author Nick Mazey
  *
  */
-@Annotated
+@Nonannotated
 @Interprocedural
 @Return
 @ObjectVar
@@ -21,9 +21,8 @@ public class LambdaBenchmarkTwenty {
 	private static Supplier<Object> getObject = ()->null;
 	
 	public static Runnable throwNPE = ()->{
-		Object o = getObject.get();
-		if(o != null) {
-			o.toString();
+		if(getObject.get() != null) {
+			getObject.get().toString();
 		}
 	};
 }
