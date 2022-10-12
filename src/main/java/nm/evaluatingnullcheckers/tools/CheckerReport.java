@@ -13,21 +13,17 @@ public class CheckerReport {
 	private CheckerOutput output;
 	private String message;
 	private String subjectName;
-	private long executionTime;
-
 	/**
 	 * Class for storing output from the checkers
 	 * 
 	 * @param output        - How the checker classified the subject program
 	 * @param message       - The error detected by the checker
 	 * @param subjectName   - The name of the subject
-	 * @param executionTime - How long the subject took to execute (ms)
 	 */
-	public CheckerReport(CheckerOutput output, String subjectName, String message, long executionTime) {
+	public CheckerReport(CheckerOutput output, String subjectName, String message) {
 		this.output = output;
 		this.subjectName = subjectName;
 		this.message = message;
-		this.executionTime = executionTime;
 	}
 
 	/**
@@ -89,21 +85,5 @@ public class CheckerReport {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
-	/**
-	 * Getter for execution time
-	 * 
-	 * @return - execution time for this subject
-	 */
-	public long getExecutionTime() {
-		return this.executionTime;
-	}
-	
-	/**
-	 * Setter for execution time
-	 * @param executionTime - execution time to set
-	 */
-	public void setExecutionTime(long executionTime) {
-		this.executionTime = executionTime;
-	}
+
 }

@@ -48,7 +48,7 @@ public class ResultsOutputXLSX implements ResultsOutput {
 			// Fixes row height only in MS Excel, does not work for libreoffice
 			summary.getRow(i).setHeight((short) -1);
 		}
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 4; i++) {
 			summary.autoSizeColumn(i);
 		}
 		Sheet notableSubjects = notableSubjects(results,checkersInOrder,workbook);
@@ -65,7 +65,7 @@ public class ResultsOutputXLSX implements ResultsOutput {
 				// Fixes row height only in MS Excel, does not work for libreoffice
 				checkerSheet.getRow(i).setHeight((short) -1);
 			}
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 3; i++) {
 				checkerSheet.autoSizeColumn(i);
 			}
 		}
@@ -88,7 +88,7 @@ public class ResultsOutputXLSX implements ResultsOutput {
 		Cell metricsTitle = metrics.createCell(0);
 		metricsTitle.setCellValue("Metrics");
 		CellUtil.setAlignment(metricsTitle, HorizontalAlignment.CENTER);
-		summary.addMergedRegion(new CellRangeAddress(0,0,0,4));
+		summary.addMergedRegion(new CellRangeAddress(0,0,0,3));
 		Row titles = summary.createRow(1);
 		Cell checkers = titles.createCell(0);
 		checkers.setCellValue("Checker");
@@ -98,8 +98,6 @@ public class ResultsOutputXLSX implements ResultsOutput {
 		precision.setCellValue("Precision");
 		Cell recall = titles.createCell(3);
 		recall.setCellValue("Recall");
-		Cell time = titles.createCell(4);
-		time.setCellValue("Total Execution Time (ms)");
 		for (int i = 0; i < checkersInOrder.size(); i++) {
 			String checker = checkersInOrder.get(i);
 			CheckerResult result = results.get(checker);
@@ -112,8 +110,6 @@ public class ResultsOutputXLSX implements ResultsOutput {
 			checkerPrecision.setCellValue(String.format("%.02f",result.getPrecision()));
 			Cell checkerRecall = checkerData.createCell(3);
 			checkerRecall.setCellValue(String.format("%.02f",result.getRecall()));
-			Cell checkerTime = checkerData.createCell(4);
-			checkerTime.setCellValue(result.getExecutionTime());
 		}
 		
 		//Similarity
@@ -229,8 +225,6 @@ public class ResultsOutputXLSX implements ResultsOutput {
 		subjectFlag.setCellValue("Checker Result");
 		Cell checkerMessage = titles.createCell(2);
 		checkerMessage.setCellValue("Checker Message");
-		Cell executionTime = titles.createCell(3);
-		executionTime.setCellValue("Execution Time (ms)");
 		CheckerResult result = results.get(checker);
 		int i = 0;
 		ArrayList<String> subjectNamesList = new ArrayList<String>();
@@ -244,11 +238,8 @@ public class ResultsOutputXLSX implements ResultsOutput {
 			Cell flag = subject.createCell(1);
 			flag.setCellValue(result.getSubjectResults().get(subjectName).toString());
 			flag.setCellStyle(getFlagStyle(workbook,result.getSubjectResults().get(subjectName)));
-
 			Cell message = subject.createCell(2);
 			message.setCellValue(result.getSubjectMessages().get(subjectName));
-			Cell exectime = subject.createCell(3);
-			exectime.setCellValue(result.getSubjectExecutionTimes().get(subjectName));
 			i++;
 		}
 		return details;

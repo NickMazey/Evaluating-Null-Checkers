@@ -15,10 +15,8 @@ public class CheckerResult {
 	private double precision;
 	private double recall;
 	private double accuracy;
-	private long executionTime;
 	private HashMap<String, Flag> subjectResults;
 	private HashMap<String, String> subjectMessages;
-	private HashMap<String, Long> subjectExecutionTimes;
 	private HashMap<String,Double> similarity;
 
 	/**
@@ -26,22 +24,17 @@ public class CheckerResult {
 	 * 
 	 * @param precision             - The checker's precision
 	 * @param recall                - The checker's recall
-	 * @param executionTime         - How long the checker took (in milliseconds) to
-	 *                              execute the subjects
 	 * @param accuracy              - The checker's accuracy
 	 * @param subjectResults        - Map from subject names to results
 	 * @param subjectMessages       - Map from subject names to messages
-	 * @param subjectExecutionTimes - Map from subject names to execution times
 	 */
-	public CheckerResult(double precision, double recall, double accuracy, long executionTime, HashMap<String, Flag> subjectResults,
-			HashMap<String, String> subjectMessages, HashMap<String, Long> subjectExecutionTimes) {
+	public CheckerResult(double precision, double recall, double accuracy, HashMap<String, Flag> subjectResults,
+			HashMap<String, String> subjectMessages) {
 		this.precision = precision;
 		this.recall = recall;
 		this.accuracy = accuracy;
 		this.subjectResults = subjectResults;
-		this.executionTime = executionTime;
 		this.subjectMessages = subjectMessages;
-		this.subjectExecutionTimes = subjectExecutionTimes;
 	}
 
 	/**
@@ -105,23 +98,6 @@ public class CheckerResult {
 		this.accuracy = accuracy;
 	}
 
-	/**
-	 * Getter for execution time
-	 * 
-	 * @return - The checker's execution time (in milliseconds)
-	 */
-	public long getExecutionTime() {
-		return executionTime;
-	}
-
-	/**
-	 * Setter for execution time
-	 * 
-	 * @param executionTime - The execution time to set (in milliseconds)
-	 */
-	public void setExecutionTime(long executionTime) {
-		this.executionTime = executionTime;
-	}
 
 	/**
 	 * Getter for subject results
@@ -158,24 +134,7 @@ public class CheckerResult {
 	public void setSubjectMessages(HashMap<String, String> subjectMessages) {
 		this.subjectMessages = subjectMessages;
 	}
-	
-	/**
-	 * Getter for subject execution times
-	 * 
-	 * @return - Map from subject names to execution times
-	 */
-	public HashMap<String, Long> getSubjectExecutionTimes(){
-		return subjectExecutionTimes;
-	}
-	
-	/**
-	 * Setter for subject execution times
-	 * 
-	 * @param subjectExecutionTimes - Map from subject names to execution times
-	 */
-	public void setSubjectExecutionTimes(HashMap<String, Long> subjectExecutionTimes) {
-		this.subjectExecutionTimes = subjectExecutionTimes;
-	}
+
 	
 	/**
 	 * Getter for jaccard similarity

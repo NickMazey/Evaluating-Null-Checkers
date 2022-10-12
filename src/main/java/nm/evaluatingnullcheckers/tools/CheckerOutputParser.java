@@ -2,7 +2,6 @@ package nm.evaluatingnullcheckers.tools;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -29,12 +28,7 @@ public class CheckerOutputParser {
 
 	private static CheckerReport parseFile(File file, String vulnerableRegex,String errorRegex){
 		if (file != null) {
-			String name = file.getName();
-			int i = name.lastIndexOf(".");
-			if (i != -1) {
-				name = name.substring(0, i);
-			}
-			long time = getTime(file);
+			String name = file.getName().substring(0,file.getName().lastIndexOf("."));
 			CheckerOutput status = CheckerOutput.SAFE;
 			StringBuilder messages = new StringBuilder();
 			try {
@@ -47,50 +41,17 @@ public class CheckerOutputParser {
 						messages.append(System.getProperty("line.separator"));
 					} else if(line.matches(errorRegex)){
 						reader.close();
-						return new CheckerReport(CheckerOutput.ERROR, name, line, time);
+						return new CheckerReport(CheckerOutput.ERROR, name, line);
 					}
 				}
 				reader.close();
-				return new CheckerReport(status, name, messages.toString(), time);
+				return new CheckerReport(status, name, messages.toString());
 
 			} catch (FileNotFoundException e) {
-				return new CheckerReport(CheckerOutput.ERROR, name, "File Not Found", time);
+				return new CheckerReport(CheckerOutput.ERROR, name, "File Not Found");
 			}
 		}
-		return new CheckerReport(CheckerOutput.ERROR, "N/A", "Null File", 0);
-	}
-
-	private static File customLogToLog(File file){
-		String logName = file.getAbsolutePath();
-		int i = logName.lastIndexOf(".");
-		if (i != -1) {
-			logName = logName.substring(0, i);
-		}
-		// Checking the Maven log to ensure compilation succeeded
-		return new File(logName + ".log");
-	}
-
-	private static long getTime(File file) {
-		long time = 0;
-		String timeName = file.getAbsolutePath();
-		int i = timeName.lastIndexOf(".");
-		if (i != -1) {
-			timeName = timeName.substring(0, i);
-		}
-
-		File timeFile = new File(timeName + ".time");
-		if (timeFile.exists()) {
-			try {
-				Scanner reader = new Scanner(timeFile);
-				if (reader.hasNextLine()) {
-					time = Long.parseLong(reader.nextLine());
-				}
-				reader.close();
-			} catch (IOException e) {
-				// Do nothing
-			}
-		}
-		return time;
+		return new CheckerReport(CheckerOutput.ERROR, "N/A", "Null File");
 	}
 
 	private static CheckerReport auxReports(String prefix,OutputPattern pattern){

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
 import nm.evaluatingnullcheckers.tools.InvokerUtils.CheckerOutput;
@@ -209,23 +208,19 @@ public class CheckerEvaluator {
 		HashMap<String, CheckerResult> results = new HashMap<>();
 		if (output != null) {
 			for (String checker : output.keySet()) {
-				long totalTime = 0;
 				HashMap<String, Flag> subjectResults = new HashMap<>();
 				HashMap<String, String> subjectMessages = new HashMap<>();
-				HashMap<String, Long> subjectExecutionTimes = new HashMap<>();
 				for (CheckerReport report : output.get(checker)) {
 					String subjectName = report.getSubjectName();
 					CheckerOutput expectedOutput = expectedOutputs.get(subjectName);
 					CheckerOutput reportOutput = report.getOutput();
 					subjectResults.put(subjectName, getFlag(expectedOutput, reportOutput));
 					subjectMessages.put(subjectName, report.getMessage());
-					subjectExecutionTimes.put(subjectName, report.getExecutionTime());
-					totalTime += report.getExecutionTime();
 				}
 				double precision = calculatePrecision(subjectResults.values());
 				double recall = calculateRecall(subjectResults.values());
 				double accuracy = calculateAccuracy(subjectResults.values());
-				results.put(checker, new CheckerResult(precision, recall,accuracy, totalTime, subjectResults, subjectMessages,subjectExecutionTimes));
+				results.put(checker, new CheckerResult(precision, recall,accuracy, subjectResults, subjectMessages));
 			}
 			for (String checker : results.keySet()) {
 				results.get(checker).setSimilarity(computeSimilarities(checker,results));
