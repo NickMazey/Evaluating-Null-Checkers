@@ -64,12 +64,7 @@ public class CheckerOutputParser {
 		}
 	}
 
-	/**
-	 * Parses reports and creates a standardised report file in JSON format
-	 *
-	 * @param logDirectory - The folder where logs are stored
-	 */
-	public static HashMap<String, ArrayList<CheckerReport>> parseReports(File logDirectory) {
+	private static HashMap<String, ArrayList<CheckerReport>> parseReports(File logDirectory) {
 		HashMap<String,OutputPattern> patternHashMap = InvokerUtils.getOutputPatterns();
 		HashMap<String, ArrayList<CheckerReport>> outputs = new HashMap<>();
 		if (logDirectory != null && logDirectory.isDirectory()) {

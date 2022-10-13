@@ -27,7 +27,7 @@ public class CheckerEvaluator {
 	 * @param output - Output produced by the CheckerOutputParser
 	 * @return - A list of unique subjects found in the outputs
 	 */
-	public static ArrayList<String> getSubjects(HashMap<String, ArrayList<CheckerReport>> output) {
+	private static ArrayList<String> getSubjects(HashMap<String, ArrayList<CheckerReport>> output) {
 		ArrayList<String> names = new ArrayList<>();
 		if (output != null) {
 			for (ArrayList<CheckerReport> reports : output.values()) {
@@ -48,7 +48,7 @@ public class CheckerEvaluator {
 	 * @param metadata - The pre-computed metadata
 	 * @return - A mapping from subjects to expected classifications
 	 */
-	public static HashMap<String, CheckerOutput> getExpectedOutput(HashMap<String, ArrayList<Annotation>> metadata) {
+	private static HashMap<String, CheckerOutput> getExpectedOutput(HashMap<String, ArrayList<Annotation>> metadata) {
 		HashMap<String, CheckerOutput> expectedOutputs = new HashMap<>();
 		if (metadata != null) {
 			for (String subjectName : metadata.keySet()) {
@@ -76,7 +76,7 @@ public class CheckerEvaluator {
 	 * @param results - Collection of flags from a checker
 	 * @return - Precision value computed using these flags (TP / (TP + FP))
 	 */
-	public static double calculatePrecision(Collection<Flag> results) {
+	private static double calculatePrecision(Collection<Flag> results) {
 		double truePositives = 0;
 		double falsePositives = 0;
 		for (Flag result : results) {
@@ -104,7 +104,7 @@ public class CheckerEvaluator {
 	 * @param results - Collection of flags From a checker
 	 * @return - Recall value computed using these flags (TP / (TP + FN))
 	 */
-	public static double calculateRecall(Collection<Flag> results) {
+	private static double calculateRecall(Collection<Flag> results) {
 		double truePositives = 0;
 		double falseNegatives = 0;
 		for (Flag result : results) {
@@ -132,7 +132,7 @@ public class CheckerEvaluator {
 	 * @param results - Collection of flags From a checker
 	 * @return - Accuracy value computed using these flags ((TP + TN) / (TP + TN + FP + FN))
 	 */
-	public static double calculateAccuracy(Collection<Flag> results) {
+	private static double calculateAccuracy(Collection<Flag> results) {
 		double truePositives = 0;
 		double trueNegatives = 0;
 		double falsePositives = 0;
@@ -169,7 +169,7 @@ public class CheckerEvaluator {
 	 * @param reportOutput   - The output the checker report gave
 	 * @return - Flag corresponding to checker accuracy
 	 */
-	public static Flag getFlag(CheckerOutput expectedOutput, CheckerOutput reportOutput) {
+	private static Flag getFlag(CheckerOutput expectedOutput, CheckerOutput reportOutput) {
 		if (reportOutput != CheckerOutput.ERROR && expectedOutput != null) {
 			boolean correct = expectedOutput == reportOutput;
 			switch (expectedOutput) {
@@ -200,7 +200,7 @@ public class CheckerEvaluator {
 	 * @param output - Output from CheckerOutputParser
 	 * @return - Map from checkers to results
 	 */
-	public static HashMap<String, CheckerResult> evaluateCheckers(
+	private static HashMap<String, CheckerResult> evaluateCheckers(
 			HashMap<String, ArrayList<CheckerReport>> output) {
 		ArrayList<String> names = getSubjects(output);
 		HashMap<String, ArrayList<Annotation>> metadata = InvokerUtils.getMetadata(names);

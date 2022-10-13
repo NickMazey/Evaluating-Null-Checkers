@@ -207,6 +207,10 @@ public class InvokerUtils {
 		}
 	}
 
+	/**
+	 * Method for listing all null checkers with present invocation scripts
+	 * @return - List of available null checkers
+	 */
 	public static List<String> getAvailableCheckers(){
 		List<String> availableCheckers = new ArrayList<>();
 		File folder = new File("scripts");
@@ -224,6 +228,10 @@ public class InvokerUtils {
 		return availableCheckers;
 	}
 
+	/**
+	 * Loads all output patterns in outputpatterns
+	 * @return - Hashmap from checkers to output patterns
+	 */
 	public static HashMap<String,OutputPattern> getOutputPatterns(){
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();
