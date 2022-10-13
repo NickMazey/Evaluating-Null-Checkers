@@ -1,9 +1,6 @@
 package nm.evaluatingnullcheckers.tools;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.annotation.Annotation;
 import java.util.*;
 
@@ -25,6 +22,29 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
  *
  */
 public class InvokerUtils {
+
+	/**
+	 * Finds all benchmark classes
+	 * @return - A hashset containing all benchmark classes
+	 */
+	public static HashSet<Class<?>> getAllBenchmarkClasses(){
+		HashSet<Class<?>> benchmarks = new HashSet<>();
+		String packageName = "nm.evaluatingnullcheckers.benchmarks";
+		InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("[.]", "/"));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+		String str;
+		try {
+			for(str = reader.readLine(); str !=null;str = reader.readLine()) {
+				//Ignore subclasses
+				if(!str.contains("$")) {
+					benchmarks.add(Class.forName(packageName + "." + str.substring(0,str.lastIndexOf("."))));
+				}
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return benchmarks;
+	}
 
 	public enum CheckerOutput {
 		VULNERABLE, SAFE, ERROR
@@ -154,7 +174,7 @@ public class InvokerUtils {
 	public static HashMap<String, ArrayList<Annotation>> getMetadata(ArrayList<String> names) {
 		HashMap<String, ArrayList<Annotation>> metadata = new HashMap<>();
 		if (names != null) {
-			HashSet<Class<?>> benchmarkClasses = BenchmarkSpace.getAllBenchmarkClasses();
+			HashSet<Class<?>> benchmarkClasses = getAllBenchmarkClasses();
 			for (Class<?> clazz : benchmarkClasses) {
 				String simpleName = clazz.getSimpleName();
 				if (names.contains(simpleName)) {

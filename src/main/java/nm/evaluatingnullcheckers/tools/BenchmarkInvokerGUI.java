@@ -326,7 +326,7 @@ public class BenchmarkInvokerGUI {
 
     private JScrollPane benchmarkSortPanel() {
         HashMap<String, ArrayList<Annotation>> metadata = InvokerUtils
-                .getMetadata(new ArrayList<>(BenchmarkSpace.getAllBenchmarkClasses().stream()
+                .getMetadata(new ArrayList<>(InvokerUtils.getAllBenchmarkClasses().stream()
                         .map(c -> c.getSimpleName()).collect(Collectors.toList())));
         enabledBenches = new HashMap<>();
         metadata.keySet().stream().forEach(e -> enabledBenches.put(e, true));

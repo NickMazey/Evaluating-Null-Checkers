@@ -17,6 +17,8 @@ import nm.evaluatingnullcheckers.benchmarks.*;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
 
+import static nm.evaluatingnullcheckers.tools.InvokerUtils.getAllBenchmarkClasses;
+
 
 /**
  * BenchmarkSpace provides methods for finding information which benchmarks have been created and
@@ -258,29 +260,6 @@ public class BenchmarkSpace {
 			annotations[i] = annotationName;
 		}
 		return new ArrayList<>(Arrays.asList(annotations));
-	}
-	
-	/**
-	 * Finds all benchmark classes
-	 * @return - A hashset containing all benchmark classes
-	 */
-	public static HashSet<Class<?>> getAllBenchmarkClasses(){
-		HashSet<Class<?>> benchmarks = new HashSet<>();
-		String packageName = "nm.evaluatingnullcheckers.benchmarks";
-        InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream(packageName.replaceAll("[.]", "/"));
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-        String str;
-        try {
-        for(str = reader.readLine(); str !=null;str = reader.readLine()) {
-        	//Ignore subclasses
-        	if(!str.contains("$")) {
-        		benchmarks.add(Class.forName(packageName + "." + str.substring(0,str.lastIndexOf("."))));
-        	}
-        }
-        }catch(Exception e) {
-        	e.printStackTrace();
-        }
-        return benchmarks;
 	}
 	
 	private HashSet<String> getPresentAnnotationCombinations(HashSet<Class<?>> benchmarks){
