@@ -46,14 +46,8 @@ public class InvokerUtils {
 		return benchmarks;
 	}
 
-	public enum CheckerOutput {
-		VULNERABLE, SAFE, ERROR
-	}
 
 
-	public enum Flag {
-		TRUEPOSITIVE, FALSEPOSITIVE, TRUENEGATIVE, FALSENEGATIVE, ERROR
-	}
 
 	private static void invalidOutputFile(File file){
 		throw new IllegalArgumentException("ERROR - \"" + file +"\" is not a valid output file");

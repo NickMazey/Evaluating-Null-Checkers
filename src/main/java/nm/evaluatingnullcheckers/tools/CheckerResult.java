@@ -2,7 +2,6 @@ package nm.evaluatingnullcheckers.tools;
 
 import java.util.HashMap;
 
-import nm.evaluatingnullcheckers.tools.InvokerUtils.Flag;
 
 /**
  * Class to store the result from a checker
@@ -11,6 +10,10 @@ import nm.evaluatingnullcheckers.tools.InvokerUtils.Flag;
  *
  */
 public class CheckerResult {
+
+	public enum Flag {
+		TRUEPOSITIVE, FALSEPOSITIVE, TRUENEGATIVE, FALSENEGATIVE, ERROR
+	}
 
 	private double precision;
 	private double recall;

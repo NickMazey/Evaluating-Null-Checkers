@@ -1,7 +1,5 @@
 package nm.evaluatingnullcheckers.tools;
 
-import nm.evaluatingnullcheckers.tools.InvokerUtils.CheckerOutput;
-
 /**
  * Class for storing checker output
  * 
@@ -9,6 +7,10 @@ import nm.evaluatingnullcheckers.tools.InvokerUtils.CheckerOutput;
  *
  */
 public class CheckerReport {
+
+	public enum CheckerOutput {
+		VULNERABLE, SAFE, ERROR
+	}
 
 	private CheckerOutput output;
 	private String message;

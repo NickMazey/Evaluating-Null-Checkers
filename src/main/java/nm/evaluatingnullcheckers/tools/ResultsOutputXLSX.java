@@ -21,7 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import nm.evaluatingnullcheckers.tools.InvokerUtils.Flag;
+import nm.evaluatingnullcheckers.tools.CheckerResult.Flag;
 
 /**
  * Produces results output as an XSSFWorkbook in XLSX format

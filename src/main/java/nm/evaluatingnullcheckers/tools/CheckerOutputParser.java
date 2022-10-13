@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import nm.evaluatingnullcheckers.tools.InvokerUtils.CheckerOutput;
+import nm.evaluatingnullcheckers.tools.CheckerReport.CheckerOutput;
 
 /**
  * CheckerOutputParser provides several static methods to parse checker logs and

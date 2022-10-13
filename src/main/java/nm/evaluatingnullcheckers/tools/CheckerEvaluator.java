@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations;
-import nm.evaluatingnullcheckers.tools.InvokerUtils.CheckerOutput;
-import nm.evaluatingnullcheckers.tools.InvokerUtils.Flag;
+import nm.evaluatingnullcheckers.tools.CheckerReport.CheckerOutput;
+import nm.evaluatingnullcheckers.tools.CheckerResult.Flag;
 
 /**
  * Evaluator for the null checkers Reads output from the parser and creates
