@@ -14,8 +14,6 @@ public class BoxingBenchmarkOneTest {
 	
 	@Test
 	public void throwsNPE() {
-		assertThrows(NullPointerException.class,()->{
-			BoxingBenchmarkOne.throwNPE();
-		});
+		assertThrows(NullPointerException.class, BoxingBenchmarkOne::throwNPE);
 	}
 }

@@ -14,8 +14,6 @@ public class LambdaBenchmarkOneTest {
 	
 	@Test
 	public void throwsNPE() {
-		assertThrows(NullPointerException.class,()->{
-			LambdaBenchmarkOne.throwNPE.run();
-		});
+		assertThrows(NullPointerException.class,()-> LambdaBenchmarkOne.throwNPE.run());
 	}
 }

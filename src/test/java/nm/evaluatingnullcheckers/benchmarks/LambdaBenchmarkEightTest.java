@@ -12,8 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class LambdaBenchmarkEightTest {
 	@Test
 	public void throwsNPE() {
-		assertThrows(NullPointerException.class,()->{
-			new LambdaBenchmarkEight<Object>().throwNPE.run();
-		});
+		assertThrows(NullPointerException.class,()-> new LambdaBenchmarkEight<>().throwNPE.run());
 	}
 }

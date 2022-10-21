@@ -14,8 +14,6 @@ import nm.evaluatingnullcheckers.benchmarks.BenchmarkTen;
 public class BenchmarkTenTest {
 	@Test
 	public void throwsNPE() {
-		assertThrows(NullPointerException.class,()->{
-			BenchmarkTen.throwNPE();
-		});
+		assertThrows(NullPointerException.class, BenchmarkTen::throwNPE);
 	}
 }

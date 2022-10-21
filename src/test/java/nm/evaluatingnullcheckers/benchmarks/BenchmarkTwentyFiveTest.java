@@ -16,8 +16,6 @@ public class BenchmarkTwentyFiveTest {
 	
 	@Test
 	public void throwsNPE() {
-		assertThrows(NullPointerException.class,()->{
-			BenchmarkTwentyFive.throwNPE();
-		});
+		assertThrows(NullPointerException.class, BenchmarkTwentyFive::throwNPE);
 	}
 }

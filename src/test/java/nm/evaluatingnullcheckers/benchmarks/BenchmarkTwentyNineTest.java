@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import nm.evaluatingnullcheckers.benchmarks.BenchmarkFive;
 import nm.evaluatingnullcheckers.benchmarks.BenchmarkTwentyNine;
 
 /**
@@ -15,9 +14,7 @@ import nm.evaluatingnullcheckers.benchmarks.BenchmarkTwentyNine;
 public class BenchmarkTwentyNineTest {
 	@Test
 	public void throwsNPE() {
-		assertThrows(NullPointerException.class,()->{
-			BenchmarkTwentyNine.StringLength(null);
-		});
+		assertThrows(NullPointerException.class,()-> BenchmarkTwentyNine.StringLength(null));
 	}
 }
 

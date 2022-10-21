@@ -12,9 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class LambdaBenchmarkFiveTest {
 	@Test
 	public void throwsNPE() {
-		assertThrows(NullPointerException.class,()->{
-			LambdaBenchmarkFive.StringLength.accept(null);
-		});
+		assertThrows(NullPointerException.class,()-> LambdaBenchmarkFive.StringLength.accept(null));
 	}
 }
 

@@ -12,8 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class DeliberatelyThrownNPEBenchmarkTest {
     @Test
     public void throwsNPE() {
-        assertThrows(NullPointerException.class,()->{
-            DeliberatelyThrownNPEBenchmark.throwNPE();
-        });
+        assertThrows(NullPointerException.class, DeliberatelyThrownNPEBenchmark::throwNPE);
     }
 }

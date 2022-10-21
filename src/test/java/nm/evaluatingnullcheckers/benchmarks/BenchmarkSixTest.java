@@ -14,9 +14,7 @@ import nm.evaluatingnullcheckers.benchmarks.BenchmarkSix;
 public class BenchmarkSixTest {
 	@Test
 	public void ThrowsNPE() {
-		assertThrows(NullPointerException.class,()->{
-			BenchmarkSix.FirstIndex(null);
-		});
+		assertThrows(NullPointerException.class,()-> BenchmarkSix.FirstIndex(null));
 	}
 
 }

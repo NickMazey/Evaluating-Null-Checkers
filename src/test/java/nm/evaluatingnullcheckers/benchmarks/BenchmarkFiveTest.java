@@ -14,9 +14,7 @@ import nm.evaluatingnullcheckers.benchmarks.BenchmarkFive;
 public class BenchmarkFiveTest {
 	@Test
 	public void throwsNPE() {
-		assertThrows(NullPointerException.class,()->{
-			BenchmarkFive.StringLength(null);
-		});
+		assertThrows(NullPointerException.class,()-> BenchmarkFive.StringLength(null));
 	}
 }
 

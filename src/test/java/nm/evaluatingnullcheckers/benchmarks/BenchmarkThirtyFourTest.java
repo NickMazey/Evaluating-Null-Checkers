@@ -15,8 +15,6 @@ import nm.evaluatingnullcheckers.benchmarks.BenchmarkThirtyFour;
 public class BenchmarkThirtyFourTest {
 	@Test
 	public void throwsNPE() {
-		assertThrows(NullPointerException.class,()->{
-			BenchmarkThirtyFour.throwNPE();
-		});
+		assertThrows(NullPointerException.class, BenchmarkThirtyFour::throwNPE);
 	}
 }

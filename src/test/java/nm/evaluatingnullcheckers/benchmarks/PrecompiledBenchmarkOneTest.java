@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 public class PrecompiledBenchmarkOneTest {
 	@Test
 	public void throwsNPE() {
-		assertThrows(NullPointerException.class,()->{
-			PrecompiledBenchmarkOne.throwNPE();
-		});
+		assertThrows(NullPointerException.class, PrecompiledBenchmarkOne::throwNPE);
 	}
 }

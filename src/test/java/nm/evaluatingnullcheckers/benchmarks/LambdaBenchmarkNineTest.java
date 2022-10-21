@@ -13,8 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class LambdaBenchmarkNineTest {
 	@Test
 	public void throwsNPE() {
-		assertThrows(NullPointerException.class,()->{
-			LambdaBenchmarkNine.throwNPE.run();
-		});
+		assertThrows(NullPointerException.class,()-> LambdaBenchmarkNine.throwNPE.run());
 	}
 }
