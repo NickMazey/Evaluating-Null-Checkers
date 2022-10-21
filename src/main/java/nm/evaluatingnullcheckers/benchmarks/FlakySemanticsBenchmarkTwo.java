@@ -24,11 +24,10 @@ import nm.evaluatingnullcheckers.annotations.BenchmarkAnnotations.Imperative;
 @Imperative
 public class FlakySemanticsBenchmarkTwo {
 	public static void throwNPE() {
-		@Nullable java.lang.Object obj = new java.lang.Object();
+		@Nullable Object obj = null;
 		//This condition cannot possibly be true
 		if(System.currentTimeMillis() % 2 == 2) {
-			obj = null;
+			obj.toString();
 		}
-		obj.toString();
 	}
 }
