@@ -190,7 +190,7 @@ public class BenchmarkInvokerGUI {
             enabledCheckers.keySet().stream().filter(e -> enabledCheckers.get(e)).forEach(
                     e -> {
                         try {
-                            checkerWriter.write(e + "\n");
+                            checkerWriter.write(e.toLowerCase() + "\n");
                         } catch (IOException ex) {
                             ex.printStackTrace(logStream);
                         }
@@ -208,7 +208,7 @@ public class BenchmarkInvokerGUI {
             enabledFormats.keySet().stream().filter(e -> enabledFormats.get(e)).forEach(
                     e -> {
                         try {
-                            ResultsOutputHandler.handleOutput(logFolder, timestamp, e);
+                            ResultsOutputHandler.handleOutput(logFolder + "/results" + timestamp +".json",logFolder + "/results" + timestamp +"." + e.toLowerCase(), e);
                             logStream.println("Results output available at: " + logFolder + "/results" + timestamp + "." + e.toLowerCase());
                         }catch(IllegalArgumentException ex){
                             logStream.println(ex.getMessage());
@@ -450,7 +450,11 @@ public class BenchmarkInvokerGUI {
         c.fill = GridBagConstraints.HORIZONTAL;
         JButton selectAll = new JButton("Enable All");
         selectAll.addActionListener(actionEvent -> {
-            enabledBenches.keySet().forEach(e -> enabledBenches.put(e, true));
+            List<String> benches = new ArrayList<>();
+            for(int i = 0; i < benchSortTable.getRowCount(); i++){
+                benches.add(benchSortTable.getValueAt(i,1).toString());
+            }
+            benches.stream().forEach(e -> enabledBenches.computeIfPresent(e, (a,b)->true));
             updateBenchmarkTableData();
         });
         buttonPanel.add(selectAll, c);
@@ -461,7 +465,12 @@ public class BenchmarkInvokerGUI {
         c.fill = GridBagConstraints.HORIZONTAL;
         JButton clearSelect = new JButton("Disable All");
         clearSelect.addActionListener(actionEvent -> {
-            enabledBenches.keySet().forEach(e -> enabledBenches.put(e, false));
+            List<String> benches = new ArrayList<>();
+            for(int i = 0; i < benchSortTable.getRowCount(); i++){
+                benches.add(benchSortTable.getValueAt(i,1).toString());
+            }
+            benches.stream().forEach(e -> enabledBenches.computeIfPresent(e, (a,b)->false));
+            updateBenchmarkTableData();
             updateBenchmarkTableData();
         });
         buttonPanel.add(clearSelect, c);
